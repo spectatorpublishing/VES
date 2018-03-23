@@ -56,7 +56,7 @@ function setCookie(name, value, days) {
   var date = new Date();
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
   document.cookie = name + "=" + value + "; " + "expires=" + date.toUTCString();
-} 
+}
 function getCookie(name) {
   var name = name + "=";
   var array = document.cookie.split(';');
@@ -178,7 +178,7 @@ var toolTipTime30 = $.Link({
   // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
   var debounce = function (func, threshold, execAsap) {
     var timeout;
-  
+
     return function debounced () {
       var obj = this, args = arguments;
       function delayed () {
@@ -187,14 +187,14 @@ var toolTipTime30 = $.Link({
         }
         timeout = null;
       };
-  
+
       if (timeout) {
         clearTimeout(timeout);
       }
       else if (execAsap) {
         func.apply(obj, args);
       }
-  
+
       timeout = setTimeout(delayed, threshold || 200);
     };
   }
@@ -205,7 +205,7 @@ var toolTipTime30 = $.Link({
 (function($,ss){
   var debounce = function (func, threshold, execAsap) {
     var timeout;
-  
+
     return function debounced () {
       var obj = this, args = arguments;
       function delayed () {
@@ -214,14 +214,14 @@ var toolTipTime30 = $.Link({
         }
         timeout = null;
       };
-  
+
       if (timeout) {
         clearTimeout(timeout);
       }
       else if (execAsap) {
         func.apply(obj, args);
       }
-  
+
       timeout = setTimeout(delayed, threshold || 10);
     };
   }
@@ -249,12 +249,12 @@ function gmap() {
         animation: true,
         title: location.replace(', New York, NY 10027', '')
       };
-  
+
       $(element).addClass('gmap-processed gmap-available').popover(options).append('<span class="glyphicon glyphicon-map-marker"></span>').wrapInner('<a href="https://www.google.com/maps/place/'+ location +'" target="_blank"></a>');
     }
     else {
       $(element).addClass('gmap-processed');
-    } 
+    }
   }
 
   $("span.gmap-trigger:not(.gmap-processed)").each(function() {
@@ -299,7 +299,7 @@ function gmap() {
       else {
         setTimeout(function() {
           gmapRender(element, location);
-        }, 500); 
+        }, 500);
       }
     }
   });
@@ -323,23 +323,23 @@ app.directive('chosen', ['$timeout', function($timeout) {
         }, 0);
       }
     });
-    
+
     var options = {};
     if (val = attr.noResultsText) {
       options.no_results_text = val;
       options.search_contains = true;
     }
-  
+
   /*
     // update the select when the model changes
     scope.$watch(attr.ngModel, function() {
       element.trigger('chosen:updated');
     });
   */
-  
+
     element.chosen(options);
   };
-  
+
   return {
     restrict: 'A',
     link: linker
@@ -361,9 +361,9 @@ app.filter('offset', function() {
 
 app.filter('unique', function() {
   return function(collection, keyname) {
-    var output = [], 
+    var output = [],
     keys = [];
-  
+
     angular.forEach(collection, function(item) {
       var key = item[keyname];
       if(keys.indexOf(key) === -1) {
@@ -371,7 +371,7 @@ app.filter('unique', function() {
         output.push(item);
       }
     });
-  
+
     return output;
   };
 });
@@ -385,7 +385,7 @@ app.filter('hasSchedule', function() {
         output.push(item);
       }
     });
-  
+
     return output;
   };
 });
@@ -399,7 +399,7 @@ app.filter('termIsCurrent', function() {
         output.push(item);
       }
     });
-  
+
     return output;
   };
 });
@@ -419,7 +419,7 @@ app.filter('groupCourseByWeekday', function() {
         }
       }
     });
-  
+
     return output;
   };
 });
@@ -435,7 +435,7 @@ app.filter('groupCourseUncat', function() {
         }
       }
     });
-  
+
     return output;
   };
 });
@@ -443,13 +443,13 @@ app.filter('groupCourseUncat', function() {
 app.filter('groupTimesByWeekday', function() {
   return function(collection, weekday) {
     var output = [];
-    
+
     angular.forEach(collection, function(item) {
       if (item.weekdays[weekday] == true) {
         output.push(item);
       }
     });
-  
+
     return output;
   };
 });
@@ -480,13 +480,13 @@ app.filter('courseNotExcluded', function() {
         output.push(item);
       }
     });
-  
+
     return output;
   };
 });
 
 app.filter('contextualCourses', ['$timeout', function($timeout) {
-  return function(data, form, formCheckboxes, coursesWithEval) {    
+  return function(data, form, formCheckboxes, coursesWithEval) {
     var result = {};
 
     var timeFrom = parseInt(form.times[0]);
@@ -504,17 +504,17 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
     function occurrences(string, subString, allowOverlapping){
       string+=""; subString+="";
       if(subString.length<=0) return string.length+1;
-  
+
       var n=0, pos=0;
       var step=(allowOverlapping)?(1):(subString.length);
-  
+
       while(true) {
         pos=string.indexOf(subString,pos);
         if(pos>=0){ n++; pos+=step; } else break;
       }
       return(n);
     }
-    
+
     function occurrencesRegex(string, pattern) {
       var re = new RegExp(pattern,"g");
       return (string.match(re) || []).length;
@@ -548,16 +548,16 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
 
       if (form.relevantSections || !formCheckboxes.withoutevals) {
         var filteredCourses = {};
-  
+
         if (form.relevantSections) {
           for (course in termData.courses) {
             var thisCourse = termData.courses[course];
-            
+
             if (thisCourse.sectionsFilteredOverride) {
               thisCourse.filteredSections = thisCourse.sections;
 
               thisCourse.filteredSectionsCount = Object.keys(thisCourse.sections).length;
-              
+
               thisCourse.sectionsFiltered = false;
 
               filteredCourses[thisCourse.course] = thisCourse;
@@ -587,7 +587,7 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
                   }
                 }
 
-                
+
                 if (priorityMatches = occurrencesRegex(priorityKeywords, keywordPattern)) {
                   thisCourse.score += priorityMatches * 4;
                 }
@@ -598,7 +598,7 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
                 if (keywordPlain == title.toLowerCase()) {
                   thisCourse.score += 20;
                 }
-                
+
                 thisCourse.score = thisCourse.score + 1 - thisCourse.sectionsCount;
               }
 
@@ -625,7 +625,7 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
                     }
                   }
                   else {
-                    continue; 
+                    continue;
                   }
                 }
 
@@ -644,7 +644,7 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
                     }
                   }
                   else {
-                    continue; 
+                    continue;
                   }
                 }
 
@@ -656,7 +656,7 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
                     }
                   }
                   else {
-                    continue; 
+                    continue;
                   }
                 }
 
@@ -666,14 +666,14 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
               }
               thisCourse.sectionsFilteredOverride = false;
               thisCourse.filteredSections = filteredSections;
-    
+
               filteredCourses[thisCourse.course] = thisCourse;
-              
+
               thisCourse.filteredSectionsCount = Object.keys(filteredSections).length;
               thisCourse.filteredSectionsCountStatic = thisCourse.filteredSectionsCount;
-              
+
               thisCourse.sectionsHiddenCount = thisCourse.sectionsCount - thisCourse.filteredSectionsCount;
-              
+
               thisCourse.sectionsFiltered = (thisCourse.filteredSectionsCount != thisCourse.sectionsCount) ? true : false;
               thisCourse.sectionsFilteredStatic = thisCourse.sectionsFiltered;
 
@@ -689,16 +689,16 @@ app.filter('contextualCourses', ['$timeout', function($timeout) {
             }
           }
         }
-  
+
         /* If limiting to only courses with evaluations */
         if (!formCheckboxes.withoutevals) {
           if (!form.relevantSections) {
             filteredCourses = result[term].courses;
           }
-          
+
           for (course in filteredCourses) {
             var thisCourse = filteredCourses[course];
-  
+
             if (!coursesWithEval[thisCourse.course]) {
               filteredCourses[thisCourse.course].courseExcluded = true;
             }
@@ -857,12 +857,12 @@ app.directive('favoritesPreviewTerm', function() {
     link: function (scope, element, attrs) {
       var termyear = scope.term;
       var semester = getSemesterFromTermYear(termyear);
-  
+
       scope.termyear = termyear;
       scope.termLabel = semester + " " + termyear.substring(0, 4);
       scope.termLabelCompact = semester + " '" + termyear.substring(2, 4);
 //      scope.favorites.favoritesCount[termyear] = Object.keys(scope[term]).length - 1;
-/*    
+/*
       if (scope.global.variables.current_term_year == termyear) {
         $(element).addClass("active");
       }
@@ -884,7 +884,7 @@ app.directive('hoverIntent', ['$timeout', function($timeout){
         if(delay === undefined){
           delay = 500;
         }
-        
+
         scope.global.hoverIntentPromise[attributes.hoverIntentDelay] = $timeout(function(){
           scope.$eval(attributes.hoverIntent, { $event: event });
         }, delay);
@@ -907,7 +907,7 @@ app.directive('hoverIntentOut', ['$timeout', function($timeout){
         if(delay === undefined){
           delay = 500;
         }
-        
+
         scope.global.hoverIntentPromise[attributes.hoverIntentDelay] = $timeout(function(){
           scope.$eval(attributes.hoverIntentOut, { $event: event });
         }, delay);
@@ -939,7 +939,7 @@ app.directive('favoriteSections', function() {
     },
     restrict: "A",
     templateUrl: 'favorite-sections.html',
-    link: function (scope, element, attrs) {      
+    link: function (scope, element, attrs) {
       scope.checkFavorite = function() {
         if (this.section.Favorite) {
           return true;
@@ -1031,7 +1031,7 @@ app.directive('ngAnchor', function() {
       var parent = this.getAttribute("ng-anchor-parent");
 
       var yPos = jQuery(selector).offset().top;
-        
+
       jQuery(parent).animate({
         scrollTop: yPos
       }, 100);
@@ -1120,7 +1120,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
   return {
     all: function(nocache) {
       return UserInfo.getVars().then(function(result) {
-        
+
         if (result) {
           if (settings.accessToken = result.data.access_token) {
             if (nocache || !UserFavoritesAll) {
@@ -1133,7 +1133,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
                 "cache": false
               });
             }
-            
+
             return UserFavoritesAll.then(function(result2) {
               return result2.data;
             }, function(error) {  /* on error */
@@ -1162,7 +1162,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
           "responseType": 'json',
           "ignoreLoadingBar": true
         });
-        
+
         return UserFavoritesCreate.then(function(result2) {
           return result2.data;
         });
@@ -1197,7 +1197,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
           "responseType": 'json',
           "ignoreLoadingBar": true
         });
-        
+
         return UserFavoritesUpdate.then(function(result2) {
           return result2.data;
         });
@@ -1219,7 +1219,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
         return UserFavoritesHint.then(function(result2) {
           return result2.data;
         });
-        
+
       });
     },
     dar: function() {
@@ -1236,7 +1236,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
         return UserFavoritesHint.then(function(result2) {
           return result2.data;
         });
-        
+
       });
     },
     eventsCreate: function(events) {
@@ -1250,7 +1250,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
           "headers": { 'X-CSRF-Token' : settings.accessToken},
           "responseType": 'json'
         });
-        
+
         return UserEventsCreate.then(function(result2) {
           return result2.data;
         });
@@ -1268,7 +1268,7 @@ app.factory('UserFavorites', function($http, UserInfo) {
           "responseType": 'json',
           "ignoreLoadingBar": true
         });
-        
+
         return UserEventsUpdate.then(function(result2) {
           return result2.data;
         });
@@ -1309,7 +1309,7 @@ app.factory('CWApi', function($http, UserInfo) {
         "cache": false,
         "timeout": timeout
       });
-      
+
       return CWApiPub.then(function(result2) {
         return result2.data;
       }, function(result2) {  /* on error */
@@ -1330,7 +1330,7 @@ app.factory('CWApi', function($http, UserInfo) {
           "cache": false,
           "timeout": timeout
         });
-        
+
         return CWApiPriv.then(function(result2) {
           return result2.data;
         }, function(result2) {  /* on error */
@@ -1352,7 +1352,7 @@ app.factory('CWApi', function($http, UserInfo) {
           "cache": false,
           "timeout": timeout
         });
-        
+
         return CWApiEvaluation.then(function(result2) {
           return result2.data;
         }, function(result2) {  /* on error */
@@ -1493,18 +1493,18 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
   $scope.loginPath = function(destination) {
     if (!destination && document.location.hash) {
       var destination = "?wind_destination_path=" + document.location.protocol + "//" + document.location.hostname + "/" + encodeURIComponent(document.location.hash);
-      return '/cms/user/wind' + destination;      
+      return '/cms/user/wind' + destination;
     }
     else if (destination) {
       destination = "?wind_destination_path=" + document.location.protocol + "//" + document.location.hostname + "/" + encodeURIComponent(destination);
-      return '/cms/user/wind' + destination;      
+      return '/cms/user/wind' + destination;
     }
     return '/cms/user/wind';
   }
 
   $scope.progWidgetToggle = function() {
     $scope.global.showprogwidget = ($scope.global.showprogwidget == 1) ? 0 : 1;
-    
+
     if ($scope.global.showprogwidget) {
       $("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
     }
@@ -1523,12 +1523,12 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     }
     $("#toggle-search a:visible").blur();
 
-/*    
+/*
     if ($scope.global.basicFiltersShown) {
       $("#search-classes, #mobile-search-tabs, #mobile-teacherwidget").collapse("show");
     }
     else {
-      $("#search-classes, #mobile-search-tabs, #mobile-teacherwidget").collapse("hide");    
+      $("#search-classes, #mobile-search-tabs, #mobile-teacherwidget").collapse("hide");
     }
 */
     $("body, html").animate({
@@ -1543,11 +1543,11 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     else {
       $scope.global.betaDesign = 0;
     }
-    
+
     var alphaDesign = +!$scope.global.betaDesign;
 
     setCookie("alphaDesign", alphaDesign, 1);
-    
+
     $timeout(function() {
       if (alphaDesign) {
         document.location = document.location.protocol + "//" + document.location.hostname + '/index.alpha.php';
@@ -1622,7 +1622,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     $scope.global.menuDropdownVisible = newState;
     $("body").toggleClass("content-defocus", newState);
   }
-  
+
   $scope.clearMenuDropdowns = function() {
     $scope.menuDropdownShown = {};
     $scope.global.menuDropdownVisible = false;
@@ -1638,7 +1638,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     if (!DAR) {
       DAR = UserFavorites.dar();
     }
-  
+
     DAR.then(function(result) {
       var user = ($scope.userinfo.data.first_name) ? $scope.userinfo.data.first_name : $scope.userinfo.data.uni;
 
@@ -1662,7 +1662,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
             } else {
               $("#globalModal").removeClass("show-fading-edge");
             }
-            
+
           }).scroll();
         });
 */
@@ -1744,7 +1744,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
       $scope.global.messagingShown = false;
     });
   }
-  
+
   $scope.$on('$locationChangeStart', function() {
     path = $location.path();
     $scope.global.pageDepth++;
@@ -1783,7 +1783,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
         var parameter = $location.$$path.replace("/evaluations/", "").replace("/evaluations", "");
         if (parameter.length) {
           $scope.global.instructor = parameter;
-          
+
           $scope.currentPage = 'evaluations';
           $scope.basicFiltersToggle(0);
           $scope.global.mobileCourseFiltersShown = false;
@@ -1815,25 +1815,25 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
               keyboard: false
             });
           }, 0);
-  
+
           $scope.pageTitle = $scope.pageTitleFixed;
           ga('set', 'title', 'Vergil Home');
         }
         break;
     }
-    
+
     if (document.location.hash.match("debug=1") || document.location.search.match("debug=1")) {
       $scope.debug = 1;
     }
     else {
-      $scope.debug = 0;      
+      $scope.debug = 0;
     }
 
     if (document.location.hash.match("extras=1") || document.location.search.match("extras=1")) {
       $scope.extras = 1;
     }
     else {
-      $scope.extras = 0;      
+      $scope.extras = 0;
     }
 
 
@@ -1865,7 +1865,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     if ($scope.debug == 1) {
       console.log('Entering', breakpoint.class, 'Leaving ',  oldClass, 'windowSize ', breakpoint.windowSize);
     }
-    
+
     if (breakpoint.class == "mobile") {
       $("[data-toggle='tooltip']:not([data-tooltip-mobile])").tooltip('destroy');
       $scope.planner.scheduleListShown = true;
@@ -1909,7 +1909,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
     if ($scope.breakpoint.class != "mobile") {
       $timeout(function() {
         gmap();
-  
+
         if ($scope.debug == 1) {
           $timeout(function() {
             console.log("gmapLookupCache", gmapLookupCache);
@@ -1929,7 +1929,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
       $timeout(function() {
         if (!Modernizr.touch) {
           var endPosition = $("#messaging").offset().top + $("#messaging").height();
-          
+
           $(document).smartscroll(function(e) {
             if ($(this).scrollTop() > endPosition) {
               $scope.hideMessaging();
@@ -1956,7 +1956,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
       }
       else {
         /* logged in */
-        
+
       }
     }
     else { /* autologout occurred */
@@ -1983,7 +1983,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
       var casUrl = (window.location.host == "vergil.registrar.columbia.edu") ? 'https://cas.columbia.edu/cas/logout?service=' : 'https://casdev.cc.columbia.edu/cas/logout?service=';
       window.location = casUrl + window.location.href;
     }
-    
+
     $scope.global.userinfoReady = 1;
 
     if ($scope.breakpoint.class != "mobile" && !Modernizr.touch) {
@@ -2001,7 +2001,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
       var classSuggestions,
       classDefaults = [];
-  
+
       classSuggestions = result.class_title;
 
       if ($scope.global.filters.popular_search_terms) {
@@ -2009,13 +2009,13 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
           classDefaults[term] = $scope.global.filters.popular_search_terms[term].value;
         }
       }
-  
+
       var engine = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.whitespace,
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         local: classSuggestions
       });
-  
+
       function engineWithDefaults(q, sync) {
         if (q === '') {
           $('.tt-dropdown-menu').addClass("default-suggestions");
@@ -2027,7 +2027,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
           engine.search(q, sync);
         }
       }
-  
+
       $timeout(function() {
         $('#search').typeahead({
           minLength: 0,
@@ -2045,7 +2045,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
             header: '<div class="tt-header">Popular Search Terms</div>'
           }
         });
-  
+
   /*
         if (!Modernizr.touch) {
           $('#search').focus();
@@ -2078,8 +2078,8 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
       if (iOSver[0] < 8) {
         /* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
         if (Modernizr.touch) {
-          var $body = $("body"); 
-      
+          var $body = $("body");
+
           $(document).on('focus', 'input', function(e) {
             $body.addClass('fixfixed');
           }).on('blur', 'input', function(e) {
@@ -2103,7 +2103,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     ],
     credits: [
       sliderCreditsStart[0],
-      sliderCreditsStart[1]      
+      sliderCreditsStart[1]
     ],
     levels: [
       sliderLevelsStart[0],
@@ -2168,13 +2168,13 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         longLabel: "Sunday",
         id: "sunday",
         value: 'u'
-      }      
+      }
     ]
   }
 
   $scope.formCheckboxes = {};
   $scope.contextualCourseData = {};
-  
+
   $scope.courses = {}; /* (courses.data is inherited in parent/child) courses.data.term.course.section */
   $scope.displayedCourses = 0;
   $scope.coursesInQuery = 0;
@@ -2191,12 +2191,12 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     else if (newVal == oldVal) {
       return;
     }
-    
+
     if ($scope.courses.data) {
       $scope.coursesReady = 0;
 
       $filter('contextualCourses')($scope.courses.data, $scope.form, $scope.formCheckboxes, $scope.coursesWithEval);
-      
+
       $scope.displayedCourses = 0;
       if (Object.keys($scope.courses.data)[0]) {
         for (term in $scope.courses.data) {
@@ -2273,7 +2273,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     for (teacher in $scope.teachers) {
       $scope.teachersUnis.push($scope.teachers[teacher].uni);
     }
-    
+
     $scope.coursesWithEval = {};
 
     for (course in result.eval_courses) {
@@ -2301,7 +2301,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
     if ($scope.breakpoint.class != "mobile") {
       gmap();
-  
+
       if ($scope.debug == 1) {
         $timeout(function() {
           console.log("gmapLookupCache", gmapLookupCache);
@@ -2323,13 +2323,13 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         }
       }
       else {
-        $scope.form.relevantSections = true;      
+        $scope.form.relevantSections = true;
       }
     }
     else {
       $scope.form.relevantSections = true;
     }
-    
+
     $scope.global.rendered.courses = 1;
   }
 
@@ -2359,7 +2359,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
   $scope.toggleRelevantSections = function() {
     $scope.form.relevantSections = !$scope.form.relevantSections;
-    
+
     for (term in $scope.courses.data) {
       for (course in $scope.courses.data[term].courses) {
         $scope.courses.data[term].courses[course].sectionsFilteredOverride = false;
@@ -2380,7 +2380,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     if ($scope.breakpoint.class != "mobile") {
       $timeout(function() {
         gmap();
-  
+
         if ($scope.debug == 1) {
           $timeout(function() {
             console.log("gmapLookupCache", gmapLookupCache);
@@ -2441,7 +2441,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       'year': term.substring(0, 4),
       'label': semester + " " + term.substring(0, 4),
       'labelCompact': semester + " '" + term.substring(2, 4)
-    };    
+    };
   }
 
   $scope.$on('onRepeatLast', function(scope, element, attrs) {
@@ -2464,22 +2464,22 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       var weekdaysObj = {};
       var formattedTimeWeekday = [];
       var translatedTimeWeekday = [];
-      
+
       if (weekdays = data.split(" ")[0]) {
         for (var j = 0; j < weekdays.length; j++) {
           if (!weekdaysObj[weekdays[j]]) {
             weekdaysObj[weekdays[j]] = true;
-            
+
             translatedTimeWeekday[j] = $scope.favorites.weekdays[weekdays[j]].translated;
             formattedTimeWeekday[j] = '<abbr title="'+ $scope.favorites.weekdays[weekdays[j]].label +'">' + $scope.favorites.weekdays[weekdays[j]].translated + '</abbr>';
           }
         }
-        
+
         formattedTime = formattedTimeWeekday.join(" ") + " " + data.split(" ")[1];
         translatedTime = translatedTimeWeekday.join(" ") + " " + data.split(" ")[1];
-        
+
         return [formattedTime, translatedTime, weekdaysObj];
-      }      
+      }
     }
 
     /* each class */
@@ -2505,7 +2505,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
             'campus': thisCourse.campus.name,
             'description': (thisCourse.description) ? thisCourse.description.trim() : '',
             'department': thisCourse.department.name,
-            'departmentUrl': thisCourse.department.url,                  
+            'departmentUrl': thisCourse.department.url,
             'division': thisCourse.division.name,
             'number': thisCourse.bulletin.code + thisCourse.number,
             'number2': thisCourse.bulletin.code_2.trim() + thisCourse.number,
@@ -2532,11 +2532,11 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
                 formattedTime = processed[0];
                 translatedTime = processed[1];
                 weekdays = processed[2];
-                
+
                 var location = (thisSection.days_times[day].location.room) ? String(thisSection.days_times[day].location.room.replace('RTBA', '') + " " + thisSection.days_times[day].location.name).trim() : null;
 
                 var locationRich = (location && $.inArray(location, gmapExclude) == -1) ? '<span class="gmap-trigger">'+ location +'</span>' : location;
-    
+
                 times[times.length] = {
                   'location': location,
                   'locationRich': locationRich,
@@ -2551,7 +2551,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
               }
             }
           }
-          
+
           unit = {
             'max': (thisSection.unit.max) ? (parseInt(thisSection.unit.max) / 10).toPrecision(2) : '',
             'min': (thisSection.unit.min) ? (parseInt(thisSection.unit.min) / 10).toPrecision(2) : '',
@@ -2563,8 +2563,8 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           if (parseInt(unit.formatted) <= 1 && !unit.formatted.match("-")) {
             unit.label = "credit";
           }
-          
-          if (thisSection.instructors) {            
+
+          if (thisSection.instructors) {
             var instructorsNames = [];
             var instructorsHtmlLinked = [];
             var k = 0;
@@ -2576,7 +2576,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
                 instructorHasEval = $scope.uniHasEval(thisSection.instructors[instructor].uni);
               }
 
-              
+
               if (thisSection.instructors[instructor].uni) {
                 if (!instructorHasEval) {
                   instructorsHtmlLinked[k] = '<span><a href="#/courses/'+ thisSection.instructors[instructor].uni +'">'+ thisSection.instructors[instructor].name +'</a></span>';
@@ -2601,7 +2601,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
               k++;
             }
           }
-          
+
           var examFormattedTime = "";
           if (thisSection.exam.time) {
             processed = reformatTime(thisSection.exam.time);
@@ -2612,7 +2612,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
           var examLocation = (deeptest(thisSection, "exam.location.room")) ? thisSection.exam.location.room + " " + thisSection.exam.location.name : null;
           var examLocationRich = (examLocation && $.inArray(examLocation, gmapExclude) == -1) ? '<span class="gmap-trigger">'+ examLocation +'</span>' : examLocation;
-          
+
           coursesData[term].courses[course].sections[section] = {
             'section': section,
             'uci': thisSection.universal_course_identifier,
@@ -2684,9 +2684,9 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       termKeys[termKeys.length] = term;
       coursesData[term].coursesCount = Object.keys(coursesData[term].courses).length;
     }
-    
+
     termKeys.sort();
-    
+
     for (term in coursesData) {
       coursesData[term].index = termKeys.indexOf(term);
     }
@@ -2703,7 +2703,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
             if (!obj.isPersonalEvent) {
               obj['Favorite'] = false;
-  
+
               if ($scope.favorites.data) {
                 for (var favorite in $scope.favorites.data[term]) {
                   if ($scope.favorites.data[term][favorite]['class_id'] == obj['uci']) {
@@ -2717,7 +2717,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         }
       }
     });
-    
+
     return coursesData;
   } /* /$scope.processCoursesData() */
 
@@ -2726,9 +2726,9 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       $("#search-button").button('loading');
 
       refreshRunning = 1;
-    
+
       var params = {};
-  
+
       /* Keyword */
       var keywords = '';
       if ($scope.form.search) {
@@ -2737,8 +2737,37 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       else {
         keywords = '*';
       }
+
+      // add quick test to see if this is where searches are set
+      /*
+      if(keywords == "lithum") {
+        keywords = "Masterpieces of Western Literature and Philosophy";
+      }
+      */
+      var nicknamesJson;
+
+      const nickRequest = async() => {
+        const response = await fetch("http://localhost:3000/api/getNicknames", {method: "post"});
+        nicknamesJson = await response.json();
+        console.log(nicknamesJson);
+      }
+
+      nickRequest();
+        /*
+      fetch("http://localhost:3000/api/getNicknames", {method: "post"})
+        .then(function(resp) {
+          return resp.json();
+        }).then(function(data) {
+          nicknamesJson = data[0];
+        }).then(function() {
+          console.log(nicknamesJson);
+        });
+        */
+      console.log(nicknamesJson);
+
+
       params["key"] = keywords;
-  
+
       /* Credits */
       if (val = $('#credits').val()) {
         var from = parseInt(val[0]).toPrecision(1);
@@ -2747,7 +2776,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           params["credit"] = from + "-" + to;
         }
       }
-  
+
       /* Semesters */
       if ($('input[name="semester[]"]:not(:checked)').length) {
         var values = [];
@@ -2756,7 +2785,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         });
         params["term"] = values.join(",");
       }
-  
+
       /* Days */
       if ($('input[name="days[]"]:not(:checked)').length) {
         var values = [];
@@ -2765,27 +2794,27 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         });
         params["days"] = values.join("");
       }
-  
+
       /* Subject */
       if ($scope.subject) {
         params["subject"] = $scope.subject;
       }
-  
+
       /* Departments */
       if ($scope.department) {
         params["dept"] = $scope.department;
       }
-  
+
       /* Class Types */
       if ($scope.classtype) {
         params["classtype"] = $scope.classtype;
       }
-  
+
       /* School */
       if ($scope.school) {
         params["school"] = $scope.school;
       }
-  
+
       /* Course Levels */
       if (val = $('#levels').val()) {
         var from = parseInt(val[0]);
@@ -2794,7 +2823,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           params["level"] = from + "-" + to;
         }
       }
-  
+
       /* Times */
       if (val = $('#times').val()) {
         var from = parseInt(val[0]);
@@ -2808,19 +2837,19 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       /* only process if keywords is not empty */
       if (params["key"]) {
         params["moreresults"] = 2;
-  
+
         if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
           $scope.global.moreFiltersShown = 0;
         }
 
-/*  
+/*
         if ($scope.currentPage != 'courses') {
           $scope.mobileToggleSearch();
         }
 */
-    
+
         $("#course-list").addClass("changed");
-  
+
 
         $timeout(function() {
           var newLocation = decodeURIComponent("#/courses/"+ keywords);
@@ -2830,11 +2859,11 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
             if ($scope.debug == 1) {
               newLocation += "?debug=1";
             }
-            
+
             document.location.hash = newLocation;
           }
         }, 0);
-  
+
         var runRefresh = 0;
         if (angular.toJson(params) !== angular.toJson(paramsHistory)) {
           runRefresh = 1;
@@ -2850,17 +2879,17 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           }
         }
 
-        if (runRefresh) {          
+        if (runRefresh) {
           paramsHistory = params;
-          
+
           if ($scope.courses.data) {
             $scope.coursesReady = 0;
-  
+
             $scope.courses = {};
           }
-          
+
           $scope.noResults = false;
-  
+
           $http({
             "method": "GET",
             "url": "doc-adv-queries.php",
@@ -2868,7 +2897,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           })
           .success(function(data, status, headers, config) {
             $scope.courses.data = $scope.processCoursesData(data);
-            
+
             $scope.active.expandCollapseAll = {};
 
             $scope.coursesInQuery = 0;
@@ -2882,8 +2911,8 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
             if ($scope.coursesInQuery == 302) {
               $scope.coursesInQueryExceeded = 1;
             }
-  
-            if ($scope.courses.data[$scope.global.variables.current_term_year]) {              
+
+            if ($scope.courses.data[$scope.global.variables.current_term_year]) {
               $scope.setActiveTab($scope.global.variables.current_term_year);
               $scope.setActiveTabIndex($scope.courses.data[$scope.global.variables.current_term_year].index);
             }
@@ -2894,13 +2923,13 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
               $scope.setActiveTab(keys[0]);
               $scope.setActiveTabIndex(0);
             }
-  
+
             $scope.noResults = ($scope.termsCount) ? false : true;
-  
+
             $("#course-list").removeClass("changed");
             $("#search-button").button('reset');
             refreshRunning = 0;
-            
+
             $scope.global.searchResultsReady = 1;
 
             $scope.scrollToCourses();
@@ -2937,7 +2966,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         $("#course-list").removeClass("changed");
 
         $("#search-button").button('error').addClass('error');
-        
+
         $("#search").one("change keypress", function() {
           $("#search-button").button('reset');
           $("#search-button").removeClass('error');
@@ -3014,7 +3043,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       if ($scope.breakpoint.class != "mobile") {
         $timeout(function() {
           gmap();
-  
+
           if ($scope.debug == 1) {
             $timeout(function() {
               console.log("gmapLookupCache", gmapLookupCache);
@@ -3204,7 +3233,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       }
       else {
         $(this).siblings(".sprite").addClass("sprite-checkbox-off").removeClass("sprite-checkbox-on");
-      }    
+      }
     });
   });
 */
@@ -3220,7 +3249,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           });
         }
         else {
-          refresh();          
+          refresh();
         }
       });
     }
@@ -3231,12 +3260,12 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
         });
       }
       else {
-        refresh();        
+        refresh();
       }
     }
   };
 
-/*  
+/*
   $("#search-classes").on("submit", function() {
     $scope.searchStart();
   });
@@ -3247,7 +3276,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     $scope.clearSearch();
     $("#search-classes")[0].reset();
     $("#more-filters select[chosen]").val('').trigger("chosen:updated");
-    
+
 /*
     $("#search-classes").find("input[type=checkbox]").each(function() {
       $(this).prop("checked", true);
@@ -3288,7 +3317,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     if ($scope.debug == 1) {
       console.log("setFavorite", section, course, state);
     }
-  
+
     if (state === undefined) {
       section.Favorite = !section.Favorite;
       section.added_to_schedule = 0;
@@ -3307,7 +3336,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       if ($scope.global.variables.current_term_year == term) {
         /* For current term, check for Hints */
         hintReq = UserFavorites.hint({'classes': section.uci});
-  
+
         hintReq.then(function(result) {
           if (result) {
             if (result.status == 1) { /* SSOL Hints working */
@@ -3397,7 +3426,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     if ($scope.debug == 1) {
       console.log("updateFavorite", section, term, docPattern, state);
     }
-    
+
     if (section.isPersonalEvent) {
       $scope.courses.data[term].courses.personalEvents.sections[section.section].added_to_schedule = state.toString();
       UserFavorites.eventsUpdate({'class_id': section.section, 'added_to_schedule': state});
@@ -3406,7 +3435,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       if ($scope.favorites.data[term][section.uci]) {
         $scope.favorites.data[term][section.uci].added_to_schedule = state.toString();
       }
-  
+
       $scope.courses.data[term].courses[docPattern].sections[section.section].added_to_schedule = state.toString();
       UserFavorites.update({'class_id': section.uci, 'added_to_schedule': state});
     }
@@ -3418,7 +3447,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     if (!section.times.length && state == 1) {
       $scope.global.message = 'As this class does not currently contain day & time information, it does not appear on the calendar.';
       $scope.global.messageShown = 1;
-  
+
       $scope.global.messageAutoClose = $timeout(function() {
         $scope.global.messageShown = 0;
       }, 10000);
@@ -3426,7 +3455,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     else if ($scope.favorites.scheduledSectionsCount == 1 && state == 1) {
       $scope.global.message = '<p>Class has been added to your Vergil planning schedule.</p><p>Please remember to complete your class registration on SSOL for this semester.<p>';
       $scope.global.messageShown = 1;
-  
+
       $scope.global.messageAutoClose = $timeout(function() {
         $scope.global.messageShown = 0;
       }, 10000);
@@ -3434,12 +3463,12 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
     $(window).resize();
   }
-  
+
   $scope.removePersonalEvent = function(section, term, state) {
     if ($scope.debug == 1) {
       console.log("removePersonalEvent", section, term, state);
     }
-    
+
     $scope.courses.data[term].courses.personalEvents.sections[section.section].added_to_schedule = 0;
     $scope.courses.data[term].courses.personalEvents.sections[section.section].Favorite = false;
 
@@ -3474,7 +3503,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     /* CSS Animation */
     $("body").addClass("modified-favorites");
     setTimeout(function() { $("body").removeClass("modified-favorites") }, 300);
-    
+
     $scope.hideSections(term);
 
     if ($scope.courses.data[term]) {
@@ -3500,13 +3529,13 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
     for (day in $scope.favorites.weekdays) {
       $scope.favorites.weekdays[day].scheduleCount[term] = 0;
     }
-    
+
     if ($scope.courses.data) {
       if ($scope.courses.data[term]) {
         for (course in $scope.courses.data[term].courses) {
           for (section in $scope.courses.data[term].courses[course].sections) {
             if ($scope.courses.data[term].courses[course].sections[section].added_to_schedule == 1) {
-              
+
               if (!$scope.courses.data[term].courses[course].sections[section].isPersonalEvent) {
                 scheduledSectionsCount++;
               }
@@ -3514,7 +3543,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
                 personalEventsCount++;
               }
               scheduledCredits += parseFloat($scope.courses.data[term].courses[course].sections[section].unit.formatted);
-              
+
               if (!$scope.courses.data[term].courses[course].sections[section].times.length) {
                 $scope.favorites.weekdays.Uncat.scheduleCount[term]++;
               }
@@ -3560,7 +3589,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       }).scroll();
 
       recalcSections($scope.active.Tab);
-      
+
     }, 1);
   }
 
@@ -3620,7 +3649,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
                 syllabusData = '<p><a href="'+ (iframeSrc) +'" target="_blank"><span class="glyphicon glyphicon-new-window"></span>View in new window</a></p>';
                 syllabusData += '<div class="iframe-wrapper"><div class="loader three-quarters"></div><iframe id="syllabus-iframe" src="'+ (iframeSrc) +'" width="600" height="530" style="border: none;"></iframe></div>';
               }
-              
+
               $timeout(function() {
                 $("#syllabus-iframe").load(function() {
                   $(".iframe-wrapper .loader").fadeOut("fast", function() {
@@ -3639,14 +3668,14 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
             ga('send', 'event', 'Syllabus shown', $scope.$parent.modalSection.uci);
           }
           else {
-            ga('send', 'event', 'Syllabus empty', $scope.$parent.modalSection.uci);            
+            ga('send', 'event', 'Syllabus empty', $scope.$parent.modalSection.uci);
           }
-  
+
           $scope.$parent.modalSection.cw = {
             books: (deeptest(result, 'data.books.data')) ? result.data.books.data : "",
             syllabus: syllabusData
           };
-          
+
           if (deeptest(result, 'data.books.data.textbooks.0')) {
             ga('send', 'event', 'Textbooks (authenticated) shown', $scope.$parent.modalSection.uci);
           }
@@ -3656,12 +3685,12 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
           if (uni) {
             $scope.$parent.modalSection.cw['evaluations'] = (result.data["eval"].data.evaluations) ? result.data["eval"].data.evaluations : false;
-  
+
             if (result.data["eval"].data.evaluations.reports.length) {
               $scope.$parent.modalSection.cw.evaluationsList = {};
-  
+
               var evaluations = result.data["eval"].data.evaluations.reports;
-  
+
               for (evaluation in evaluations) {
                 var thisEval = evaluations[evaluation];
                 if (thisEval.courseId.indexOf($scope.$parent.modalCourse.course) !== -1) {
@@ -3673,12 +3702,12 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
                   $scope.$parent.modalSection.cw.evaluationsList[year][semester + " " + year] = thisEval.path;
                 }
               }
-              
+
               if ($scope.debug == 1) {
                 console.log("evaluations", evaluations);
                 console.log("evaluationsList", $scope.$parent.modalSection.cw.evaluationsList);
               }
-              
+
               ga('send', 'event', 'Evaluation (modal) shown', $scope.$parent.modalSection.uci + " / " + uni);
             }
             else {
@@ -3709,7 +3738,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
           ga('send', 'event', 'Textbooks (public) shown', $scope.$parent.modalSection.uci);
         }
         else {
-          ga('send', 'event', 'Textbooks (public) empty', $scope.$parent.modalSection.uci);          
+          ga('send', 'event', 'Textbooks (public) empty', $scope.$parent.modalSection.uci);
         }
 
         $scope.CWApiReady = 1;
@@ -3750,7 +3779,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
 });
 
-app.controller("searchresults", function($scope, $location, $http, $filter, $timeout, UserFavorites, CWApi, CWFeeds) {  
+app.controller("searchresults", function($scope, $location, $http, $filter, $timeout, UserFavorites, CWApi, CWFeeds) {
   var formListener = $scope.$watch('form', $scope.processContextualCourses, true);
   var coursesDataListener = $scope.$watch('courses.data', $scope.processContextualCourses);
   var formCheckboxesListener = $scope.$watchCollection('formCheckboxes', $scope.processContextualCourses);
@@ -3785,7 +3814,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
         setTimeout(function() {
           $scope.global.message = '<p>Must be logged in to see My Planner.</p>';
           $scope.global.messageShown = 1;
-    
+
           document.location.hash = '/';
         }, 0);
       }
@@ -3798,12 +3827,12 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
   $scope.plannerMessageToggle = function() {
     $scope.plannerMessageShown = ($scope.plannerMessageShown == 1) ? 0 : 1;
   }
-  
+
   $scope.inspectWDay = function(wday) {
     if ($scope.activeWDay == wday) {
       wday = 0;
     }
-    
+
     /* reset any hanging schedule focus */
     $scope.scheduleFocus = 0;
 
@@ -3815,7 +3844,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           "top": 0
         });
       });
-      
+
       $(".schedule-list-weekday[data-weekday="+ wday +"] .my-schedule-item .inner").each(function(index) {
         var parentTopOffset = $(this).parent().position().top;
         $(this).css({
@@ -3829,7 +3858,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
     if ($scope.debug == 1) {
       console.log("section, term, docPattern, state", section, term, docPattern, state);
     }
-    
+
     var sectionsShown = $scope.courses.data[term].courses[docPattern].sectionsShown;
     sectionsShown = (state) ? 0 : section.uci;
 
@@ -3840,18 +3869,18 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
       }
     }
     else {
-      var togglePosition = $("#planner-all-classes #sections-toggle-" + section.uci).offset();    
+      var togglePosition = $("#planner-all-classes #sections-toggle-" + section.uci).offset();
     }
-    
+
     /* set uci to track last favorite */
     var sectionsTopOffset = ($scope.breakpoint.class == "mobile") ? $("#planner-list-wrapper").offset().top : $("#planner-container").offset().top;
-    
+
     $("#favorite-sections-doc-pattern-" + term + "-" + docPattern).css({
       top: togglePosition.top - sectionsTopOffset + $scope.planner.scrollY,
       left: togglePosition.left - 12 + $scope.planner.scrollX,
       zIndex: 1000 + sectionsZIndex
     }).attr("data-uci", section.uci);
-    
+
     if (sectionsShown) {
       $scope.courses.data[term].courses[docPattern].sectionsShown = sectionsShown;
     }
@@ -3874,7 +3903,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           if ($scope.courses.data[term].courses[course].sectionsShown) {
             var uci = $("#favorite-sections-doc-pattern-" + term + "-" + course).attr("data-uci");
             var togglePosition = $("#sections-toggle-" + uci + ":visible").offset();
-            
+
             if (togglePosition) {
               var sectionsTopOffset = ($scope.breakpoint.class == "mobile") ? $("#planner-list-wrapper").offset().top : $("#planner-container").offset().top;
 
@@ -3888,7 +3917,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
       }
     }
   }
-  
+
   $scope.scheduleFocusChange = function(uci, weekday) {
     if (uci == 0 || $scope.activeWDay == 0 || $scope.activeWDay == weekday) {
       $scope.scheduleFocus = uci;
@@ -3948,7 +3977,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
     UserFavoritesEventsCreate.then(function(result) {
       if (result.data) {
         event.event_id = result.data.event_id;
-        
+
         $scope.eventPreRender(event);
         $scope.recalcWeekdayCounts($scope.active.Tab);
         setTimeout(function() {
@@ -3975,7 +4004,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
     var events = [];
 
     $("#export-to-calendar").tooltip('destroy').removeAttr("data-toggle");
-    
+
     for (course in $scope.courses.data[$scope.active.Tab].courses) {
       var thisCourse = $scope.courses.data[$scope.active.Tab].courses[course];
       for (section in $scope.courses.data[$scope.active.Tab].courses[course].sections) {
@@ -4005,9 +4034,9 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
       ga('send', 'event', 'Export to Calendar', $scope.active.Tab);
     }
   }
-  
+
   $scope.pushToSSOL = function() {
-    ga('send', 'event', 'Push to SSOL', $scope.active.Tab);    
+    ga('send', 'event', 'Push to SSOL', $scope.active.Tab);
   }
 
   $scope.eventPreRender = function(thisEvent) {
@@ -4075,11 +4104,11 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           for (course in $scope.favorites.data[term]) {
             if ($.type($scope.favorites.data[term][course]) == "object") {
               var uci = $scope.favorites.data[term][course].class_id;
-              
+
               /* Special: X = Barnard */
               var pattern = uci.substring(0, 4) + uci.substring(4, 5).replace("X", "BC") + uci.substring(5, 9);
               docClasses[i] = uci;
-              
+
               $scope.favorites.data[term][course].docPattern = pattern;
               $scope.favorites.data[term][course].section = uci.substring(10, 13);
               $scope.favorites.data[term][course].Favorite = true;
@@ -4109,7 +4138,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
         Variables.getVars().then(function(result2) {
           $scope.global.variables = result2;
           var term;
-  
+
           for (i in $scope.global.currentTerms) {
             term = $scope.global.currentTerms[i];
             $scope.favoritesTerms[term] = {
@@ -4122,7 +4151,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
               $scope.courses.data[term] = $scope.initYear(term);
             }
           }
-          
+
           keys = Object.keys($scope.favoritesTerms);
           keys.sort();
 
@@ -4132,7 +4161,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 
 
           $scope.favoritesTermsCount = i;
-      
+
           /* set active tab based on URL or current state */
           path = $location.path();
           if (param = path.split("/")[2]) {
@@ -4146,7 +4175,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
               setTimeout(function() {
                 $scope.global.message = '<p>Incorrect semester provided.</p>';
                 $scope.global.messageShown = 1;
-          
+
                 document.location.hash = '/';
               }, 0);
             }
@@ -4187,14 +4216,14 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
               }
 
               $scope.courses.data[term].courses['personalEvents'] = { sections: {} };
-    
+
               for (item in $scope.favorites.events[term]) {
                 var event = $scope.favorites.events[term][item];
                 event.event_id = item;
-    
+
                 $scope.eventPreRender(event);
               }
-    
+
               if ($scope.debug == 1) {
                 console.log("personalEvents", $scope.courses.data[term].courses['personalEvents']);
               }
@@ -4203,10 +4232,10 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 
           for (term in $scope.courses.data) {
             $scope.courses.data[term].sectionsShown = 1;
-  
+
             for (course in $scope.courses.data[term].courses) {
               $scope.courses.data[term].courses[course].sectionsShown = 0;
-              
+
               for (section in $scope.courses.data[term].courses[course].sections) {
                 var thisSection = $scope.courses.data[term].courses[course].sections[section];
                 if ($scope.favorites.data[term]) {
@@ -4225,7 +4254,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           /* For current term, check for Hints */
           if (hintReqClasses.length) {
             hintReqMultiple = UserFavorites.hint({'classes': hintReqClasses});
-      
+
             hintReqMultiple.then(function(result) {
               if (result) {
                 if (result.status == 1) { /* SSOL Hints working */
@@ -4242,7 +4271,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
                       }
                     }
                   }
-  
+
                   if ($scope.breakpoint.class != "mobile" && !Modernizr.touch) {
                     setTimeout(function() {
                       $(".details-head-with-hint").tooltip();
@@ -4263,7 +4292,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           setTimeout(function() {
             var wdays = {};
             var tableBodyTargetTop = ($(".my-schedule:visible:eq(0) .table-body").length) ? $(".my-schedule:visible:eq(0) .table-body").position().top : 0;
-            
+
             $scheduleTable = $(".schedule-table:visible:eq(0)");
 
             $(".my-schedule-item").each(function() {
@@ -4276,14 +4305,14 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
               }
               var $parent = $(this).parents(".schedule-list-weekday:eq(0)");
               var $tableTarget = $(".my-schedule:visible:eq(0) .wday:eq("+ (parseInt(wday) - 1) +")");
-              
+
               if ($tableTarget.position()) {
                 var dataFrom = $(this).attr("data-time-from");
                 var dataTo = $(this).attr("data-time-to");
-                
+
                 var fromMinutes = parseInt(dataFrom.slice(0, 2)) * 60 + parseInt(dataFrom.slice(2, 4));
                 var toMinutes = parseInt(dataTo.slice(0, 2)) * 60 + parseInt(dataTo.slice(2, 4));
-                
+
                 var posTop = tableBodyTargetTop + 20 + (fromMinutes - 420) / 60 * 40; /* 420 = minutes offset from 7:00 */
 
                 var posLeft = $tableTarget.position().left + wdays[wday] * 5;
@@ -4319,13 +4348,13 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 
           }, 1);
         }
-        
+
         if ($scope.courses.data[$scope.active.Tab]) {
           $scope.setActiveTab($scope.active.Tab);
           $scope.setActiveTabIndex($scope.courses.data[$scope.active.Tab].index);
         }
         else {
-          
+
         }
 
         $scope.plannerReady = 1;
@@ -4405,7 +4434,7 @@ app.controller("evaluations", function($scope, $location, $http, CWFeeds, CWApi,
         setTimeout(function() {
           $scope.global.message = '<p>Must be logged in to see Evaluations.</p>';
           $scope.global.messageShown = 1;
-    
+
           document.location.hash = '/';
         }, 0);
       }
@@ -4467,15 +4496,15 @@ app.controller("evaluations", function($scope, $location, $http, CWFeeds, CWApi,
 
           if (check) {
             $scope.evaluations = (result.data["eval"].data.evaluations) ? result.data["eval"].data.evaluations : false;
-  
+
             $scope.evaluationsList = {};
-    
+
             var evaluations = result.data["eval"].data.evaluations.reports;
             for (evaluation in evaluations) {
               var thisEval = evaluations[evaluation];
               year = (thisEval.courseId.substring(14, 18));
               semester = getSemesterFromIndex(thisEval.courseId.substring(19, 20));
-  
+
               // INAFU8882_001
               course = thisEval.courseId.substring(0, 9);
               if (!$scope.evaluationsList[course]) {
@@ -4489,26 +4518,26 @@ app.controller("evaluations", function($scope, $location, $http, CWFeeds, CWApi,
               }
               $scope.evaluationsList[course].years[year][semester + " " + year].push(thisEval.path);
             }
-  
+
             /* lookup course information */
             var courses = [];
             for (course in $scope.evaluationsList) {
               courses[courses.length] = course;
             }
-  
+
             var params = {
               "key": courses.join("|"),
               "moreresults": 2
             };
-      
+
             $http({
               "method": "GET",
               "url": "doc-adv-queries.php",
               "params": params
             })
-            .success(function(data, status, headers, config) {            
+            .success(function(data, status, headers, config) {
               $scope.courses.data = $scope.processCoursesData(data);
-      
+
               for (course in $scope.evaluationsList) {
                 for (term in $scope.courses.data) {
                   if ($scope.courses.data[term].courses[course]) {
@@ -4517,12 +4546,12 @@ app.controller("evaluations", function($scope, $location, $http, CWFeeds, CWApi,
                   }
                 }
               }
-  
+
               if ($scope.debug == 1) {
                 console.log("evaluations", evaluations);
                 console.log("evaluationsList", $scope.evaluationsList);
               }
-  
+
               $scope.CWEvalApiReady = 1;
 
             });
@@ -4595,7 +4624,7 @@ app.controller("progwidget", function($scope, $http, $timeout) {
     $("#progwidget").height(availHeight);
 */
   }
-  
+
   $(window).smartresize(function(){
     recalcHeight();
   }).resize();
@@ -4621,7 +4650,7 @@ app.controller("progwidget", function($scope, $http, $timeout) {
           return $(this).attr("href");
         }).attr("ng-anchor-parent", "#program-information").removeAttr("href");
         $(htmlData).find("a:not('[ng-anchor]')").attr("target", "_blank");
-    
+
         $scope.programInfo = $(htmlData).html();
 
         if (!$scope.programInfo) {
@@ -4668,7 +4697,7 @@ app.controller("progwidget", function($scope, $http, $timeout) {
       });
     }
     else {
-      $scope.global.progwidgetSelected = false;      
+      $scope.global.progwidgetSelected = false;
     }
   });
 
