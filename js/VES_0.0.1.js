@@ -4614,25 +4614,22 @@ app.controller("progwidget", function($scope, $http, $timeout) {
 
       $scope.global.progwidgetSelected = true;
 
-      $http.get('http://localhost:3000/majorData?major=' + $scope.program).success(function(data, status, headers, config){
-      // $http.get('clunify-program.php?dept=' + $scope.program).success(function(data, status, headers, config){
-        var htmlData = $.parseHTML('<div class="html-wrapper">'+ data.requirementstext +'</div>');
+      $http.get('https://ves.columbiaspectator.com/majorData?major=' + $scope.program).success(function(data, status, headers, config){
+     	var htmlData = $.parseHTML('<div class="html-wrapper">'+ data.requirementstext +'</div>');
         $(htmlData).find("a[href^='#']").attr("ng-anchor", function() {
           return $(this).attr("href");
         }).attr("ng-anchor-parent", "#program-information").removeAttr("href");
         $(htmlData).find("a:not('[ng-anchor]')").attr("target", "_blank");
     
-        // $scope.programInfo = $(htmlData).html();
+    	// placeholder
         $scope.programInfo = "<p>" + data + "</p>"
 
         if (!$scope.programInfo) {
           $scope.programInfo = "Sorry, no information is available for this program.";
           ga('send', 'event', 'Program Information empty', $scope.program);
-          console.log('Empty, program: ' + $scope.program)
         }
         else {
           ga('send', 'event', 'Program Information shown', $scope.program);
-          console.log('Shown, program: ' + $scope.program)
         }
 
         $timeout(function() {
