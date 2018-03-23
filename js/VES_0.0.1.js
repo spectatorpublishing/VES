@@ -4615,13 +4615,7 @@ app.controller("progwidget", function($scope, $http, $timeout) {
       $scope.global.progwidgetSelected = true;
 
       $http.get('https://ves.columbiaspectator.com/majorData?major=' + $scope.program).success(function(data, status, headers, config){
-     	var htmlData = $.parseHTML('<div class="html-wrapper">'+ data.requirementstext +'</div>');
-        $(htmlData).find("a[href^='#']").attr("ng-anchor", function() {
-          return $(this).attr("href");
-        }).attr("ng-anchor-parent", "#program-information").removeAttr("href");
-        $(htmlData).find("a:not('[ng-anchor]')").attr("target", "_blank");
-    
-    	// placeholder
+		// placeholder
         $scope.programInfo = "<p>" + data + "</p>"
 
         if (!$scope.programInfo) {
