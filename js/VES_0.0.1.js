@@ -4608,21 +4608,15 @@ app.controller("progwidget", function($scope, $http, $timeout) {
     console.log(val);
   }
 
-
   $scope.$watch('program', function() {
     if ($scope.program !== undefined && $scope.program !== null) {
       $scope.programInfo = '';
 
       $scope.global.progwidgetSelected = true;
 
-      $http.get('clunify-program.php?dept=' + $scope.program).success(function(data, status, headers, config){
-        var htmlData = $.parseHTML('<div class="html-wrapper">'+ data.requirementstext +'</div>');
-        $(htmlData).find("a[href^='#']").attr("ng-anchor", function() {
-          return $(this).attr("href");
-        }).attr("ng-anchor-parent", "#program-information").removeAttr("href");
-        $(htmlData).find("a:not('[ng-anchor]')").attr("target", "_blank");
-    
-        $scope.programInfo = $(htmlData).html();
+      $http.get('https://ves.columbiaspectator.com/majorData?major=' + $scope.program).success(function(data, status, headers, config){
+		// placeholder
+        $scope.programInfo = "<p>" + data + "</p>"
 
         if (!$scope.programInfo) {
           $scope.programInfo = "Sorry, no information is available for this program.";
