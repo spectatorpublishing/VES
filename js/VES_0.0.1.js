@@ -2746,250 +2746,263 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
       */
       var nicknamesJson;
 
+      /*
       const nickRequest = async() => {
         const response = await fetch("http://localhost:3000/api/getNicknames", {method: "post"});
         nicknamesJson = await response.json();
         console.log(nicknamesJson);
-      }
 
-      nickRequest();
-        /*
+        $.each(nicknamesJson[0], function(k, v) {
+          if(keywords == k) {
+            keywords = v;
+            console.log(keywords);
+          }
+        });
+        return keywords;
+      }
+      */
+
+
+
       fetch("http://localhost:3000/api/getNicknames", {method: "post"})
         .then(function(resp) {
           return resp.json();
         }).then(function(data) {
           nicknamesJson = data[0];
         }).then(function() {
-          console.log(nicknamesJson);
-        });
-        */
-      console.log(nicknamesJson);
+          $.each(nicknamesJson, function(k, v) {
+            if(keywords == k) {
+              keywords = v;
+            }
+          });
+        }).then(function() {
+          console.log(keywords);
+        }).then(function() {
+          params["key"] = keywords;
 
+          /* Credits */
+          if (val = $('#credits').val()) {
+            var from = parseInt(val[0]).toPrecision(1);
+            var to = parseInt(val[1]).toPrecision(1);
+            if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
+              params["credit"] = from + "-" + to;
+            }
+          }
 
-      params["key"] = keywords;
+          /* Semesters */
+          if ($('input[name="semester[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="semester[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["term"] = values.join(",");
+          }
 
-      /* Credits */
-      if (val = $('#credits').val()) {
-        var from = parseInt(val[0]).toPrecision(1);
-        var to = parseInt(val[1]).toPrecision(1);
-        if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
-          params["credit"] = from + "-" + to;
-        }
-      }
+          /* Days */
+          if ($('input[name="days[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="days[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["days"] = values.join("");
+          }
 
-      /* Semesters */
-      if ($('input[name="semester[]"]:not(:checked)').length) {
-        var values = [];
-        $('input[name="semester[]"]:checked').each(function() {
-          values.push($(this).val());
-        });
-        params["term"] = values.join(",");
-      }
+          /* Subject */
+          if ($scope.subject) {
+            params["subject"] = $scope.subject;
+          }
 
-      /* Days */
-      if ($('input[name="days[]"]:not(:checked)').length) {
-        var values = [];
-        $('input[name="days[]"]:checked').each(function() {
-          values.push($(this).val());
-        });
-        params["days"] = values.join("");
-      }
+          /* Departments */
+          if ($scope.department) {
+            params["dept"] = $scope.department;
+          }
 
-      /* Subject */
-      if ($scope.subject) {
-        params["subject"] = $scope.subject;
-      }
+          /* Class Types */
+          if ($scope.classtype) {
+            params["classtype"] = $scope.classtype;
+          }
 
-      /* Departments */
-      if ($scope.department) {
-        params["dept"] = $scope.department;
-      }
+          /* School */
+          if ($scope.school) {
+            params["school"] = $scope.school;
+          }
 
-      /* Class Types */
-      if ($scope.classtype) {
-        params["classtype"] = $scope.classtype;
-      }
+          /* Course Levels */
+          if (val = $('#levels').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
+              params["level"] = from + "-" + to;
+            }
+          }
 
-      /* School */
-      if ($scope.school) {
-        params["school"] = $scope.school;
-      }
+          /* Times */
+          if (val = $('#times').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
+              params["miltimefrom"] = from;
+              params["miltimeto"] = to;
+            }
+          }
 
-      /* Course Levels */
-      if (val = $('#levels').val()) {
-        var from = parseInt(val[0]);
-        var to = parseInt(val[1]);
-        if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
-          params["level"] = from + "-" + to;
-        }
-      }
+          /* only process if keywords is not empty */
+          if (params["key"]) {
+            params["moreresults"] = 2;
 
-      /* Times */
-      if (val = $('#times').val()) {
-        var from = parseInt(val[0]);
-        var to = parseInt(val[1]);
-        if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
-          params["miltimefrom"] = from;
-          params["miltimeto"] = to;
-        }
-      }
-
-      /* only process if keywords is not empty */
-      if (params["key"]) {
-        params["moreresults"] = 2;
-
-        if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
-          $scope.global.moreFiltersShown = 0;
-        }
-
-/*
-        if ($scope.currentPage != 'courses') {
-          $scope.mobileToggleSearch();
-        }
-*/
-
-        $("#course-list").addClass("changed");
-
-
-        $timeout(function() {
-          var newLocation = decodeURIComponent("#/courses/"+ keywords);
-
-          var currentLocation = (location.href.split("#")[1]) ? decodeURIComponent("#" + location.href.split("#")[1]) : "";
-          if (currentLocation != newLocation) {
-            if ($scope.debug == 1) {
-              newLocation += "?debug=1";
+            if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
+              $scope.global.moreFiltersShown = 0;
             }
 
-            document.location.hash = newLocation;
-          }
-        }, 0);
+    /*
+            if ($scope.currentPage != 'courses') {
+              $scope.mobileToggleSearch();
+            }
+    */
 
-        var runRefresh = 0;
-        if (angular.toJson(params) !== angular.toJson(paramsHistory)) {
-          runRefresh = 1;
-        }
-        else if ($scope.courses) {
-          if (!$scope.courses.data) {
-            runRefresh = 1;
-          }
-          else {
-            if (Object.keys($scope.courses.data).length === 0) {
+            $("#course-list").addClass("changed");
+
+
+            $timeout(function() {
+              var newLocation = decodeURIComponent("#/courses/"+ keywords);
+
+              var currentLocation = (location.href.split("#")[1]) ? decodeURIComponent("#" + location.href.split("#")[1]) : "";
+              if (currentLocation != newLocation) {
+                if ($scope.debug == 1) {
+                  newLocation += "?debug=1";
+                }
+
+                document.location.hash = newLocation;
+              }
+            }, 0);
+
+            var runRefresh = 0;
+            if (angular.toJson(params) !== angular.toJson(paramsHistory)) {
               runRefresh = 1;
             }
-          }
-        }
-
-        if (runRefresh) {
-          paramsHistory = params;
-
-          if ($scope.courses.data) {
-            $scope.coursesReady = 0;
-
-            $scope.courses = {};
-          }
-
-          $scope.noResults = false;
-
-          $http({
-            "method": "GET",
-            "url": "doc-adv-queries.php",
-            "params": params
-          })
-          .success(function(data, status, headers, config) {
-            $scope.courses.data = $scope.processCoursesData(data);
-
-            $scope.active.expandCollapseAll = {};
-
-            $scope.coursesInQuery = 0;
-            $scope.coursesInQueryExceeded = 0;
-            for (term in $scope.courses.data) {
-              $scope.coursesInQuery += $scope.courses.data[term].coursesCount;
-              if ($scope.courses.data[term].coursesCount > 100) {
-                $scope.coursesInQueryExceeded = 1;
+            else if ($scope.courses) {
+              if (!$scope.courses.data) {
+                runRefresh = 1;
+              }
+              else {
+                if (Object.keys($scope.courses.data).length === 0) {
+                  runRefresh = 1;
+                }
               }
             }
-            if ($scope.coursesInQuery == 302) {
-              $scope.coursesInQueryExceeded = 1;
-            }
 
-            if ($scope.courses.data[$scope.global.variables.current_term_year]) {
-              $scope.setActiveTab($scope.global.variables.current_term_year);
-              $scope.setActiveTabIndex($scope.courses.data[$scope.global.variables.current_term_year].index);
-            }
-            else if (Object.keys($scope.courses.data)[0]) {
-              var keys = Object.keys($scope.courses.data);
-              keys.sort();
+            if (runRefresh) {
+              paramsHistory = params;
 
-              $scope.setActiveTab(keys[0]);
-              $scope.setActiveTabIndex(0);
-            }
+              if ($scope.courses.data) {
+                $scope.coursesReady = 0;
 
-            $scope.noResults = ($scope.termsCount) ? false : true;
+                $scope.courses = {};
+              }
 
-            $("#course-list").removeClass("changed");
-            $("#search-button").button('reset');
-            refreshRunning = 0;
+              $scope.noResults = false;
 
-            $scope.global.searchResultsReady = 1;
+              $http({
+                "method": "GET",
+                "url": "doc-adv-queries.php",
+                "params": params
+              })
+              .success(function(data, status, headers, config) {
+                $scope.courses.data = $scope.processCoursesData(data);
 
-            $scope.scrollToCourses();
+                $scope.active.expandCollapseAll = {};
 
-            var gaParams = params;
-            delete gaParams.moreresults;
-            ga('send', 'pageview', {
-              'page': '/courses/'+ decodeURIComponent(gaParams.key) +'?' + $.param(gaParams),
-              'title': 'Course Search for "'+ gaParams.key +'"'
-            });
-          })
-          .error(function(data, status, headers, config) {
-            $("#course-list").removeClass("changed");
-            $("#search-button").button('reset');
-            refreshRunning = 0;
+                $scope.coursesInQuery = 0;
+                $scope.coursesInQueryExceeded = 0;
+                for (term in $scope.courses.data) {
+                  $scope.coursesInQuery += $scope.courses.data[term].coursesCount;
+                  if ($scope.courses.data[term].coursesCount > 100) {
+                    $scope.coursesInQueryExceeded = 1;
+                  }
+                }
+                if ($scope.coursesInQuery == 302) {
+                  $scope.coursesInQueryExceeded = 1;
+                }
 
-            ga('send', 'exception', {
-              'exDescription': 'Search ('+ keywords +') failed',
-              'exFatal': false
-            });
+                if ($scope.courses.data[$scope.global.variables.current_term_year]) {
+                  $scope.setActiveTab($scope.global.variables.current_term_year);
+                  $scope.setActiveTabIndex($scope.courses.data[$scope.global.variables.current_term_year].index);
+                }
+                else if (Object.keys($scope.courses.data)[0]) {
+                  var keys = Object.keys($scope.courses.data);
+                  keys.sort();
 
-            return false;
-          });
-        }
-        else {
-          $("#course-list").removeClass("changed");
-          $("#search-button").button('reset');
-          refreshRunning = 0;
+                  $scope.setActiveTab(keys[0]);
+                  $scope.setActiveTabIndex(0);
+                }
 
-          $scope.scrollToCourses();
-        }
-      }
-      else {
-        $("#course-list").removeClass("changed");
+                $scope.noResults = ($scope.termsCount) ? false : true;
 
-        $("#search-button").button('error').addClass('error');
+                $("#course-list").removeClass("changed");
+                $("#search-button").button('reset');
+                refreshRunning = 0;
 
-        $("#search").one("change keypress", function() {
-          $("#search-button").button('reset');
-          $("#search-button").removeClass('error');
-        })
+                $scope.global.searchResultsReady = 1;
 
-        if (!Modernizr.touch) {
-          try {
-            $scope.form.search.on('focus', function(event) {
-              scope.$evalAsync(function() {
-                fn(scope, {$event:event});
+                $scope.scrollToCourses();
+
+                var gaParams = params;
+                delete gaParams.moreresults;
+                ga('send', 'pageview', {
+                  'page': '/courses/'+ decodeURIComponent(gaParams.key) +'?' + $.param(gaParams),
+                  'title': 'Course Search for "'+ gaParams.key +'"'
+                });
+              })
+              .error(function(data, status, headers, config) {
+                $("#course-list").removeClass("changed");
+                $("#search-button").button('reset');
+                refreshRunning = 0;
+
+                ga('send', 'exception', {
+                  'exDescription': 'Search ('+ keywords +') failed',
+                  'exFatal': false
+                });
+
+                return false;
               });
-            });
-          }
-          catch(err) {
-          }
-        }
+            }
+            else {
+              $("#course-list").removeClass("changed");
+              $("#search-button").button('reset');
+              refreshRunning = 0;
 
-        refreshRunning = 0;
+              $scope.scrollToCourses();
+            }
+          }
+          else {
+            $("#course-list").removeClass("changed");
+
+            $("#search-button").button('error').addClass('error');
+
+            $("#search").one("change keypress", function() {
+              $("#search-button").button('reset');
+              $("#search-button").removeClass('error');
+            })
+
+            if (!Modernizr.touch) {
+              try {
+                $scope.form.search.on('focus', function(event) {
+                  scope.$evalAsync(function() {
+                    fn(scope, {$event:event});
+                  });
+                });
+              }
+              catch(err) {
+              }
+            }
+
+            refreshRunning = 0;
+          }
+
+          $("#search-button").blur();
+
+        });
       }
-
-      $("#search-button").blur();
-
-    }
   } /* /refresh() */
 
   $scope.courseHeadingToggle = function(course_id) {
