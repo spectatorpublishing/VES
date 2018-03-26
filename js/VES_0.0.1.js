@@ -4614,9 +4614,18 @@ app.controller("progwidget", function($scope, $http, $timeout) {
 
       $scope.global.progwidgetSelected = true;
 
-      $http.get('https://ves.columbiaspectator.com/majorData?major=' + $scope.program).success(function(data, status, headers, config){
-		// placeholder
-        $scope.programInfo = "<p>" + data + "</p>"
+      $scope.program = ($scope.program).replace('_','-');
+      var my_url = 'http://localhost:3000/api/getMajorData';
+      majorDataGet = $http({
+        "method": "POST",
+        "url": my_url,
+        "data": angular.toJson({'Department': $scope.program}),
+        "headers": {},
+        "responseType": 'json',
+        'ignoreLoadingBar': true
+      });
+      majorDataGet.then(function(data) {
+        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>" // placeholder
 
         if (!$scope.programInfo) {
           $scope.programInfo = "Sorry, no information is available for this program.";
