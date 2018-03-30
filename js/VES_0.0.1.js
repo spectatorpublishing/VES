@@ -4608,6 +4608,55 @@ app.controller("progwidget", function($scope, $http, $timeout) {
     console.log(val);
   }
 
+  /* ===== GARBAGE =====
+  var make_checkbox = function(val, name) {
+    var item = document.createElement("input");
+    item.setAttribute("type", "checkbox");
+    item.setAttribute("name", name);
+    item.setAttribute("value", val);
+    return item;
+  }
+
+  var make_li = function(item) {
+    var li = document.createElement("li");
+    li.appendChild(item);
+    return li;
+  }
+
+  var make_p = function(ptext) {
+  	var p = document.createElement("ins");
+  	p.innerHTML = ptext;
+  	return p;
+  }
+
+  var build_checklist = function(data, name) {
+    // class item (base case) -- treated as one thing
+    var childs = Object.keys(data);
+    console.log(childs);
+    if (childs.indexOf('code')!=-1 && childs.indexOf('title')!=-1) {
+    	// console.log(JSON.stringify(data) + ' B')
+      return make_checkbox(data['code'] + " - " + data['title'], name);
+    }
+
+    // add children to this checklist
+    children = [];
+    for (var i=0; i<childs.length; i++) {
+    	children.push( build_checklist(data[childs[i]], name) );
+    }
+
+    var checklist = document.createElement("form");
+    var p = make_p(Object.keys(data)[0]);
+    checklist.appendChild(p);
+    checklist.appendChild(document.createElement("br"));
+    for (var i=0; i<children.length; i++) {
+    	checklist.appendChild(children[i]);
+    	checklist.appendChild( make_p(children[i].getAttribute("value")));
+    	checklist.appendChild(document.createElement("br"));
+    }
+    return checklist;
+  }
+	*/
+
   $scope.$watch('program', function() {
     if ($scope.program !== undefined && $scope.program !== null) {
       $scope.programInfo = '';
@@ -4615,7 +4664,7 @@ app.controller("progwidget", function($scope, $http, $timeout) {
       $scope.global.progwidgetSelected = true;
 
       $scope.program = ($scope.program).replace('_','-');
-      var my_url = 'http://localhost:3000/api/getMajorData';
+      var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
       majorDataGet = $http({
         "method": "POST",
         "url": my_url,
@@ -4624,21 +4673,28 @@ app.controller("progwidget", function($scope, $http, $timeout) {
         "responseType": 'json',
         'ignoreLoadingBar': true
       });
-      majorDataGet.then(function(data) {
-        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>" // placeholder
 
-        if (!$scope.programInfo) {
-          $scope.programInfo = "Sorry, no information is available for this program.";
-          ga('send', 'event', 'Program Information empty', $scope.program);
-        }
-        else {
-          ga('send', 'event', 'Program Information shown', $scope.program);
-        }
+      majorDataGet.then(function(my_rec_data) {
+        data = my_rec_data['data'];
 
-        $timeout(function() {
-          $("#program-information").scrollTop(0);
-        }, 0);
+		// checklist = build_checklist(data, "majorData");
+        // $scope.programInfo = checklist.outerHTML;
+        // console.log(checklist);
+        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>"; // placeholder
+
       });
+
+      if (!$scope.programInfo) {
+        $scope.programInfo = "Sorry, no information is available for this program.";
+        ga('send', 'event', 'Program Information empty', $scope.program);
+      }
+      else {
+        ga('send', 'event', 'Program Information shown', $scope.program);
+      }
+
+      $timeout(function() {
+        $("#program-information").scrollTop(0);
+      }, 0);
 
       $("#program-information").on("click", "a.unify_course", function(e) {
         e.preventDefault();
