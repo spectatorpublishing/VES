@@ -3,6 +3,19 @@ var sliderTimesStart = [7, 22];
 var sliderLevelsStart = [1000, 9000];
 var fv;
 var gmapLookupCache = {};
+var sidebarFxn;
+
+var changeSidebarFxn = function() {
+	var selected_fxn = $('#sidebar_select').val();
+	if (selected_fxn == 'Requirements') {
+		sidebarFxn = 'Requirements';
+		$('#program_chosen').show();
+	} else {
+		sidebarFxn = 'Swap';
+		$('#program_chosen').css("display","none");
+		$("#program-information .ng-scope").css("display", "none");
+	}
+}
 
 getSemesterFromIndex = function(index) {
 	switch (index) {
@@ -1503,10 +1516,33 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 	}
 
 	$scope.progWidgetToggle = function() {
+
 		$scope.global.showprogwidget = ($scope.global.showprogwidget == 1) ? 0 : 1;
 
 		if ($scope.global.showprogwidget) {
+
 			$("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
+
+			// Add basic html dropdown
+			var form = document.createElement("form");
+			var sel = document.createElement("select");
+			sel.setAttribute("name", "sidebar_fxns");
+			sel.setAttribute("id", "sidebar_select");
+			sel.setAttribute('onChange', 'changeSidebarFxn();');
+
+			vals = ['Select sidebar use','Course Swap','Major Requirements'];
+			for (var i=0; i<vals.length; i++) {
+				var opt = document.createElement("option");
+				opt.setAttribute("value", vals[i].split(" ")[1]);
+				opt.setAttribute("onClick", "changeSidebarFxn();");
+				opt.innerHTML = vals[i];
+				sel.appendChild(opt);
+			}
+			form.appendChild(sel);
+			var heading = $('.heading').get(0);
+			heading.insertBefore(form, heading.firstChild);
+
+			$('#program_chosen').css('display', 'none');
 		}
 
 		$timeout(function() {
@@ -4615,7 +4651,6 @@ app.controller("teacherwidget", function($scope, CWFeeds) {
 
 
 app.controller("progwidget", function($scope, $http, $timeout) {
-
 	$scope.programInfo = "";
 
 	if ($scope.breakpoint.class != "mobile" && !Modernizr.touch) {
@@ -4650,6 +4685,36 @@ $scope.anchor = function(val) {
 	console.log(val);
 }
 
+var make_checkbox = function(txt) {
+	var div = document.createElement("div");
+
+	var cb = document.createElement("input");
+	cb.setAttribute("value", txt);
+	// cb.setAttribute("name", name);
+	div.appendChild(cb);
+
+	div.innerText = txt;
+	return div;
+}
+
+var build_checklist = function(data) {
+	// class item -- just return checkbox of it
+	var kys = Object.keys(data);
+	if (kys.indexOf('code')!=-1 && kys.indexOf('title')!=-1) {
+		return make_checkbox(kys['code'] + " " + kys['title']);
+	}
+
+	var children = [];
+	var ul = document.createElement("ul");
+	for (var i=0; i<kys.length; i++) {
+		var this_item = data[kys[i]];
+		var this_list = build_checklist(this_item);
+		var li = document.createElement("li");
+		li.appendChild(this_list);
+	}
+	return ul;
+}
+
 $scope.$watch('program', function() {
 	if ($scope.program !== undefined && $scope.program !== null) {
 		$scope.programInfo = '';
@@ -4669,13 +4734,8 @@ $scope.$watch('program', function() {
 
 		majorDataGet.then(function(my_rec_data) {
 			data = my_rec_data['data'];
-
-		// checklist = build_checklist(data, "majorData");
-        // $scope.programInfo = checklist.outerHTML;
-        // console.log(checklist);
-        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>"; // placeholder
-
-    });
+	        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>"; // placeholder
+	    });
 
 		if (!$scope.programInfo) {
 			$scope.programInfo = "Sorry, no information is available for this program.";
