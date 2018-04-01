@@ -4690,27 +4690,60 @@ var make_checkbox = function(txt) {
 
 	var cb = document.createElement("input");
 	cb.setAttribute("value", txt);
-	// cb.setAttribute("name", name);
-	div.appendChild(cb);
+	cb.setAttribute("type", "checkbox");
+	// return cb;
 
 	div.innerText = txt;
+	div.insertBefore(cb, div.firstChild);
 	return div;
 }
 
 var build_checklist = function(data) {
+
+	// comment
+	if (typeof data == 'string') {
+		var b = document.createElement("b");
+		b.innerHTML = data;
+		return b;
+	}
+
+	// array of classes
+	if (data instanceof Array) {
+		var ul = document.createElement("ul");
+		ul.setAttribute("style", "list-style: none");
+		for (var i=0; i<data.length; i++) {
+			var li = document.createElement("li");
+			li.appendChild( build_checklist(data[i]) );
+			ul.appendChild(li);
+		}
+		return ul;
+	}
+
 	// class item -- just return checkbox of it
 	var kys = Object.keys(data);
 	if (kys.indexOf('code')!=-1 && kys.indexOf('title')!=-1) {
-		return make_checkbox(kys['code'] + " " + kys['title']);
+		return make_checkbox(" " + data['code'] + " " + data['title']);
 	}
 
-	var children = [];
-	var ul = document.createElement("ul");
-	for (var i=0; i<kys.length; i++) {
-		var this_item = data[kys[i]];
-		var this_list = build_checklist(this_item);
-		var li = document.createElement("li");
-		li.appendChild(this_list);
+	if (kys.length == 1) {
+		var div = document.createElement("div");
+		var h4 = document.createElement("h4");
+		h4.innerHTML = kys[0];
+		div.appendChild(h4);
+		div.appendChild( build_checklist(data[kys[0]]));
+		return div;
+	} else {
+		var children = [];
+		var ul = document.createElement("ul");
+		ul.setAttribute("style", "list-style: none");
+		for (var i=0; i<kys.length; i++) {
+			var pass_data = {};
+			pass_data[kys[i]] = data[kys[i]];
+			var this_list = build_checklist(pass_data);
+			var li = document.createElement("li");
+			li.appendChild(this_list);
+			ul.appendChild(li);
+		}
 	}
 	return ul;
 }
@@ -4734,7 +4767,9 @@ $scope.$watch('program', function() {
 
 		majorDataGet.then(function(my_rec_data) {
 			data = my_rec_data['data'];
-	        $scope.programInfo = "<p>" + JSON.stringify(data, null, 2) + "</p>"; // placeholder
+			delete data._id;
+			delete data.Department;
+			$scope.programInfo = build_checklist(data);
 	    });
 
 		if (!$scope.programInfo) {
