@@ -2764,7 +2764,7 @@ app.controller("searchfilters", function($scope, $location, $http, $filter, $tim
 
 
 
-      fetch("http://localhost:3000/api/getNicknames", {method: "post"})
+      fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
         .then(function(resp) {
           return resp.json();
         }).then(function(data) {
