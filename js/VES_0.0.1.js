@@ -10,6 +10,7 @@ var changeSidebarFxn = function() {
 	if (selected_fxn == 'Requirements') {
 		sidebarFxn = 'Requirements';
 		$('#school_select').show();
+		showProgBar();
 	} else {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').css("display","none");
@@ -19,7 +20,20 @@ var changeSidebarFxn = function() {
 }
 
 var showProgBar = function() {
-	$('#program_chosen').show();
+	$('#program_chosen').show(); // show prog bar
+
+	/* var deptsList = $("#program_chosen .chosen-drop .chosen-results").get(0);
+	$("#program_chosen .chosen-single").click();
+
+	$("#program_chosen .chosen-drop .chosen-results").empty();
+	var depts = ['Computer Science','American Studies','Statistics'];
+	for (var i=0; i<depts.length; i++) {
+		var litem = document.createElement("li");
+		litem.setAttribute("class", "active-result");
+		litem.setAttribute("data-option-array-index", "\"" + (i+1) + "\"");
+		litem.innerHTML = depts[i];
+		deptsList.appendChild(litem);
+	} */
 }
 
 getSemesterFromIndex = function(index) {
@@ -1551,7 +1565,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			school_sel.setAttribute("id", "school_select");
 			school_sel.setAttribute("onChange", "showProgBar();");
 
-			school_vals = ['Barnard', 'CC', 'GS'];
+			school_vals = ['BC', 'CC', 'GS', 'SEAS'];
 			for (var i=0; i<school_vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", school_vals[i])
@@ -2779,6 +2793,7 @@ $scope.processCoursesData = function(data) {
 } /* /$scope.processCoursesData() */
 
 refresh = function() {
+
 	if (!refreshRunning) {
 		$("#search-button").button('loading');
 
@@ -4781,7 +4796,7 @@ $scope.$watch('program', function() {
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
-			"data": angular.toJson({'Department': $scope.program}),
+			"data": angular.toJson({'Department': $scope.program, "School": $('#school_select').val()}),
 			"headers": {},
 			"responseType": 'json',
 			'ignoreLoadingBar': true
