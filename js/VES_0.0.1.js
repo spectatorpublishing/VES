@@ -9,12 +9,17 @@ var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn == 'Requirements') {
 		sidebarFxn = 'Requirements';
-		$('#program_chosen').show();
+		$('#school_select').show();
 	} else {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').css("display","none");
 		$("#program-information .ng-scope").css("display", "none");
+		$('#school_select').css("display","none");
 	}
+}
+
+var showProgBar = function() {
+	$('#program_chosen').show();
 }
 
 getSemesterFromIndex = function(index) {
@@ -1529,20 +1534,36 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
 			sel.setAttribute('onChange', 'changeSidebarFxn();');
-
-			vals = ['Select sidebar use','Course Swap','Major Requirements'];
+			vals = ['Course Swap','Major Requirements'];
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", vals[i].split(" ")[1]);
-				opt.setAttribute("onClick", "changeSidebarFxn();");
 				opt.innerHTML = vals[i];
 				sel.appendChild(opt);
 			}
 			form.appendChild(sel);
 			var heading = $('.heading').get(0);
+
+			// Add school dropdown
+			var school_form = document.createElement("form");
+			var school_sel = document.createElement("select");
+			school_sel.setAttribute("name", "major_school");
+			school_sel.setAttribute("id", "school_select");
+			school_sel.setAttribute("onChange", "showProgBar();");
+
+			school_vals = ['Barnard', 'CC', 'GS'];
+			for (var i=0; i<school_vals.length; i++) {
+				var opt = document.createElement("option");
+				opt.setAttribute("value", school_vals[i])
+				opt.innerHTML = school_vals[i];
+				school_sel.appendChild(opt);
+			}
+			school_form.appendChild(school_sel);
+			heading.insertBefore(school_form, heading.firstChild);
 			heading.insertBefore(form, heading.firstChild);
 
 			$('#program_chosen').css('display', 'none');
+			$('#school_select').css('display', 'none');
 		}
 
 		$timeout(function() {
@@ -4756,6 +4777,7 @@ $scope.$watch('program', function() {
 
 		$scope.program = ($scope.program).replace('_','-');
 		var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
+		// var my_url = 'http://localhost:3000/api/getMajorData';
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
