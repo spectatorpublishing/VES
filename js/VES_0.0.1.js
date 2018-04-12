@@ -2182,6 +2182,9 @@ angular.element(document).ready(function () {
 		$("body").addClass("full-screen-app");
 	}
 
+	var header = document.querySelector("#program-course-lookup .heading");
+	header.setAttribute("style", "height:100px;");
+
 	if (iOSver = iOSversion()) {
 		if (iOSver[0] < 8) {
 			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
@@ -4890,7 +4893,7 @@ $scope.$watch('program', function() {
 		});
 	}
 	else {
-		$scope.global.progwidgetSelected = false;      
+		$scope.global.progwidgetSelected = false;
 	}
 });
 
