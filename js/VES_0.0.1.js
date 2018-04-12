@@ -2847,96 +2847,111 @@ refresh = function() {
       */
       var nicknamesJson;
 
-      fetch("http://localhost:3000/api/getNicknames", {method: "post"})
-      .then(function(resp) {
-      	return resp.json();
-      }).then(function(data) {
-      	nicknamesJson = data[0];
-      }).then(function() {
-      	$.each(nicknamesJson, function(k, v) {
-      		if(keywords == k) {
-      			keywords = v;
-      		}
-      	});
-      }).then(function() {
-      	console.log(keywords);
-      }).then(function() {
-      	params["key"] = keywords;
+      /*
+      const nickRequest = async() => {
+        const response = await fetch("http://localhost:3000/api/getNicknames", {method: "post"});
+        nicknamesJson = await response.json();
+        console.log(nicknamesJson);
 
-      	/* Credits */
-      	if (val = $('#credits').val()) {
-      		var from = parseInt(val[0]).toPrecision(1);
-      		var to = parseInt(val[1]).toPrecision(1);
-      		if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
-      			params["credit"] = from + "-" + to;
-      		}
-      	}
+        $.each(nicknamesJson[0], function(k, v) {
+          if(keywords == k) {
+            keywords = v;
+            console.log(keywords);
+          }
+        });
+        return keywords;
+      }
+      */
 
-      	/* Semesters */
-      	if ($('input[name="semester[]"]:not(:checked)').length) {
-      		var values = [];
-      		$('input[name="semester[]"]:checked').each(function() {
-      			values.push($(this).val());
-      		});
-      		params["term"] = values.join(",");
-      	}
+      fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
+        .then(function(resp) {
+          return resp.json();
+        }).then(function(data) {
+          nicknamesJson = data[0];
+        }).then(function() {
+          $.each(nicknamesJson, function(k, v) {
+            if(keywords == k) {
+              keywords = v;
+            }
+          });
+        }).then(function() {
+          console.log(keywords);
+        }).then(function() {
+          params["key"] = keywords;
 
-      	/* Days */
-      	if ($('input[name="days[]"]:not(:checked)').length) {
-      		var values = [];
-      		$('input[name="days[]"]:checked').each(function() {
-      			values.push($(this).val());
-      		});
-      		params["days"] = values.join("");
-      	}
+          /* Credits */
+          if (val = $('#credits').val()) {
+            var from = parseInt(val[0]).toPrecision(1);
+            var to = parseInt(val[1]).toPrecision(1);
+            if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
+              params["credit"] = from + "-" + to;
+            }
+          }
 
-      	/* Subject */
-      	if ($scope.subject) {
-      		params["subject"] = $scope.subject;
-      	}
+          /* Semesters */
+          if ($('input[name="semester[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="semester[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["term"] = values.join(",");
+          }
 
-      	/* Departments */
-      	if ($scope.department) {
-      		params["dept"] = $scope.department;
-      	}
+          /* Days */
+          if ($('input[name="days[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="days[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["days"] = values.join("");
+          }
 
-      	/* Class Types */
-      	if ($scope.classtype) {
-      		params["classtype"] = $scope.classtype;
-      	}
+          /* Subject */
+          if ($scope.subject) {
+            params["subject"] = $scope.subject;
+          }
 
-      	/* School */
-      	if ($scope.school) {
-      		params["school"] = $scope.school;
-      	}
+          /* Departments */
+          if ($scope.department) {
+            params["dept"] = $scope.department;
+          }
 
-      	/* Course Levels */
-      	if (val = $('#levels').val()) {
-      		var from = parseInt(val[0]);
-      		var to = parseInt(val[1]);
-      		if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
-      			params["level"] = from + "-" + to;
-      		}
-      	}
+          /* Class Types */
+          if ($scope.classtype) {
+            params["classtype"] = $scope.classtype;
+          }
 
-      	/* Times */
-      	if (val = $('#times').val()) {
-      		var from = parseInt(val[0]);
-      		var to = parseInt(val[1]);
-      		if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
-      			params["miltimefrom"] = from;
-      			params["miltimeto"] = to;
-      		}
-      	}
+          /* School */
+          if ($scope.school) {
+            params["school"] = $scope.school;
+          }
 
-      	/* only process if keywords is not empty */
-      	if (params["key"]) {
-      		params["moreresults"] = 2;
+          /* Course Levels */
+          if (val = $('#levels').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
+              params["level"] = from + "-" + to;
+            }
+          }
 
-      		if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
-      			$scope.global.moreFiltersShown = 0;
-      		}
+          /* Times */
+          if (val = $('#times').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
+              params["miltimefrom"] = from;
+              params["miltimeto"] = to;
+            }
+          }
 
+          /* only process if keywords is not empty */
+          if (params["key"]) {
+            params["moreresults"] = 2;
+
+            if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
+              $scope.global.moreFiltersShown = 0;
+            }
     /*
             if ($scope.currentPage != 'courses') {
               $scope.mobileToggleSearch();
