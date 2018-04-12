@@ -2834,98 +2834,95 @@ refresh = function() {
       }
       */
 
+      fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
+        .then(function(resp) {
+          return resp.json();
+        }).then(function(data) {
+          nicknamesJson = data[0];
+        }).then(function() {
+          $.each(nicknamesJson, function(k, v) {
+            if(keywords == k) {
+              keywords = v;
+            }
+          });
+        }).then(function() {
+          console.log(keywords);
+        }).then(function() {
+          params["key"] = keywords;
 
+          /* Credits */
+          if (val = $('#credits').val()) {
+            var from = parseInt(val[0]).toPrecision(1);
+            var to = parseInt(val[1]).toPrecision(1);
+            if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
+              params["credit"] = from + "-" + to;
+            }
+          }
 
-      fetch("http://localhost:3000/api/getNicknames", {method: "post"})
-      .then(function(resp) {
-      	return resp.json();
-      }).then(function(data) {
-      	nicknamesJson = data[0];
-      }).then(function() {
-      	$.each(nicknamesJson, function(k, v) {
-      		if(keywords == k) {
-      			keywords = v;
-      		}
-      	});
-      }).then(function() {
-      	console.log(keywords);
-      }).then(function() {
-      	params["key"] = keywords;
+          /* Semesters */
+          if ($('input[name="semester[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="semester[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["term"] = values.join(",");
+          }
 
-      	/* Credits */
-      	if (val = $('#credits').val()) {
-      		var from = parseInt(val[0]).toPrecision(1);
-      		var to = parseInt(val[1]).toPrecision(1);
-      		if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
-      			params["credit"] = from + "-" + to;
-      		}
-      	}
+          /* Days */
+          if ($('input[name="days[]"]:not(:checked)').length) {
+            var values = [];
+            $('input[name="days[]"]:checked').each(function() {
+              values.push($(this).val());
+            });
+            params["days"] = values.join("");
+          }
 
-      	/* Semesters */
-      	if ($('input[name="semester[]"]:not(:checked)').length) {
-      		var values = [];
-      		$('input[name="semester[]"]:checked').each(function() {
-      			values.push($(this).val());
-      		});
-      		params["term"] = values.join(",");
-      	}
+          /* Subject */
+          if ($scope.subject) {
+            params["subject"] = $scope.subject;
+          }
 
-      	/* Days */
-      	if ($('input[name="days[]"]:not(:checked)').length) {
-      		var values = [];
-      		$('input[name="days[]"]:checked').each(function() {
-      			values.push($(this).val());
-      		});
-      		params["days"] = values.join("");
-      	}
+          /* Departments */
+          if ($scope.department) {
+            params["dept"] = $scope.department;
+          }
 
-      	/* Subject */
-      	if ($scope.subject) {
-      		params["subject"] = $scope.subject;
-      	}
+          /* Class Types */
+          if ($scope.classtype) {
+            params["classtype"] = $scope.classtype;
+          }
 
-      	/* Departments */
-      	if ($scope.department) {
-      		params["dept"] = $scope.department;
-      	}
+          /* School */
+          if ($scope.school) {
+            params["school"] = $scope.school;
+          }
 
-      	/* Class Types */
-      	if ($scope.classtype) {
-      		params["classtype"] = $scope.classtype;
-      	}
+          /* Course Levels */
+          if (val = $('#levels').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
+              params["level"] = from + "-" + to;
+            }
+          }
 
-      	/* School */
-      	if ($scope.school) {
-      		params["school"] = $scope.school;
-      	}
+          /* Times */
+          if (val = $('#times').val()) {
+            var from = parseInt(val[0]);
+            var to = parseInt(val[1]);
+            if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
+              params["miltimefrom"] = from;
+              params["miltimeto"] = to;
+            }
+          }
 
-      	/* Course Levels */
-      	if (val = $('#levels').val()) {
-      		var from = parseInt(val[0]);
-      		var to = parseInt(val[1]);
-      		if (!(from == sliderLevelsStart[0] && to == sliderLevelsStart[1])) {
-      			params["level"] = from + "-" + to;
-      		}
-      	}
+          /* only process if keywords is not empty */
+          if (params["key"]) {
+            params["moreresults"] = 2;
 
-      	/* Times */
-      	if (val = $('#times').val()) {
-      		var from = parseInt(val[0]);
-      		var to = parseInt(val[1]);
-      		if (!(from == sliderTimesStart[0] && to == sliderTimesStart[1])) {
-      			params["miltimefrom"] = from;
-      			params["miltimeto"] = to;
-      		}
-      	}
-
-      	/* only process if keywords is not empty */
-      	if (params["key"]) {
-      		params["moreresults"] = 2;
-
-      		if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
-      			$scope.global.moreFiltersShown = 0;
-      		}
-
+            if ($scope.currentPage == 'home') { /* if home->courses, collapse expanded filters */
+              $scope.global.moreFiltersShown = 0;
+            }
     /*
             if ($scope.currentPage != 'courses') {
               $scope.mobileToggleSearch();
