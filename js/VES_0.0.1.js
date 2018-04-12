@@ -4,36 +4,25 @@ var sliderLevelsStart = [1000, 9000];
 var fv;
 var gmapLookupCache = {};
 var sidebarFxn;
+var realFilters;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn == 'Requirements') {
 		sidebarFxn = 'Requirements';
 		$('#school_select').show();
+		// $("#program-information .ng-scope").show();
 		showProgBar();
 	} else {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').css("display","none");
-		$("#program-information .ng-scope").css("display", "none");
+		// $("#program-information .ng-scope").css("display", "none");
 		$('#school_select').css("display","none");
 	}
 }
 
 var showProgBar = function() {
 	$('#program_chosen').show(); // show prog bar
-
-	/* var deptsList = $("#program_chosen .chosen-drop .chosen-results").get(0);
-	$("#program_chosen .chosen-single").click();
-
-	$("#program_chosen .chosen-drop .chosen-results").empty();
-	var depts = ['Computer Science','American Studies','Statistics'];
-	for (var i=0; i<depts.length; i++) {
-		var litem = document.createElement("li");
-		litem.setAttribute("class", "active-result");
-		litem.setAttribute("data-option-array-index", "\"" + (i+1) + "\"");
-		litem.innerHTML = depts[i];
-		deptsList.appendChild(litem);
-	} */
 }
 
 getSemesterFromIndex = function(index) {
@@ -135,7 +124,7 @@ function getWatchers(root) {
 	var watcherCount = 0;
 	function getElemWatchers(element) {
 		var isolateWatchers = getWatchersFromScope(element.data().$isolateScope);
-		var scopeWatchers = getWatchersFromScope(element.data().$scope);
+		var scopeWatchers = getWatchersFromScope(element.data());
 		var watchers = scopeWatchers.concat(isolateWatchers);
 		angular.forEach(element.children(), function (childElement) {
 			watchers = watchers.concat(getElemWatchers(angular.element(childElement)));
@@ -1118,11 +1107,49 @@ return false;
 });
 
 app.factory('Filters', function($http) {
-	Filters = $http.get('feeds/filters.js');
+	// Filters = $http.get('feeds/filters.js');
 
+	program_courses = [];
+	var my_url = 'http://localhost:3000/api/getDeptData';
+	// var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
+	var schools = ['BC','CC','GS'];
+
+	var promises = [];
+	for (var i=0; i<schools.length; i++) {
+		majorDataGet = $http({
+			"method": "POST",
+			"url": my_url,
+			"data": angular.toJson({"School": schools[i]}),
+			"headers": {},
+			"responseType": 'json',
+			'ignoreLoadingBar': true
+		});
+		promises.push(majorDataGet);
+	}
+
+	Promise.all(promises).then( function(datas) {
+		for (i=0; i<datas.length; i++) {
+			var this_school = JSON.parse(datas[i]['config']['data'])['School'];
+			var new_data = [];
+			var this_data = datas[i]['data'].sort();
+			for (var j=0; j<this_data.length; j++) {
+				var this_item = this_data[j];
+				var label_words = this_item.split("-");
+				for (var k=0; k<label_words.length; k++) {
+					label_words[k] = label_words[k].charAt(0).toUpperCase() + label_words[k].slice(1);
+				}
+				var label = label_words.join(" ");
+				program_courses.push({"label": this_school + ": " + label, "value": this_item})
+			}
+		}
+	})
+
+	Filters = $http.get('feeds/filters.js');
 	return {
 		getVars: function() {
 			return Filters.then(function(result) {
+				// console.log(result);
+				result.data.filters['program_courses'] = program_courses;
 				return result.data;
 			});
 		}
@@ -1557,6 +1584,13 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			}
 			form.appendChild(sel);
 			var heading = $('.heading').get(0);
+
+			//Attempting to change dropdown
+			// target_dropdown = document.querySelector("#program_chosen.chosen-container.chosen-container-single")
+			// target_dropdown.id = "blah"
+			// target_dropdown.classList.remove("chosen-container")
+			// target_dropdown.classList.remove("chosen-container-single")
+
 
 			// Add school dropdown
 			var school_form = document.createElement("form");
@@ -2013,6 +2047,7 @@ Variables.getVars().then(function(result) {
 });
 
 Filters.getVars().then(function(result) {
+	// console.log(result);
 	$scope.global.filters = result.filters;
 });
 
@@ -4785,14 +4820,16 @@ var build_checklist = function(data) {
 }
 
 $scope.$watch('program', function() {
+
+	// $scope.$on('click', function() { console.log("HERE"); })
+
 	if ($scope.program !== undefined && $scope.program !== null) {
 		$scope.programInfo = '';
 
 		$scope.global.progwidgetSelected = true;
 
-		$scope.program = ($scope.program).replace('_','-');
+		// $("#program-information .ng-scope").show()
 		var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
-		// var my_url = 'http://localhost:3000/api/getMajorData';
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
