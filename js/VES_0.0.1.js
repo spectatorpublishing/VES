@@ -4,6 +4,7 @@ var sliderLevelsStart = [1000, 9000];
 var fv;
 var gmapLookupCache = {};
 var sidebarFxn;
+var program_courses;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
@@ -1572,6 +1573,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
 			// Add basic html dropdown
 			var form = document.createElement("form");
+			form.setAttribute("id", "sela_form");
 			var sel = document.createElement("select");
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
@@ -1588,6 +1590,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
 			// Add school dropdown
 			var school_form = document.createElement("form");
+			school_form.setAttribute("id", "schoolform_a")
 			var school_sel = document.createElement("select");
 			school_sel.setAttribute("name", "major_school");
 			school_sel.setAttribute("id", "school_select");
@@ -1606,6 +1609,11 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
 			$('#program_chosen').css('display', 'none');
 			$('#school_select').css('display', 'none');
+		} else {
+			$('#sidebar_select').remove();
+			$('#sela_form').remove();
+			$('#schoolform_a').remove();
+			$('#school_select').remove();
 		}
 
 		$timeout(function() {
@@ -2822,6 +2830,8 @@ $scope.processCoursesData = function(data) {
 } /* /$scope.processCoursesData() */
 
 refresh = function() {
+
+	// window.filters.$$state.value.data['program_courses'] = program_courses;
 
 	if (!refreshRunning) {
 		$("#search-button").button('loading');
