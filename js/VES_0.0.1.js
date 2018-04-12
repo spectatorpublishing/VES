@@ -4,19 +4,16 @@ var sliderLevelsStart = [1000, 9000];
 var fv;
 var gmapLookupCache = {};
 var sidebarFxn;
-var realFilters;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn == 'Requirements') {
 		sidebarFxn = 'Requirements';
 		$('#school_select').show();
-		// $("#program-information .ng-scope").show();
 		showProgBar();
 	} else {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').css("display","none");
-		// $("#program-information .ng-scope").css("display", "none");
 		$('#school_select').css("display","none");
 	}
 }
@@ -1589,13 +1586,6 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			form.appendChild(sel);
 			var heading = $('.heading').get(0);
 
-			//Attempting to change dropdown
-			// target_dropdown = document.querySelector("#program_chosen.chosen-container.chosen-container-single")
-			// target_dropdown.id = "blah"
-			// target_dropdown.classList.remove("chosen-container")
-			// target_dropdown.classList.remove("chosen-container-single")
-
-
 			// Add school dropdown
 			var school_form = document.createElement("form");
 			var school_sel = document.createElement("select");
@@ -2857,24 +2847,6 @@ refresh = function() {
       */
       var nicknamesJson;
 
-      /*
-      const nickRequest = async() => {
-        const response = await fetch("http://localhost:3000/api/getNicknames", {method: "post"});
-        nicknamesJson = await response.json();
-        console.log(nicknamesJson);
-
-        $.each(nicknamesJson[0], function(k, v) {
-          if(keywords == k) {
-            keywords = v;
-            console.log(keywords);
-          }
-        });
-        return keywords;
-      }
-      */
-
-
-
       fetch("http://localhost:3000/api/getNicknames", {method: "post"})
       .then(function(resp) {
       	return resp.json();
@@ -2893,7 +2865,7 @@ refresh = function() {
 
       	/* Credits */
       	if (val = $('#credits').val()) {
-      		var from = parseInt(val[0]).toPr/ecision(1);
+      		var from = parseInt(val[0]).toPrecision(1);
       		var to = parseInt(val[1]).toPrecision(1);
       		if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
       			params["credit"] = from + "-" + to;
