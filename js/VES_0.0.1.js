@@ -1110,8 +1110,10 @@ app.factory('Filters', function($http) {
 	// Filters = $http.get('feeds/filters.js');
 
 	program_courses = [];
-	var my_url = 'http://localhost:3000/api/getDeptData';
-	// var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
+	// var my_url = 'http://localhost:3000/api/getDeptData';
+	// var fn = "local.json";
+
+	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
 	var schools = ['BC','CC','GS'];
 
 	var promises = [];
@@ -1128,6 +1130,8 @@ app.factory('Filters', function($http) {
 	}
 
 	Promise.all(promises).then( function(datas) {
+		// console.log(datas);
+
 		for (i=0; i<datas.length; i++) {
 			var this_school = JSON.parse(datas[i]['config']['data'])['School'];
 			var new_data = [];
@@ -2889,7 +2893,7 @@ refresh = function() {
 
       	/* Credits */
       	if (val = $('#credits').val()) {
-      		var from = parseInt(val[0]).toPrecision(1);
+      		var from = parseInt(val[0]).toPr/ecision(1);
       		var to = parseInt(val[1]).toPrecision(1);
       		if (!(from == sliderCreditsStart[0] && to == sliderCreditsStart[1])) {
       			params["credit"] = from + "-" + to;
