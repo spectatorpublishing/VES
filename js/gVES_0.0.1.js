@@ -16321,7 +16321,19 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
                 console.log(icsMSG);
             }
             saveContent(("data:text/calendar;charset=utf8," + escape(icsMSG)), "calendar.ics");
+            
+            // tryme should be set to "calendarInstructions" before deploy - if you try to store it into a variable, it will not work...
+            // change the string each time you want to wipe out the local storage
+            if (localStorage.getItem("tryme") == null) {    
+                alert("You have successfully downloaded a .ics calendar file of your class schedule.\n\nAdd to iCal: Double click the .ics file and follow the instructions\nAdd to Google Calendar: Open a new tab with Google Calendar, click the plus sign on the left side of the screen, and select import from the list of options to upload your .ics file.");
+                localStorage.setItem("tryme", true);
+            }
+            /*
+            
 
+
+
+            */
             function saveContent(fileContents, fileName)
             {
                 var link = document.createElement('a');
