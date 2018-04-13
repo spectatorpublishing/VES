@@ -1112,7 +1112,7 @@ app.factory('Filters', function($http) {
 	// var fn = "local.json";
 
 	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
-	var schools = ['BC','CC','GS'];
+	var schools = ['BC','CC','GS','SEAS'];
 
 	var promises = [];
 	for (var i=0; i<schools.length; i++) {
