@@ -3367,7 +3367,20 @@ $('#levels').noUiSlider({
   	$timeout(function() {
   		$("#search-button").focus().blur();
   		$scope.form.search = $("#search").typeahead('val');
-  		$scope.searchStart();
+  		nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
+
+  		nicknames.then((result) => {
+  			return result = result.data[0];
+  		})
+  		.then((result) => {
+  			$scope.form.search = $scope.form.search.toLowerCase();
+        $.each(result, function(k, v) {
+          if($scope.form.search === k.toLowerCase()) {
+            $scope.form.search = v;
+          }
+        });
+  			$scope.searchStart();
+  		})
   	}, 0);
   });
 
