@@ -2729,8 +2729,8 @@ $scope.processCoursesData = function(data) {
 					'uci': thisSection.universal_course_identifier,
 					'callNumber': thisSection.call_number,
 					'description': (thisSection.description) ? thisSection.description.trim() : '',
-					'enrollment': (thisSection.enrollment.max && thisSection.enrollment.max != 999) ? thisSection.enrollment.max + ' max' : '',
-					'status': (thisSection.enrollment.status == "F") ? " (Full)" : ' ' + thisSection.enrollment.count + "/" + thisSection.enrollment.max,
+					// 'enrollment': (thisSection.enrollment.max && thisSection.enrollment.max != 999) ? thisSection.enrollment.max + ' max' : '',
+					'status': (thisSection.enrollment.status == "F") ? " (Full)" : ' (' + thisSection.enrollment.count + "/" + thisSection.enrollment.max + ')',
 					'note': thisSection.note,
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
@@ -2882,6 +2882,7 @@ refresh = function() {
         }).then(function(data) {
           nicknamesJson = data[0];
         }).then(function() {
+					keywords = keywords.toLowerCase();
           $.each(nicknamesJson, function(k, v) {
             if(keywords == k) {
               keywords = v;
