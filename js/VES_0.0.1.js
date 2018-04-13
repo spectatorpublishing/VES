@@ -1589,6 +1589,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
 			sel.setAttribute('onChange', 'changeSidebarFxn();');
+
+			var heading = $('.heading').get(0);
+			heading.setAttribute("style", "height:100px;");
+
 			vals = ['Course Swap','Major Requirements'];
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
