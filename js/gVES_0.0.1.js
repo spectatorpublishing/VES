@@ -16321,7 +16321,18 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
                 console.log(icsMSG);
             }
             saveContent(("data:text/calendar;charset=utf8," + escape(icsMSG)), "calendar.ics");
+            
+            var item = "test";      // item should be set to "calendarInstructions" before deploy
+            if (localStorage.getItem(test) == null) {    
+                alert("You have successfully downloaded a .ics calendar file of your class schedule. To add your schedule to iCal, double click the .ics file and follow the instructions. To add your schedule to Google Calendar, open a new tab with Google Calendar, click the plus sign on the left side of the screen, and select import from the list of options to upload your .ics fi");
+                localStorage.setItem(test, true);
+            }
+            /*
+            
 
+
+
+            */
             function saveContent(fileContents, fileName)
             {
                 var link = document.createElement('a');
