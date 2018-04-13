@@ -27,3 +27,9 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 }, {
 urls : ["https://vergil.registrar.columbia.edu/min/g=js?v=1.13.3"]
 }, ["blocking"]);
+
+chrome.browserAction.onClicked.addListener((tab) => {
+  chrome.tabs.update({
+    url: "http://upgradevergil.com"
+  });
+})
