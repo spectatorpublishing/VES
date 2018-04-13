@@ -1169,7 +1169,7 @@ app.factory('CWFeeds', function($http) {
 					nicknamesArray = Object.keys(ourresult.data[0]);
 					nicknamesArray.shift();
 					//https://stackoverflow.com/questions/29719329/convert-array-into-upper-case
-					toUpper = function(x){ 
+					toUpper = function(x){
 					  return x.toUpperCase();
 					};
 					nicknamesArray = nicknamesArray.map(toUpper);
@@ -2746,7 +2746,7 @@ $scope.processCoursesData = function(data) {
 					'callNumber': thisSection.call_number,
 					'description': (thisSection.description) ? thisSection.description.trim() : '',
 					// 'enrollment': (thisSection.enrollment.max && thisSection.enrollment.max != 999) ? thisSection.enrollment.max + ' max' : '',
-					'status': (thisSection.enrollment.status == "F") ? " (Full)" : ' (' + thisSection.enrollment.count + "/" + thisSection.enrollment.max + ')',
+					'status': (thisSection.enrollment.status == "F") ? " (Full)" : (thisSection.enrollment.count != "") ? ' (' + thisSection.enrollment.count + "/" + thisSection.enrollment.max + ')' : " (Empty)",
 					'note': thisSection.note,
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
