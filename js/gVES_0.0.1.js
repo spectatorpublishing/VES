@@ -14260,7 +14260,16 @@ function(a, b) {
         }, AbstractChosen.prototype.include_option_in_results = function(a) {
             var school = document.getElementById("school_select").value;
             // console.log(school, a.text);
-            if (school != null && a.text.slice(0,2) != school) { return false; }
+            if(school != null && a.text.slice(0,2) != school.substring(0,2)) {
+              return false;
+            }
+
+            /*
+            if (school != null && a.text.slice(0,2) != school) {
+              return false;
+            }
+            */
+
             return this.is_multiple && !this.display_selected_options && a.selected ? !1 : !this.display_disabled_options && a.disabled ? !1 : a.empty ? !1 : !0
         }, AbstractChosen.prototype.search_results_touchstart = function(a) {
             return this.touch_started = !0, this.search_results_mouseover(a)
@@ -16103,7 +16112,7 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
         })
     })
 }(jQuery);;
-/*! 
+/*!
  * angular-loading-bar v0.6.0
  * https://chieffancypants.github.io/angular-loading-bar
  * Copyright (c) 2014 Wes Cruver
@@ -16321,15 +16330,15 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
                 console.log(icsMSG);
             }
             saveContent(("data:text/calendar;charset=utf8," + escape(icsMSG)), "calendar.ics");
-            
+
             // tryme should be set to "calendarInstructions" before deploy - if you try to store it into a variable, it will not work...
             // change the string each time you want to wipe out the local storage
-            if (localStorage.getItem("tryme") == null) {    
+            if (localStorage.getItem("tryme") == null) {
                 alert("You have successfully downloaded a .ics calendar file of your class schedule.\n\nAdd to iCal: Double click the .ics file and follow the instructions\nAdd to Google Calendar: Open a new tab with Google Calendar, click the plus sign on the left side of the screen, and select import from the list of options to upload your .ics file.");
                 localStorage.setItem("tryme", true);
             }
             /*
-            
+
 
 
 

@@ -1112,7 +1112,7 @@ app.factory('Filters', function($http) {
 	// var fn = "local.json";
 
 	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
-	var schools = ['BC','CC','GS'];
+	var schools = ['GS','SEAS','CC','BC'];
 
 	var promises = [];
 	for (var i=0; i<schools.length; i++) {
@@ -1611,7 +1611,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			school_sel.setAttribute("id", "school_select");
 			school_sel.setAttribute("onChange", "showProgBar();");
 
-			school_vals = ['BC', 'CC', 'GS', 'SEAS'];
+			school_vals = ['GS','SEAS','CC','BC'];
 			for (var i=0; i<school_vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", school_vals[i])
