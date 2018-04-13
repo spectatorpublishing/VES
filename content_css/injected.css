@@ -1,0 +1,28 @@
+div#program-information {
+  padding: 0;
+}
+
+#program-information ul {
+  padding-left: 1rem;
+}
+
+#program-course-lookup {
+  overflow: auto;
+}
+
+aside div.content {
+  height: unset;
+}
+
+#program-course-lookup select {
+  width: 100%;
+  margin: .5rem 0;
+}
+
+#program-course-lookup div.heading {
+  height: unset;
+}
+
+#program_chosen {
+  padding: .5rem 0;
+}

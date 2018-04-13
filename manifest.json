@@ -21,6 +21,7 @@
     {
       "matches": ["https://vergil.registrar.columbia.edu/*"],
       "js": ["content_scripts/injected.js"],
+      "css": ["content_css/injected.css"],
       "run_at": "document_end"
     }
   ],
