@@ -16320,7 +16320,15 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
             if (settings.debug) {
                 console.log(icsMSG);
             }
-            window.open("data:text/calendar;charset=utf8," + escape(icsMSG));
+            saveContent(("data:text/calendar;charset=utf8," + escape(icsMSG)), "calendar.ics");
+
+            function saveContent(fileContents, fileName)
+            {
+                var link = document.createElement('a');
+                link.download = fileName;
+                link.href = 'data:,' + fileContents;
+                link.click();
+            }
         }
         return this.each(function() {
             var elem = $(this);
