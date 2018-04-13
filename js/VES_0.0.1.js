@@ -1148,12 +1148,32 @@ app.factory('Filters', function($http) {
 
 	Filters = $http.get('feeds/filters.js');
 	return {
-		getVars: function() {
-			return Filters.then(function(result) {
-				// console.log(result);
-				result.data.filters['program_courses'] = program_courses;
-				return result.data;
-			});
+		getVars: 
+		function() {
+			return Promise.all(promises).then( function(datas) {
+				// console.log(datas);
+
+				for (i=0; i<datas.length; i++) {
+					var this_school = JSON.parse(datas[i]['config']['data'])['School'];
+					var new_data = [];
+					var this_data = datas[i]['data'].sort();
+					for (var j=0; j<this_data.length; j++) {
+						var this_item = this_data[j];
+						var label_words = this_item.split("-");
+						for (var k=0; k<label_words.length; k++) {
+							label_words[k] = label_words[k].charAt(0).toUpperCase() + label_words[k].slice(1);
+						}
+						var label = label_words.join(" ");
+						program_courses.push({"label": this_school + ": " + label, "value": this_item})
+					}
+				}
+				return Filters.then(function(result) {
+					// console.log(result);
+					console.log(program_courses)
+					result.data.filters['program_courses'] = program_courses;
+					return result.data;
+				});
+			})
 		}
 	}
 });
@@ -2909,7 +2929,7 @@ refresh = function() {
             }
           });
         }).then(function() {
-          console.log(keywords);
+          //console.log(keywords);
         }).then(function() {
           params["key"] = keywords;
 
