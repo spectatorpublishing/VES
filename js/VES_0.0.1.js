@@ -2125,11 +2125,6 @@ CWFeeds.getVars().then(function(result) {
 		var classSuggestions,
 		classDefaults = [];
 
-		fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
-        .then(function(resp) {
-          return resp.json();
-        })
-
 		classSuggestions = result.class_title;
 
 		if ($scope.global.filters.popular_search_terms) {
@@ -2905,11 +2900,12 @@ refresh = function() {
         .then(function(resp) {
           return resp.json();
         }).then(function(data) {
+        	console.log(data);
           nicknamesJson = data[0];
         }).then(function() {
 					keywords = keywords.toLowerCase();
           $.each(nicknamesJson, function(k, v) {
-            if(keywords == k) {
+            if(keywords === k.toLowerCase()) {
               keywords = v;
             }
           });
