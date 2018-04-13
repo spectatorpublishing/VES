@@ -2750,7 +2750,7 @@ $scope.processCoursesData = function(data) {
 					'callNumber': thisSection.call_number,
 					'description': (thisSection.description) ? thisSection.description.trim() : '',
 					// 'enrollment': (thisSection.enrollment.max && thisSection.enrollment.max != 999) ? thisSection.enrollment.max + ' max' : '',
-					'status': (thisSection.enrollment.status == "F") ? " (Full)" : (thisSection.enrollment.count != "") ? ' (' + thisSection.enrollment.count + "/" + thisSection.enrollment.max + ')' : " (Empty)",
+					'status': (thisSection.enrollment.status == "F") ? " (Full)" : (thisSection.enrollment.count != "") ? ' (' + thisSection.enrollment.count + "/" + thisSection.enrollment.max + ')' : ' (' + 0 + "/" + thisSection.enrollment.max + ')',
 					'note': thisSection.note,
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
