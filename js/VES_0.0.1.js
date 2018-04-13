@@ -1148,7 +1148,7 @@ app.factory('Filters', function($http) {
 
 	Filters = $http.get('feeds/filters.js');
 	return {
-		getVars: 
+		getVars:
 		function() {
 			return Promise.all(promises).then( function(datas) {
 				// console.log(datas);
@@ -2218,6 +2218,11 @@ $timeout(function() {
 }, 2000);
 
 angular.element(document).ready(function () {
+	if (localStorage.getItem("fightme") == null) {
+			alert("Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.");
+			localStorage.setItem("fightme", true);
+	}
+
 	if (window.navigator.standalone == true) {
 		$("body").addClass("full-screen-app");
 	}
