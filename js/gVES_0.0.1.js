@@ -16338,7 +16338,7 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
             {
                 var link = document.createElement('a');
                 link.download = fileName;
-                link.href = 'data:,' + fileContents;
+                link.href = fileContents;
                 link.click();
             }
         }
