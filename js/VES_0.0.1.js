@@ -2880,7 +2880,45 @@ refresh = function() {
         .then(function(resp) {
           return resp.json();
         }).then(function(data) {
-          nicknamesJson = data[0];
+          // nicknamesJson = data[0];
+					nicknamesJson = {
+		        "lithum": "Masterpieces of Western Literature and Philosophy",
+		        "lit hum": "Masterpieces of Western Literature and Philosophy",
+		        "literature humanities": "Masterpieces of Western Literature and Philosophy",
+		        "arthum": "Masterpieces of Western Art",
+		        "art hum": "Masterpieces of Western Art",
+		        "art humanities": "Masterpieces of Western Art",
+		        "musichum": "Masterpieces of Western Music",
+		        "music hum": "Masterpieces of Western Music",
+		        "music humanities": "Masterpieces of Western Music",
+		        "cc": "Introduction to Contemporary Civilization in the West",
+		        "asianhum": "Colloquium on Major Texts: East Asia",
+		        "asian hum": "Colloquium on Major Texts: East Asia",
+		        "asian humanities": "Colloquium on Major Texts: East Asia",
+		        "python": "Introduction to Computing for Engineers and Applied Scientists",
+		        "china civ": "Introduction to East Asian Civilizations: China",
+		        "japan civ": "Introduction to East Asian Civilizations: Japan",
+		        "vietnam civ": "Introduction to East Asian Civilizations: Vietnam",
+		        "korea civ": "Introduction to East Asian Civilizations: Korea",
+		        "korean civ": "Introduction to East Asian Civilizations: Korea",
+		        "pe": "Physical Ed",
+		        "physical education": "Physical Ed",
+		        "uw": "University Writing",
+		        "uwriting": "University Writing",
+		        "frosci": "Frontiers of Science",
+		        "fro sci": "Frontiers of Science",
+		        "aoe": "Art of Engineering",
+		        "mbb": "Mind, Brain, Behavior",
+		        "orgo": "Organic Chemistry",
+						"calculus 1": "CALCULUS I",
+						"calc 1": "CALCULUS I",
+						"calculus 2": "CALCULUS II",
+						"calc 2": "CALCULUS II",
+						"calculus 3": "CALCULUS III",
+						"calc 3": "CALCULUS III",
+						"calculus 4": "CALCULUS IV",
+						"calc 4": "CALCULUS IV"
+		    	};
         }).then(function() {
           $.each(nicknamesJson, function(k, v) {
             if(keywords == k) {
