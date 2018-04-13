@@ -17,6 +17,13 @@
   "browser_action": {
     "default_icon": "icons/V3-16.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://vergil.registrar.columbia.edu/*"],
+      "js": ["content_scripts/injected.js"],
+      "run_at": "document_end"
+    }
+  ],
   "permissions": [
     "webRequest",
     "webRequestBlocking",
@@ -24,6 +31,7 @@
   ],
   "web_accessible_resources": [
    "js/VES_0.0.1.js",
-   "js/gVES_0.0.1.js"
+   "js/gVES_0.0.1.js",
+   "icons/vergil-plain.png"
   ]
 }
