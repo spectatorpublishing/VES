@@ -1160,11 +1160,22 @@ app.factory('Filters', function($http) {
 
 app.factory('CWFeeds', function($http) {
 	CWFeeds = $http.get('feeds/cw.js');
+	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 
 	return {
 		getVars: function() {
 			return CWFeeds.then(function(result) {
-				return result.data;
+				return nicknames.then((ourresult) => {
+					nicknamesArray = Object.keys(ourresult.data[0]);
+					nicknamesArray.shift();
+					//https://stackoverflow.com/questions/29719329/convert-array-into-upper-case
+					toUpper = function(x){ 
+					  return x.toUpperCase();
+					};
+					nicknamesArray = nicknamesArray.map(toUpper);
+					result.data.class_title = nicknamesArray.concat(result.data.class_title);
+					return result.data;
+				});
 			});
 		}
 	}
@@ -2109,6 +2120,11 @@ CWFeeds.getVars().then(function(result) {
 
 		var classSuggestions,
 		classDefaults = [];
+
+		fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
+        .then(function(resp) {
+          return resp.json();
+        })
 
 		classSuggestions = result.class_title;
 
