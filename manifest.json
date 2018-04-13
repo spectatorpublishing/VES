@@ -23,6 +23,12 @@
       "js": ["content_scripts/injected.js"],
       "css": ["content_css/injected.css"],
       "run_at": "document_end"
+    },
+    {
+      "matches": ["http://upgradevergil.com/"],
+      "js": ["content_scripts/injected_upgradevergil.js"],
+      "css": ["content_css/injected_upgradevergil.css"],
+      "run_at": "document_start"
     }
   ],
   "permissions": [
