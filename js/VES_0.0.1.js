@@ -2882,6 +2882,7 @@ refresh = function() {
         }).then(function(data) {
           nicknamesJson = data[0];
         }).then(function() {
+					keywords = keywords.toLowerCase();
           $.each(nicknamesJson, function(k, v) {
             if(keywords == k) {
               keywords = v;
