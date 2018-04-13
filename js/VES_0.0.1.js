@@ -1169,7 +1169,7 @@ app.factory('CWFeeds', function($http) {
 					nicknamesArray = Object.keys(ourresult.data[0]);
 					nicknamesArray.shift();
 					//https://stackoverflow.com/questions/29719329/convert-array-into-upper-case
-					toUpper = function(x){ 
+					toUpper = function(x){
 					  return x.toUpperCase();
 					};
 					nicknamesArray = nicknamesArray.map(toUpper);
@@ -1589,6 +1589,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
 			sel.setAttribute('onChange', 'changeSidebarFxn();');
+
+			var heading = $('.heading').get(0);
+			heading.setAttribute("style", "height:100px;");
+
 			vals = ['Course Swap','Major Requirements'];
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
