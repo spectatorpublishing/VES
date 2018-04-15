@@ -34,3 +34,5 @@ chrome.browserAction.onClicked.addListener((tab) => {
   chrome.tabs.update({ 'url': "http://upgradevergil.com" });
 
 })
+
+chrome.runtime.setUninstallURL("http://upgradevergil.com/feedback/");
