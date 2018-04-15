@@ -14259,7 +14259,7 @@ function(a, b) {
             return null != this.options.width ? this.options.width : "" + this.form_field.offsetWidth + "px"
         }, AbstractChosen.prototype.include_option_in_results = function(a) {
             var school = document.getElementById("school_select");
-            if(school != null && a.text.slice(0,2) != school.value) {
+            if(school != null && a.text.slice(0,2) != school.value.substring(0,2)) {
               return false;
             }
             return this.is_multiple && !this.display_selected_options && a.selected ? !1 : !this.display_disabled_options && a.disabled ? !1 : a.empty ? !1 : !0
