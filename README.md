@@ -9,3 +9,5 @@ Department/major requirements are requested in the function arg of "$scope.$watc
 
 ### Smart Search
 For manual searching: the function refresh(), we fetch course nicknames from a VES-Webapp endpoint and, if the search term is found, replace the colloquial term with the official term. For user clicking colloquial term from dropdown: $('#search').on("typeahead:selected") takes a callback function where we switch the term to its official name for Vergil to search.
+
+**VES-Webapp documentation can be found [here](https://github.com/spectatorpublishing/VES-Webapp)**
