@@ -8,11 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.7] - 2018-04-15
 ### Added
-- Changelog by @Ray725.
+- Changelog from @Ray725.
 
 ### Changed
 - Uninstall of extension leads to feedback page from @Ray725.
 - Clicking on chrome icon opens upgradevergil.com in new tab from @Ray725.
 
 ### Removed
-- Barnard
+- Barnard removed from school dropdown from @pecom.
