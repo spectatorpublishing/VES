@@ -5,6 +5,8 @@ var fv;
 var gmapLookupCache = {};
 var sidebarFxn;
 var program_courses;
+//Only download nicknames once and store it globally
+var nicknames;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
@@ -1151,7 +1153,7 @@ app.factory('Filters', function($http) {
 				}
 				return Filters.then(function(result) {
 					// console.log(result);
-					console.log(program_courses)
+					//console.log(program_courses)
 					result.data.filters['program_courses'] = program_courses;
 					return result.data;
 				});
@@ -1162,7 +1164,6 @@ app.factory('Filters', function($http) {
 
 app.factory('CWFeeds', function($http) {
 	CWFeeds = $http.get('feeds/cw.js');
-	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 
 	return {
 		getVars: function() {
@@ -1476,6 +1477,8 @@ app.controller("courses", function($scope, $routeParams) {
 */
 
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
+	//Instantiate nicknames
+	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 	$scope.global = {
 		variables: {},
 		basicFiltersShown: 1,
@@ -2896,16 +2899,13 @@ refresh = function() {
       }
       */
 
-      fetch("https://ves.columbiaspectator.com/api/getNicknames", {method: "post"})
+      nicknames
         .then(function(resp) {
-          return resp.json();
-        }).then(function(data) {
-        	console.log(data);
-          nicknamesJson = data[0];
+        	//console.log(resp);
+          nicknamesJson = resp.data[0];
         }).then(function() {
-					keywords = keywords.toLowerCase();
           $.each(nicknamesJson, function(k, v) {
-            if(keywords === k.toLowerCase()) {
+            if(keywords.toLowerCase() === k.toLowerCase()) {
               keywords = v;
             }
           });
@@ -3367,7 +3367,6 @@ $('#levels').noUiSlider({
   	$timeout(function() {
   		$("#search-button").focus().blur();
   		$scope.form.search = $("#search").typeahead('val');
-  		nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 
   		nicknames.then((result) => {
   			return result = result.data[0];
