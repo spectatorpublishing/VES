@@ -1,4 +1,3 @@
-;
 window.Modernizr = function(a, b, c) {
         function z(a) {
             j.cssText = a
@@ -14259,9 +14258,11 @@ function(a, b) {
             return null != this.options.width ? this.options.width : "" + this.form_field.offsetWidth + "px"
         }, AbstractChosen.prototype.include_option_in_results = function(a) {
             var school = document.getElementById("school_select");
-            if(school != null && a.text.slice(0,2) != school.value.substring(0,2)) {
-              return false;
-            }
+            if (this.container[0].getAttribute("id")=="program_chosen") {
+	            if(a.text.slice(0,2) != school.value.substring(0,2)) {
+	              return false;
+	            }
+	        }
             return this.is_multiple && !this.display_selected_options && a.selected ? !1 : !this.display_disabled_options && a.disabled ? !1 : a.empty ? !1 : !0
         }, AbstractChosen.prototype.search_results_touchstart = function(a) {
             return this.touch_started = !0, this.search_results_mouseover(a)
