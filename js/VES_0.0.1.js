@@ -1602,7 +1602,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", vals[i].split(" ")[1]);
-				if (vals[i] === 'Course Swap') opt.disabled = true;
+				// if (vals[i] === 'Course Swap') opt.disabled = true;
 				opt.innerHTML = vals[i];
 				sel.appendChild(opt);
 			}
