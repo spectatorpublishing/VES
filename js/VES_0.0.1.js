@@ -4890,7 +4890,29 @@ $scope.$watch('program', function() {
 			var travel_data = data.Department;
 			delete data._id;
 			delete data.Department;
-			$scope.programInfo = build_checklist(data, travel_data);
+
+			$scope.sendEmailFxn = function() {
+		    	console.log("Email!");
+		    	sendEmail = $http({
+					"method": "POST",
+					"url": my_url,
+					"data": angular.toJson({'program': $scope.program}),
+					"headers": {},
+					"responseType": 'json',
+					'ignoreLoadingBar': true
+				});
+				sendEmail.then(function(data) { console.log("Email sent for " + $scope.program); });
+		    };
+
+			my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
+		    var bad_data_btn = document.createElement("button");
+		    bad_data_btn.innerHTML = "Inaccurate data?";
+		    bad_data_btn.setAttribute("style","color: black");
+		    bad_data_btn.setAttribute("id", "badData");
+		    bad_data_btn.setAttribute('ng-click', 'sendEmailFxn()');
+
+		    $scope.programInfo = bad_data_btn.outerHTML;
+			$scope.programInfo += build_checklist(data, travel_data).outerHTML;
 	    });
 
 		if (!$scope.programInfo) {
