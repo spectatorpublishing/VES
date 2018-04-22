@@ -1135,7 +1135,6 @@ app.factory('Filters', function($http) {
 		getVars:
 		function() {
 			return Promise.all(promises).then( function(datas) {
-				// console.log(datas);
 
 				for (i=0; i<datas.length; i++) {
 					var this_school = JSON.parse(datas[i]['config']['data'])['School'];
@@ -1148,7 +1147,10 @@ app.factory('Filters', function($http) {
 							label_words[k] = label_words[k].charAt(0).toUpperCase() + label_words[k].slice(1);
 						}
 						var label = label_words.join(" ");
-						program_courses.push({"label": this_school + ": " + label, "value": this_item})
+						var to_insert = {"label": this_school + ": " + label, "value": this_item};
+						if (program_courses.indexOf(to_insert)<0) {
+							program_courses.push(to_insert);
+						}
 					}
 				}
 				return Filters.then(function(result) {
@@ -4890,12 +4892,14 @@ $scope.$watch('program', function() {
 			delete data._id;
 			delete data.Department;
 
+			var this_prog = $('#program_chosen').get(0).firstChild.firstChild.innerHTML;
+
 			$scope.sendEmailFxn = function() {
 		    	console.log("Email!");
 		    	sendEmail = $http({
 					"method": "POST",
 					"url": my_url,
-					"data": angular.toJson({'program': $scope.program}),
+					"data": angular.toJson({'program': this_prog}),
 					"headers": {},
 					"responseType": 'json',
 					'ignoreLoadingBar': true
