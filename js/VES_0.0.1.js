@@ -4891,12 +4891,14 @@ $scope.$watch('program', function() {
 			delete data._id;
 			delete data.Department;
 
+			var this_prog = $('#program_chosen').get(0).firstChild.firstChild.innerHTML;
+
 			$scope.sendEmailFxn = function() {
 		    	console.log("Email!");
 		    	sendEmail = $http({
 					"method": "POST",
 					"url": my_url,
-					"data": angular.toJson({'program': $scope.program}),
+					"data": angular.toJson({'program': this_prog}),
 					"headers": {},
 					"responseType": 'json',
 					'ignoreLoadingBar': true
