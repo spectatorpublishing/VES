@@ -1113,7 +1113,7 @@ app.factory('Filters', function($http) {
 	// var fn = "local.json";
 
 	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
-	var schools = ['GS','SEAS','CC','BC'];
+	var schools = ['GS','SEAS','CC'];
 
 	var promises = [];
 	for (var i=0; i<schools.length; i++) {
@@ -1133,7 +1133,6 @@ app.factory('Filters', function($http) {
 		getVars:
 		function() {
 			return Promise.all(promises).then( function(datas) {
-				// console.log(datas);
 
 				for (i=0; i<datas.length; i++) {
 					var this_school = JSON.parse(datas[i]['config']['data'])['School'];
@@ -1146,7 +1145,10 @@ app.factory('Filters', function($http) {
 							label_words[k] = label_words[k].charAt(0).toUpperCase() + label_words[k].slice(1);
 						}
 						var label = label_words.join(" ");
-						program_courses.push({"label": this_school + ": " + label, "value": this_item})
+						var to_insert = {"label": this_school + ": " + label, "value": this_item};
+						if (program_courses.indexOf(to_insert)<0) {
+							program_courses.push(to_insert);
+						}
 					}
 				}
 				return Filters.then(function(result) {
@@ -1614,7 +1616,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			school_sel.setAttribute("id", "school_select");
 			school_sel.setAttribute("onChange", "showProgBar();");
 
-			school_vals = ['CC','SEAS','GS','BC'];
+			school_vals = ['CC','SEAS','GS'];
 			for (var i=0; i<school_vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", school_vals[i])
