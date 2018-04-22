@@ -10,15 +10,17 @@ var nicknames;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
-	if (selected_fxn == 'Major Requirements Checklists') {
+	if (selected_fxn === 'Requirements') {
 		sidebarFxn = 'Major Requirements Checklists';
 		$('#school_select').show();
+		$('#program_chosen').show();
+		$('#program-information').show();
 		showProgBar();
-	} else {
+	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
-		$('#program_chosen').css("display","none");
-		$('#school_select').css("display","none");
-		$('#program-information').css("display","none");
+		$('#program_chosen').hide();
+		$('#school_select').hide();
+		$('#program-information').hide();
 	}
 }
 
@@ -1477,6 +1479,36 @@ app.controller("courses", function($scope, $routeParams) {
 */
 
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
+	// Allow console logging
+	$scope.listing = {
+		want: new Set(),
+		have: new Set(),
+		log: () => {
+			console.log($scope.listing.want);
+			console.log($scope.listing.have);
+		},
+		hasWant: (item) => {
+			return $scope.listing.want.has(item)
+		},
+		hasHave: (item) => {
+			return $scope.listing.have.has(item)
+		},
+		toggleWant: (item) => {
+			let want = $scope.listing.want;
+			if (want.has(item)) {
+				want.delete(item)
+			}
+			else want.add(item)
+		},
+		toggleHave: (item) => {
+			let have = $scope.listing.have;
+			if (have.has(item)) {
+				have.delete(item)
+			}
+			else have.add(item)
+		}
+	}
+
 	//Instantiate nicknames
 	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 	$scope.global = {
