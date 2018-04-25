@@ -22,7 +22,6 @@ var changeSidebarFxn = function() {
 		$('#program_chosen').hide();
 		$('#school_select').hide();
 		$('#program-information').hide();
-		$('#swaps').show();
 	}
 }
 
@@ -1634,9 +1633,6 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
 			sel.setAttribute('onChange', 'changeSidebarFxn();');
-
-			var swaps = document.createElement("div");
-			swaps.setAttribute("id", "swaps");
 
 			var heading = $('.heading').get(0);
 			//heading.setAttribute("style", "height:100px;");

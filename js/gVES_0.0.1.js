@@ -3718,6 +3718,7 @@ window.Modernizr = function(a, b, c) {
 });
 
 document.onreadystatechange = () => {
+  if(document.readyState === "interactive") {
     $(".class-more-info").append(
         "<dl ng-if=\"::section.universalCourseIdentifier\">" +
         "<dt>Universal Course Identifier</dt>" +
@@ -3728,6 +3729,23 @@ document.onreadystatechange = () => {
         "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.upload(); listing.log()\"" +
         " class=\"btn btn-lg ng-scope btn-success\"></a>")
     $(".course-actions").prepend(add_button)
+    /*
+    $("#program-course-lookup").append(
+      "<div id=\"swaps\">" +
+      "Classes you want to trade out of? <input type=\"text\" name=\"tradeout\"><br>" +
+      "Classes you want to trade into? <input type=\"text\" name=\"tradein\"><br>" +
+      "<button>Submit</button>" +
+      "</div>"
+    )
+    */
+
+    $("#program-course-lookup").append(
+      "<div id=\"swaps\">" +
+      "Classes you want to trade out of? <input type=\"text\" name=\"tradeout\"><br>" +
+      "Classes you want to trade into? <input type=\"text\" name=\"tradein\"><br>" +
+      "<button>Submit</button>" +
+      "</div>").insertAfter("#program-course-lookup");
+  }
 }
 
 ;
