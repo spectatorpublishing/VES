@@ -3729,8 +3729,10 @@ document.onreadystatechange = () => {
         "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.upload(); listing.log()\"" +
         " class=\"btn btn-lg ng-scope btn-success\"></a>")
     $(".course-actions").prepend(add_button)
+
+    console.log($("#program-course-lookup").children());
     /*
-    $("#program-course-lookup").append(
+    $("#program-course-lookup").children()[1].append(
       "<div id=\"swaps\">" +
       "Classes you want to trade out of? <input type=\"text\" name=\"tradeout\"><br>" +
       "Classes you want to trade into? <input type=\"text\" name=\"tradein\"><br>" +
@@ -3740,11 +3742,14 @@ document.onreadystatechange = () => {
     */
 
     $("#program-course-lookup").append(
-      "<div id=\"swaps\">" +
-      "Classes you want to trade out of? <input type=\"text\" name=\"tradeout\"><br>" +
-      "Classes you want to trade into? <input type=\"text\" name=\"tradein\"><br>" +
-      "<button>Submit</button>" +
-      "</div>").insertAfter("#program-course-lookup");
+      `
+      <div id="swaps">
+      Classes you want to trade out of? <input type="text" name="tradeout"><br>
+      Classes you want to trade out into? <input type="text" name="tradein"><br>
+      <button>Submit</button>
+      </div>
+      `
+    )
   }
 }
 
