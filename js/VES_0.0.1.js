@@ -4895,16 +4895,18 @@ $scope.$watch('program', function() {
 			var this_prog = $('#program_chosen').get(0).firstChild.firstChild.innerHTML;
 
 			$scope.sendEmailFxn = function() {
-		    	console.log("Email!");
-		    	sendEmail = $http({
-					"method": "POST",
-					"url": my_url,
-					"data": angular.toJson({'program': this_prog}),
-					"headers": {},
-					"responseType": 'json',
-					'ignoreLoadingBar': true
-				});
-				sendEmail.then(function(data) { console.log("Email sent for " + $scope.program); });
+				var fdbk = prompt("Please tell us the issue with this data so we can fix it!");
+		    	if (fdbk != null) {
+			    	sendEmail = $http({
+						"method": "POST",
+						"url": my_url,
+						"data": angular.toJson({'program': this_prog, "feedback": fdbk}),
+						"headers": {},
+						"responseType": 'json',
+						'ignoreLoadingBar': true
+					});
+					sendEmail.then(function(data) { console.log("Email sent for " + $scope.program); });
+			    }
 		    };
 
 			my_url = 'https://ves.columbiaspectator.com/api/reportBadData';

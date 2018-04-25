@@ -7,6 +7,9 @@ The way Vergil sets up their jQuery-Chosen dropdowns makes it very difficult to 
 ### Major Requirements
 Department/major requirements are requested in the function arg of "$scope.$watch('program')". It calls to VES-Webapp endpoint, which refers to a MongoDB database on the VES-Webapp server.
 
+### Inaccurate Data
+The inaccurate data button for major requirements is created within the function arg of "$scope.$watch('program')". When the button is clicked, it triggers a function that asks for user prompt feedback and then calls a VES-Webapp endpoint to send the email to vergilplus.
+
 ### Smart Search
 For manual searching: the function refresh(), we fetch course nicknames from a VES-Webapp endpoint and, if the search term is found, replace the colloquial term with the official term. For user clicking colloquial term from dropdown: $('#search').on("typeahead:selected") takes a callback function where we switch the term to its official name for Vergil to search.
 
