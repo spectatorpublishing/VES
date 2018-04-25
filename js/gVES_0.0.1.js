@@ -3724,8 +3724,8 @@ document.onreadystatechange = () => {
         "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
         "</dl>"
     )
-    var add_button = $("<a ng-class=\"{ 'btn-danger': listing.hasWant(section.universalCourseIdentifier), 'btn-success': !listing.hasWant(section.universalCourseIdentifier)}\" ng-bind=\"listing.hasWant(section.universalCourseIdentifier) ? 'Remove' : 'Add' \"" +
-        "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.log()\"" +
+    var add_button = $("<a ng-class=\"{ 'btn-danger': listing.hasWant(section.universalCourseIdentifier), 'btn-success': !listing.hasWant(section.universalCourseIdentifier)}\" ng-bind=\"listing.hasWant(section.universalCourseIdentifier) ? 'Remove from Course Swap' : 'Add to Course Swap' \"" +
+        "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.upload(); listing.log()\"" +
         " class=\"btn btn-lg ng-scope btn-success\"></a>")
     $(".course-actions").prepend(add_button)
 }

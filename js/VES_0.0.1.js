@@ -15,12 +15,14 @@ var changeSidebarFxn = function() {
 		$('#school_select').show();
 		$('#program_chosen').show();
 		$('#program-information').show();
+		$('#swaps').hide();
 		showProgBar();
 	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').hide();
 		$('#school_select').hide();
 		$('#program-information').hide();
+		$('#swaps').show();
 	}
 }
 
@@ -1506,6 +1508,11 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				have.delete(item)
 			}
 			else have.add(item)
+		},
+		upload: () => {
+			$(".course-actions").prepend("<a ng-class=\"{ 'btn-danger': listing.hasWant(section.universalCourseIdentifier), 'btn-success': !listing.hasWant(section.universalCourseIdentifier)}\" ng-bind=\"listing.hasWant(section.universalCourseIdentifier) ? 'Remove from Course Swap' : 'Add to Course Swap' \"" +
+	        "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.upload(); listing.log()\"" +
+	        " class=\"btn btn-lg ng-scope btn-success\"></a>");
 		}
 	}
 
@@ -1619,6 +1626,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
 			$("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
 
+
 			// Add basic html dropdown
 			var form = document.createElement("form");
 			form.setAttribute("id", "sela_form");
@@ -1626,6 +1634,9 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			sel.setAttribute("name", "sidebar_fxns");
 			sel.setAttribute("id", "sidebar_select");
 			sel.setAttribute('onChange', 'changeSidebarFxn();');
+
+			var swaps = document.createElement("div");
+			swaps.setAttribute("id", "swaps");
 
 			var heading = $('.heading').get(0);
 			//heading.setAttribute("style", "height:100px;");
@@ -1659,11 +1670,13 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			school_form.appendChild(school_sel);
 			heading.insertBefore(school_form, heading.firstChild);
 			heading.insertBefore(form, heading.firstChild);
+			heading.insertBefore(swaps, heading.firstChild);
 		} else {
 			$('#sidebar_select').remove();
 			$('#sela_form').remove();
 			$('#schoolform_a').remove();
 			$('#school_select').remove();
+			$('#swaps').remove();
 		}
 
 		$timeout(function() {
