@@ -1499,10 +1499,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		want: new Set(),
 		have: new Set(),
 		isEmpty: () => {
-			return $scope.listing.want.size == 0 && $scope.listing.have.size == 0;
+			return $scope.listing.want.size == 0 || $scope.listing.have.size == 0;
 		},
 		emptyAlert: () => {
-			alert("You need to select at least one class you want or class you have!");
+			alert("You need to select at least one class you want and one class you have!");
 		},
 		setToArray: (set) => {
 			return [...set]
@@ -1550,7 +1550,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				console.log("error yo!");
 			}
 			returnJson.uni = uni;
-			alert("Succesfully submitted! Processing now.");
+			alert("Succesfully submitted! Please resubmit if you made a mistake.");
 			console.log(returnJson);
 		}
 	}
