@@ -3757,11 +3757,15 @@ document.onreadystatechange = () => {
         )
 
         $("#program-course-lookup").append(
-            "<div id=\"coreswap\">" +
+          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
+        )
+
+        $("#program-course-lookup").append(
+            "<div ng-if=\"userinfo.data.uni\" id=\"coreswap\">" +
             "<button ng-click=\"listing.toggleMode('I Want This')\">Select sections you want</button>" +
             "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.want)\"><p>{{i}}</p></div>" +
             "<button ng-click=\"listing.toggleMode('I Have This')\">Select the section you have</button>" +
-            "<button ng-click=\"listing.modal();\">Submit!</button>" +
+            "<button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>" +
             "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.have)\"><p>{{i}}</p></div>" +
             "</div>"
         )

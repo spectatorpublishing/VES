@@ -15,12 +15,14 @@ var changeSidebarFxn = function() {
 		$('#school_select').show();
 		$('#program_chosen').show();
 		$('#program-information').show();
+		$('#coreswap').hide();
 		showProgBar();
 	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
 		$('#program_chosen').hide();
 		$('#school_select').hide();
 		$('#program-information').hide();
+		$('#coreswap').show();
 	}
 }
 
@@ -1496,6 +1498,12 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		},
 		want: new Set(),
 		have: new Set(),
+		isEmpty: () => {
+			return $scope.listing.want.size == 0 && $scope.listing.have.size == 0;
+		},
+		emptyAlert: () => {
+			alert("You need to select at least one class you want or class you have!");
+		},
 		setToArray: (set) => {
 			return [...set]
 		},
@@ -1535,7 +1543,14 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			$("#myModal").modal();
 		},
 		upload: () => {
-			console.log("uploaded yo");
+			var returnJson = {};
+			returnJson.want = [...$scope.listing.want];
+			returnJson.have = [...$scope.listing.have];
+			if(returnJson.want.length == 0 && returnJson.have.length == 0) {
+				console.log("error yo!");
+			}
+			returnJson.uni = "randomfiller";
+			console.log(returnJson);
 		}
 	}
 
