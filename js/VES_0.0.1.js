@@ -1541,6 +1541,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				else have.add(item)
 			}
 		},
+		testFilter: (item) => {
+			whitelist = ["CC1001", "CC1002", "CC1100", "CC1010", "GS1010", "S1010", "CC1101", "CC1102", "UN1121", "S1121", "UN1123", "S1123"]
+			return whitelist.includes(item)
+		},
 		modal: () => {
 			$("#myModal").modal();
 		},
