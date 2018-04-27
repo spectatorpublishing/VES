@@ -3752,10 +3752,6 @@ document.onreadystatechange = () => {
         "  </div>"
         )
 
-        $("a[ng-click=\"::setFavorite(section, course)\"").attr(
-            "ng-if", "!listing.choosing"
-        )
-
         $("#program-course-lookup").append(
           "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
         )
@@ -3783,7 +3779,7 @@ document.onreadystatechange = () => {
         //     "</dl>"
         // )
         $(".course-actions").prepend(
-            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.listingValue), 'btn-success': !listing.has(section.listingValue)}\"" +
+            "<a ng-if=\"listing.choosing && listing.testFilter(course.number2)\" ng-class=\"{ 'btn-danger': listing.has(section.listingValue), 'btn-success': !listing.has(section.listingValue)}\"" +
             "ng-bind=\"listing.has(section.listingValue) ? 'Remove' : listing.choosing \"" +
             "ng-click=\"listing.toggle(section.listingValue); listing.log()\"" +
             " class=\"btn btn-lg ng-scope\"></a>"
