@@ -1552,6 +1552,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			returnJson.uni = uni;
 			alert("Succesfully submitted! Please resubmit if you made a mistake.");
 			console.log(returnJson);
+			$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
 		}
 	}
 
