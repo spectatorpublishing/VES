@@ -3736,11 +3736,11 @@ document.onreadystatechange = () => {
         "        <div class=\"modal-item\">" +
         "          <h2>You want:</h2>" +
         "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
-        "           <p>{{i}}</p>" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
         "          </div>" +
         "          <h2>You have:</h2>" +
         "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
-        "           <p>{{i}}</p>" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
         "          </div>" +
         "        </div>" +
         "        <div class=\"modal-footer\">" +
@@ -3764,10 +3764,10 @@ document.onreadystatechange = () => {
         $("#program-course-lookup").append(
             "<div ng-if=\"userinfo.data.uni\" id=\"coreswap\">" +
             "<button ng-click=\"listing.toggleMode('I Want This')\">Select sections you want</button>" +
-            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.want)\"><p>{{i}}</p></div>" +
+            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.want)\"><p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p></div>" +
             "<button ng-click=\"listing.toggleMode('I Have This')\">Select the section you have</button>" +
             "<button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>" +
-            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.have)\"><p>{{i}}</p></div>" +
+            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.have)\"><p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p></div>" +
             "</div>"
         )
 
@@ -3784,9 +3784,9 @@ document.onreadystatechange = () => {
         //     "</dl>"
         // )
         $(".course-actions").prepend(
-            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.universalCourseIdentifier), 'btn-success': !listing.has(section.universalCourseIdentifier)}\"" +
-            "ng-bind=\"listing.has(section.universalCourseIdentifier) ? 'Remove' : listing.choosing \"" +
-            "ng-click=\"listing.toggle(section.universalCourseIdentifier); listing.log()\"" +
+            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.listingValue), 'btn-success': !listing.has(section.listingValue)}\"" +
+            "ng-bind=\"listing.has(section.listingValue) ? 'Remove' : listing.choosing \"" +
+            "ng-click=\"listing.toggle(section.listingValue); listing.log()\"" +
             " class=\"btn btn-lg ng-scope\"></a>"
         )
         $('#success').hide();
