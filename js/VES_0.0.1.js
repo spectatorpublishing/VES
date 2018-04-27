@@ -1481,7 +1481,7 @@ app.controller("courses", function($scope, $routeParams) {
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
 	$scope.custom_modal = {
-		title: "Hello World"
+		title: "Course Swap Submit"
 	}
 
 	// Allow console logging
@@ -1529,7 +1529,13 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 					have.delete(item)
 				}
 				else have.add(item)
-			}	
+			}
+		},
+		modal: () => {
+			$("#myModal").modal();
+		},
+		upload: () => {
+			console.log("uploaded yo");
 		}
 	}
 

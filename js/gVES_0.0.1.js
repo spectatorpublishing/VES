@@ -3725,7 +3725,7 @@ document.onreadystatechange = () => {
 
         $("body").append(
         "<!-- Modal -->" +
-        "  <div class=\"modal fade\" id=\"myModal\" role=\"dialog\">" +
+        "  <div class=\"modal fade\" id=\"myModal\" role=\"dialog\" data-toggle=\"modal\">" +
         "    <div class=\"modal-dialog\">" +
         "      <!-- Modal content-->" +
         "      <div class=\"modal-content\">" +
@@ -3734,10 +3734,18 @@ document.onreadystatechange = () => {
         "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
         "        </div>" +
         "        <div class=\"modal-item\">" +
-        "          <p>Some text in the modal.</p>" +
+        "          <h2>Your wants!</h2>" +
+        "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
+        "           <p>{{i}}</p>" +
+        "          </div>" +
+        "          <h2>Your haves!</h2>" +
+        "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
+        "           <p>{{i}}</p>" +
+        "          </div>" +
         "        </div>" +
         "        <div class=\"modal-footer\">" +
         "          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>" +
+        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload();\" data-dismiss=\"modal\">Submit</button>" +
         "        </div>" +
         "      </div>" +
         "    </div>" +
@@ -3750,9 +3758,10 @@ document.onreadystatechange = () => {
 
         $("#program-course-lookup").append(
             "<div id=\"coreswap\">" +
-            "<button ng-click=\"listing.toggleMode('I Want This')\">Select sections you want</button>" + 
+            "<button ng-click=\"listing.toggleMode('I Want This')\">Select sections you want</button>" +
             "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.want)\"><p>{{i}}</p></div>" +
             "<button ng-click=\"listing.toggleMode('I Have This')\">Select the section you have</button>" +
+            "<button ng-click=\"listing.modal();\">Submit!</button>" +
             "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.have)\"><p>{{i}}</p></div>" +
             "</div>"
         )
@@ -3770,7 +3779,7 @@ document.onreadystatechange = () => {
         //     "</dl>"
         // )
         $(".course-actions").prepend(
-            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.universalCourseIdentifier), 'btn-success': !listing.has(section.universalCourseIdentifier)}\"" + 
+            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.universalCourseIdentifier), 'btn-success': !listing.has(section.universalCourseIdentifier)}\"" +
             "ng-bind=\"listing.has(section.universalCourseIdentifier) ? 'Remove' : listing.choosing \"" +
             "ng-click=\"listing.toggle(section.universalCourseIdentifier); listing.log()\"" +
             " class=\"btn btn-lg ng-scope\"></a>"
