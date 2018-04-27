@@ -10,15 +10,19 @@ var nicknames;
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
-	if (selected_fxn == 'Major Requirements Checklists') {
+	if (selected_fxn === 'Requirements') {
 		sidebarFxn = 'Major Requirements Checklists';
 		$('#school_select').show();
+		$('#program_chosen').show();
+		$('#program-information').show();
+		$('#coreswap').hide();
 		showProgBar();
-	} else {
+	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
-		$('#program_chosen').css("display","none");
-		$('#school_select').css("display","none");
-		$('#program-information').css("display","none");
+		$('#program_chosen').hide();
+		$('#school_select').hide();
+		$('#program-information').hide();
+		$('#coreswap').show();
 	}
 }
 
@@ -1479,6 +1483,96 @@ app.controller("courses", function($scope, $routeParams) {
 */
 
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
+	// Custom modal
+	$scope.custom_modal = {
+		title: "Course Swap Submit"
+	}
+
+	// Allow console logging
+	$scope.listing = {
+		choosing: null,
+		toggleMode: (intent) => {
+			console.log($scope.listing.choosing)
+			console.log(intent)
+			if ($scope.listing.choosing === intent) $scope.listing.choosing = null
+			else $scope.listing.choosing = intent
+			console.log($scope.listing.choosing)
+		},
+		want: new Set(),
+		have: new Set(),
+		isEmpty: () => {
+			return $scope.listing.want.size == 0 || $scope.listing.have.size == 0;
+		},
+		emptyAlert: () => {
+			alert("You need to select at least one class you want and one class you have!");
+		},
+		setToArray: (set) => {
+			return [...set]
+		},
+		log: () => {
+			console.log($scope.listing.want);
+			console.log($scope.listing.have);
+		},
+		has: (item) => {
+			let want = $scope.listing.want
+			let have = $scope.listing.have
+			let choosing = $scope.listing.choosing
+			if (choosing === "I Want This") {
+				return want.has(item)
+			}
+			else if (choosing === "I Have This") {
+				return have.has(item)
+			}
+		},
+		toggle: (item) => {
+			let want = $scope.listing.want
+			let have = $scope.listing.have
+			let choosing = $scope.listing.choosing
+			if (choosing === "I Want This") {
+				if (want.has(item)) {
+					want.delete(item)
+				}
+				else want.add(item)
+			}
+			else if (choosing === "I Have This") {
+				if (have.has(item)) {
+					have.delete(item)
+				}
+				else have.add(item)
+			}
+		},
+		modal: () => {
+			$("#myModal").modal();
+		},
+		upload: (uni) => {
+			var returnJson = {};
+			returnJson.want = [...$scope.listing.want];
+			returnJson.have = [...$scope.listing.have];
+			if(returnJson.want.length == 0 && returnJson.have.length == 0) {
+				console.log("error yo!");
+			}
+
+			console.log(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0);
+
+			returnJson.uni = uni;
+			if(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0) {
+				alert("you're trying to add a class you already have :/");
+				$('#success').hide();
+				$('#submit').show();
+			} else {
+				$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+				$('#success').show();
+				$('#submit').hide();
+			}
+			console.log(returnJson);
+			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
+		},
+		clearsubmit: () => {
+			$('#success').hide();
+			$('#submit').show();
+		}
+	}
+
 	//Instantiate nicknames
 	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 	$scope.global = {
@@ -1604,7 +1698,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", vals[i].split(" ")[1]);
-				if (vals[i] === 'Course Swap') opt.disabled = true;
+				// if (vals[i] === 'Course Swap') opt.disabled = true;
 				opt.innerHTML = vals[i];
 				sel.appendChild(opt);
 			}
@@ -2646,6 +2740,7 @@ $scope.processCoursesData = function(data) {
 					'number': thisCourse.bulletin.code + thisCourse.number,
 					'number2': thisCourse.bulletin.code_2.trim() + thisCourse.number,
 					'subject': thisCourse.subject.long_name,
+					'ribbit': "http://bulletin.columbia.edu/ribbit/index.cgi?page=getcourse.rjs&code=" + thisCourse.subject.subject_code + "%20" + thisCourse.bulletin.code_2.trim() + thisCourse.number,
 					'title': (thisCourse.course_name) ? thisCourse.course_name : thisCourse.classes.class[0].title,
 					'subterm': (deeptest(thisCourse, "subterm.name")) ? thisCourse.subterm.name : null,
 					'headingToggle': 0
@@ -2760,6 +2855,7 @@ $scope.processCoursesData = function(data) {
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
 					'universalCourseIdentifier': thisSection.universal_course_identifier,
+					'listingValue': ((thisCourse.course_name) ? thisCourse.course_name : thisCourse.classes.class[0].title) + ", " + section + ", " + thisSection.universal_course_identifier,
 					'type': thisSection.type.name,
 					'website': thisSection.website.name,
 					'websiteUrl': thisSection.website.url,

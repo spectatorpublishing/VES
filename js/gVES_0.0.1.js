@@ -3717,13 +3717,149 @@ window.Modernizr = function(a, b, c) {
     }, typeof b === K && (a.jQuery = a.$ = m), m
 });
 
+//Ratchet way to inject stuff for angular to go through... note that we only want the below to run once.
+
 document.onreadystatechange = () => {
-    $(".class-more-info").append(
-        "<dl ng-if=\"::section.universalCourseIdentifier\">" +
-        "<dt>Universal Course Identifier</dt>" +
-        "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
-        "</dl>"
-    )
+
+    if (document.readyState === "interactive") {
+
+        var coreswap_css = `
+
+div#coreswap {
+    padding: 1em;
+}
+
+div#coreswap p {
+    margin: 0;
+    color: white;
+}
+
+div#coreswap > p,
+div#coreswap button {
+    margin: 1em auto;
+}
+
+#coreswap p span {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#coreswap .selected-courses {
+    border-radius: 0.4em;
+    background-color: #555;
+}
+
+div#coreswap .selected-courses {
+    padding-top: 0.01em;
+    padding-bottom: 0.01em;
+    border-radius: 0.6em;
+}
+
+#coreswap .selected-courses p {
+    padding: 0.5em;
+    border-radius: 0.4em;
+    background-color: #999;
+    margin: 0.5em;
+}
+
+#coreswap .submit-coreswap {
+    text-align: center
+}
+
+#coreswap .submit-coreswap button {
+    padding: 0.5em;
+    border-radius: 0.4em;
+}
+
+#coreswap .selected-courses {
+    color: white;
+}
+
+        `;
+
+        $("head").append($("<style>").attr("type", "text/css").html(coreswap_css));
+
+        $("body").append(
+        "<!-- Modal -->" +
+        "  <div class=\"modal fade\" id=\"myModal\" role=\"dialog\" data-toggle=\"modal\">" +
+        "    <div class=\"modal-dialog\">" +
+        "      <!-- Modal content-->" +
+        "      <div class=\"modal-content\">" +
+        "        <div class=\"modal-header\">" +
+        "          <a class=\"modal-dismiss\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\"><span class=\"sprite sprite-remove\"></span><span class=\"sr-only\">Close</span></a>" +
+        "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
+        "        </div>" +
+        "        <div class=\"modal-item\">" +
+        "          <h2>You want:</h2>" +
+        "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
+        "          </div>" +
+        "          <h2>You have:</h2>" +
+        "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
+        "          </div>" +
+        "        </div>" +
+        "        <div class=\"modal-footer\">" +
+        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\">Close</button>" +
+        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni);\">Submit</button>" +
+        "          <p id=\"success\" class=\"btn btn-success\">Success!</p>" +
+        "        </div>" +
+        "      </div>" +
+        "    </div>" +
+        "  </div>"
+        )
+
+        $("a[ng-click=\"::setFavorite(section, course)\"").attr(
+            "ng-if", "!listing.choosing"
+        )
+
+        $("#program-course-lookup").append(
+          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
+        )
+
+        $("#program-course-lookup").append(`
+            <div ng-if=\"userinfo.data.uni\" id=\"coreswap\">
+                <p>
+                    <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Want This')\"></span>
+                    <span>Classes I have</span>
+                </p>
+                <div class=\"selected-courses\">
+                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i}}</p>
+                </div>
+                <p>
+                    <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Have This')\"></span>
+                    <span>Classes I want</span>
+                </p>
+                <div class=\"selected-courses\">
+                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i}}</p>
+                </div>
+                <div class=\"submit-coreswap\">
+                    <button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>
+                </div>
+            </div>
+        `)
+
+        $(".class-more-info").append(
+            "<dl ng-if=\"::section.universalCourseIdentifier\">" +
+            "<dt>Universal Course Identifier</dt>" +
+            "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
+            "</dl>"
+        )
+        // $(".class-more-info").append(
+        //     "<dl ng-if=\"::course.ribbit\">" +
+        //     "<dt>Ribbit Link</dt>" +
+        //     "<dd><a ng-href=\"{{course.ribbit}}\">Here</dd>" +
+        //     "</dl>"
+        // )
+        $(".course-actions").prepend(
+            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.listingValue), 'btn-success': !listing.has(section.listingValue)}\"" +
+            "ng-bind=\"listing.has(section.listingValue) ? 'Remove' : listing.choosing \"" +
+            "ng-click=\"listing.toggle(section.listingValue); listing.log()\"" +
+            " class=\"btn btn-lg ng-scope\"></a>"
+        )
+        $('#success').hide();
+        $('#coreswap').hide();
+    }
 }
 
 ;
