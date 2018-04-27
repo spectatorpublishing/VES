@@ -1139,7 +1139,6 @@ app.factory('Filters', function($http) {
 		getVars:
 		function() {
 			return Promise.all(promises).then( function(datas) {
-				// console.log(datas);
 
 				for (i=0; i<datas.length; i++) {
 					var this_school = JSON.parse(datas[i]['config']['data'])['School'];
@@ -1152,7 +1151,10 @@ app.factory('Filters', function($http) {
 							label_words[k] = label_words[k].charAt(0).toUpperCase() + label_words[k].slice(1);
 						}
 						var label = label_words.join(" ");
-						program_courses.push({"label": this_school + ": " + label, "value": this_item})
+						var to_insert = {"label": this_school + ": " + label, "value": this_item};
+						if (program_courses.indexOf(to_insert)<0) {
+							program_courses.push(to_insert);
+						}
 					}
 				}
 				return Filters.then(function(result) {
@@ -4982,7 +4984,33 @@ $scope.$watch('program', function() {
 			var travel_data = data.Department;
 			delete data._id;
 			delete data.Department;
-			$scope.programInfo = build_checklist(data, travel_data);
+
+			var this_prog = $('#program_chosen').get(0).firstChild.firstChild.innerHTML;
+
+			$scope.sendEmailFxn = function() {
+				var fdbk = prompt("Please tell us the issue with this data so we can fix it!");
+		    	if (fdbk != null) {
+			    	sendEmail = $http({
+						"method": "POST",
+						"url": my_url,
+						"data": angular.toJson({'program': this_prog, "feedback": fdbk}),
+						"headers": {},
+						"responseType": 'json',
+						'ignoreLoadingBar': true
+					});
+					sendEmail.then(function(data) { console.log("Email sent for " + $scope.program); });
+			    }
+		    };
+
+			my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
+		    var bad_data_btn = document.createElement("button");
+		    bad_data_btn.innerHTML = "Inaccurate data?";
+		    bad_data_btn.setAttribute("style","color: black");
+		    bad_data_btn.setAttribute("id", "badData");
+		    bad_data_btn.setAttribute('ng-click', 'sendEmailFxn()');
+
+		    $scope.programInfo = bad_data_btn.outerHTML;
+			$scope.programInfo += build_checklist(data, travel_data).outerHTML;
 	    });
 
 		if (!$scope.programInfo) {
