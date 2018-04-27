@@ -3779,35 +3779,35 @@ div#coreswap .selected-courses {
 
         $("head").append($("<style>").attr("type", "text/css").html(coreswap_css));
 
-        $("body").append(
-        "<!-- Modal -->" +
-        "  <div class=\"modal fade\" id=\"myModal\" role=\"dialog\" data-toggle=\"modal\">" +
-        "    <div class=\"modal-dialog\">" +
-        "      <!-- Modal content-->" +
-        "      <div class=\"modal-content\">" +
-        "        <div class=\"modal-header\">" +
-        "          <a class=\"modal-dismiss\" data-dismiss=\"modal\"><span class=\"sprite sprite-remove\"></span><span class=\"sr-only\">Close</span></a>" +
-        "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
-        "        </div>" +
-        "        <div class=\"modal-item\">" +
-        "          <h2>You want:</h2>" +
-        "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
-        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
-        "          </div>" +
-        "          <h2>You have:</h2>" +
-        "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
-        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
-        "          </div>" +
-        "        </div>" +
-        "        <div class=\"modal-footer\">" +
-        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\">Close</button>" +
-        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni); listing.confirmsubmit();\">Submit</button>" +
-        "          <p id=\"success\" class=\"btn btn-success\">Success!</p>" +
-        "        </div>" +
-        "      </div>" +
-        "    </div>" +
-        "  </div>"
-        )
+        $("body").append(`
+        <!-- Modal -->
+          <div class="modal fade" id="myModal" role="dialog" data-toggle="modal">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <a class="modal-dismiss" data-dismiss="modal"><span class="sprite sprite-remove"></span><span class="sr-only">Close</span></a>
+                  <h4 class="modal-title">{{custom_modal.title}}</h4>
+                </div>
+                <div class="modal-item">
+                  <h2>You want:</h2>
+                  <div id="modalwant" ng-repeat="i in listing.setToArray(listing.want)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                  <h2>You have:</h2>
+                  <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+                  <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit();">Submit</button>
+                  <p id="success" class="btn btn-success">Success!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `)
 
         $("#program-course-lookup").append(
           "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
@@ -3817,17 +3817,17 @@ div#coreswap .selected-courses {
             <div ng-if=\"userinfo.data.uni\" id=\"coreswap\">
                 <p>
                     <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Want This')\"></span>
-                    <span>Classes I have</span>
+                    <span>Classes I Want</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i}}</p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
                 </div>
                 <p>
                     <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Have This')\"></span>
-                    <span>Classes I want</span>
+                    <span>Classes I Have</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i}}</p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
                 </div>
                 <div class=\"submit-coreswap\">
                     <button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>
