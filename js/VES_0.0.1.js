@@ -1555,18 +1555,25 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			if(returnJson.want.length == 0 && returnJson.have.length == 0) {
 				console.log("error yo!");
 			}
+
+			console.log(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0);
+
 			returnJson.uni = uni;
+			if(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0) {
+				alert("you're trying to add a class you already have :/");
+				$('#success').hide();
+				$('#submit').show();
+			} else {
+				$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+				$('#success').show();
+				$('#submit').hide();
+			}
 			console.log(returnJson);
-			$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
 			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
 		},
 		clearsubmit: () => {
 			$('#success').hide();
 			$('#submit').show();
-		},
-		confirmsubmit: () => {
-			$('#success').show();
-			$('#submit').hide();
 		}
 	}
 
