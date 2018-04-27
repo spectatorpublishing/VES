@@ -3717,17 +3717,65 @@ window.Modernizr = function(a, b, c) {
     }, typeof b === K && (a.jQuery = a.$ = m), m
 });
 
+//Ratchet way to inject stuff for angular to go through... note that we only want the below to run once.
+
 document.onreadystatechange = () => {
-    $(".class-more-info").append(
-        "<dl ng-if=\"::section.universalCourseIdentifier\">" +
-        "<dt>Universal Course Identifier</dt>" +
-        "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
-        "</dl>"
-    )
-    var add_button = $("<a ng-class=\"{ 'btn-danger': listing.hasWant(section.universalCourseIdentifier), 'btn-success': !listing.hasWant(section.universalCourseIdentifier)}\" ng-bind=\"listing.hasWant(section.universalCourseIdentifier) ? 'Remove' : 'Add' \"" +
-        "ng-click=\"listing.toggleWant(section.universalCourseIdentifier); listing.log()\"" +
-        " class=\"btn btn-lg ng-scope btn-success\"></a>")
-    $(".course-actions").prepend(add_button)
+
+    if (document.readyState === "interactive") {
+
+        $("body").append(
+        "<!-- Modal -->" +
+        "  <div class=\"modal fade\" id=\"myModal\" role=\"dialog\">" +
+        "    <div class=\"modal-dialog\">" +
+        "      <!-- Modal content-->" +
+        "      <div class=\"modal-content\">" +
+        "        <div class=\"modal-header\">" +
+        "          <a class=\"modal-dismiss\" data-dismiss=\"modal\"><span class=\"sprite sprite-remove\"></span><span class=\"sr-only\">Close</span></a>" +
+        "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
+        "        </div>" +
+        "        <div class=\"modal-item\">" +
+        "          <p>Some text in the modal.</p>" +
+        "        </div>" +
+        "        <div class=\"modal-footer\">" +
+        "          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>" +
+        "        </div>" +
+        "      </div>" +
+        "    </div>" +
+        "  </div>"
+        )
+
+        $("a[ng-click=\"::setFavorite(section, course)\"").attr(
+            "ng-if", "!listing.choosing"
+        )
+
+        $("#program-course-lookup").append(
+            "<div id=\"coreswap\">" +
+            "<button ng-click=\"listing.toggleMode('I Want This')\">Select sections you want</button>" + 
+            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.want)\"><p>{{i}}</p></div>" +
+            "<button ng-click=\"listing.toggleMode('I Have This')\">Select the section you have</button>" +
+            "<div style=\"color:white;\" ng-repeat=\"i in listing.setToArray(listing.have)\"><p>{{i}}</p></div>" +
+            "</div>"
+        )
+
+        $(".class-more-info").append(
+            "<dl ng-if=\"::section.universalCourseIdentifier\">" +
+            "<dt>Universal Course Identifier</dt>" +
+            "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
+            "</dl>"
+        )
+        // $(".class-more-info").append(
+        //     "<dl ng-if=\"::course.ribbit\">" +
+        //     "<dt>Ribbit Link</dt>" +
+        //     "<dd><a ng-href=\"{{course.ribbit}}\">Here</dd>" +
+        //     "</dl>"
+        // )
+        $(".course-actions").prepend(
+            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.universalCourseIdentifier), 'btn-success': !listing.has(section.universalCourseIdentifier)}\"" + 
+            "ng-bind=\"listing.has(section.universalCourseIdentifier) ? 'Remove' : listing.choosing \"" +
+            "ng-click=\"listing.toggle(section.universalCourseIdentifier); listing.log()\"" +
+            " class=\"btn btn-lg ng-scope\"></a>"
+        )
+    }
 }
 
 ;

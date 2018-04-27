@@ -1479,33 +1479,57 @@ app.controller("courses", function($scope, $routeParams) {
 */
 
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
+	// Custom modal
+	$scope.custom_modal = {
+		title: "Hello World"
+	}
+
 	// Allow console logging
 	$scope.listing = {
+		choosing: null,
+		toggleMode: (intent) => {
+			console.log($scope.listing.choosing)
+			console.log(intent)
+			if ($scope.listing.choosing === intent) $scope.listing.choosing = null
+			else $scope.listing.choosing = intent
+			console.log($scope.listing.choosing)
+		},
 		want: new Set(),
 		have: new Set(),
+		setToArray: (set) => {
+			return [...set]
+		},
 		log: () => {
 			console.log($scope.listing.want);
 			console.log($scope.listing.have);
 		},
-		hasWant: (item) => {
-			return $scope.listing.want.has(item)
-		},
-		hasHave: (item) => {
-			return $scope.listing.have.has(item)
-		},
-		toggleWant: (item) => {
-			let want = $scope.listing.want;
-			if (want.has(item)) {
-				want.delete(item)
+		has: (item) => {
+			let want = $scope.listing.want
+			let have = $scope.listing.have
+			let choosing = $scope.listing.choosing
+			if (choosing === "I Want This") {
+				return want.has(item)
 			}
-			else want.add(item)
-		},
-		toggleHave: (item) => {
-			let have = $scope.listing.have;
-			if (have.has(item)) {
-				have.delete(item)
+			else if (choosing === "I Have This") {
+				return have.has(item)
 			}
-			else have.add(item)
+		},
+		toggle: (item) => {
+			let want = $scope.listing.want
+			let have = $scope.listing.have
+			let choosing = $scope.listing.choosing
+			if (choosing === "I Want This") {
+				if (want.has(item)) {
+					want.delete(item)
+				}
+				else want.add(item)
+			}
+			else if (choosing === "I Have This") {
+				if (have.has(item)) {
+					have.delete(item)
+				}
+				else have.add(item)
+			}	
 		}
 	}
 
@@ -2676,6 +2700,7 @@ $scope.processCoursesData = function(data) {
 					'number': thisCourse.bulletin.code + thisCourse.number,
 					'number2': thisCourse.bulletin.code_2.trim() + thisCourse.number,
 					'subject': thisCourse.subject.long_name,
+					'ribbit': "http://bulletin.columbia.edu/ribbit/index.cgi?page=getcourse.rjs&code=" + thisCourse.subject.subject_code + "%20" + thisCourse.bulletin.code_2.trim() + thisCourse.number,
 					'title': (thisCourse.course_name) ? thisCourse.course_name : thisCourse.classes.class[0].title,
 					'subterm': (deeptest(thisCourse, "subterm.name")) ? thisCourse.subterm.name : null,
 					'headingToggle': 0
