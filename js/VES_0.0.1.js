@@ -2838,6 +2838,7 @@ $scope.processCoursesData = function(data) {
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
 					'universalCourseIdentifier': thisSection.universal_course_identifier,
+					'listingValue': ((thisCourse.course_name) ? thisCourse.course_name : thisCourse.classes.class[0].title) + ", " + section + ", " + thisSection.universal_course_identifier,
 					'type': thisSection.type.name,
 					'website': thisSection.website.name,
 					'websiteUrl': thisSection.website.url,
