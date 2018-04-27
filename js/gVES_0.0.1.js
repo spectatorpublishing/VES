@@ -3734,18 +3734,19 @@ document.onreadystatechange = () => {
         "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
         "        </div>" +
         "        <div class=\"modal-item\">" +
-        "          <h2>Your wants!</h2>" +
+        "          <h2>You want:</h2>" +
         "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
         "           <p>{{i}}</p>" +
         "          </div>" +
-        "          <h2>Your haves!</h2>" +
+        "          <h2>You have:</h2>" +
         "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
         "           <p>{{i}}</p>" +
         "          </div>" +
         "        </div>" +
         "        <div class=\"modal-footer\">" +
-        "          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>" +
-        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni);\" data-dismiss=\"modal\">Submit</button>" +
+        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\">Close</button>" +
+        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni); listing.confirmsubmit();\">Submit</button>" +
+        "          <p id=\"success\" class=\"btn btn-success\">Success!</p>" +
         "        </div>" +
         "      </div>" +
         "    </div>" +
@@ -3788,6 +3789,8 @@ document.onreadystatechange = () => {
             "ng-click=\"listing.toggle(section.universalCourseIdentifier); listing.log()\"" +
             " class=\"btn btn-lg ng-scope\"></a>"
         )
+        $('#success').hide();
+        $('#coreswap').hide();
     }
 }
 
