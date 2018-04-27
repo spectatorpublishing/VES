@@ -1542,14 +1542,14 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		modal: () => {
 			$("#myModal").modal();
 		},
-		upload: () => {
+		upload: (uni) => {
 			var returnJson = {};
 			returnJson.want = [...$scope.listing.want];
 			returnJson.have = [...$scope.listing.have];
 			if(returnJson.want.length == 0 && returnJson.have.length == 0) {
 				console.log("error yo!");
 			}
-			returnJson.uni = "randomfiller";
+			returnJson.uni = uni;
 			console.log(returnJson);
 		}
 	}

@@ -3745,7 +3745,7 @@ document.onreadystatechange = () => {
         "        </div>" +
         "        <div class=\"modal-footer\">" +
         "          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>" +
-        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload();\" data-dismiss=\"modal\">Submit</button>" +
+        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni);\" data-dismiss=\"modal\">Submit</button>" +
         "        </div>" +
         "      </div>" +
         "    </div>" +
