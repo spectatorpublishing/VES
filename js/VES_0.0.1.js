@@ -1550,6 +1550,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				console.log("error yo!");
 			}
 			returnJson.uni = uni;
+			alert("Succesfully submitted! Processing now.");
 			console.log(returnJson);
 		}
 	}
