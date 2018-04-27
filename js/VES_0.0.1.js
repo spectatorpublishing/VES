@@ -1550,9 +1550,17 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				console.log("error yo!");
 			}
 			returnJson.uni = uni;
-			alert("Succesfully submitted! Please resubmit if you made a mistake.");
 			console.log(returnJson);
 			$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
+		},
+		clearsubmit: () => {
+			$('#success').hide();
+			$('#submit').show();
+		},
+		confirmsubmit: () => {
+			$('#success').show();
+			$('#submit').hide();
 		}
 	}
 
@@ -2838,6 +2846,7 @@ $scope.processCoursesData = function(data) {
 					'openTo': thisSection.open_to,
 					'sectionKey': thisSection.section_key,
 					'universalCourseIdentifier': thisSection.universal_course_identifier,
+					'listingValue': ((thisCourse.course_name) ? thisCourse.course_name : thisCourse.classes.class[0].title) + ", " + section + ", " + thisSection.universal_course_identifier,
 					'type': thisSection.type.name,
 					'website': thisSection.website.name,
 					'websiteUrl': thisSection.website.url,

@@ -3790,18 +3790,19 @@ div#coreswap .selected-courses {
         "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
         "        </div>" +
         "        <div class=\"modal-item\">" +
-        "          <h2>Your wants!</h2>" +
+        "          <h2>You want:</h2>" +
         "          <div id=\"modalwant\" ng-repeat=\"i in listing.setToArray(listing.want)\">" +
-        "           <p>{{i}}</p>" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
         "          </div>" +
-        "          <h2>Your haves!</h2>" +
+        "          <h2>You have:</h2>" +
         "          <div id=\"modalhave\" ng-repeat=\"i in listing.setToArray(listing.have)\">" +
-        "           <p>{{i}}</p>" +
+        "           <p>{{i.split(\", \")[0]}}</br>Section {{i.split(\", \")[1]}}</p>" +
         "          </div>" +
         "        </div>" +
         "        <div class=\"modal-footer\">" +
-        "          <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>" +
-        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni);\" data-dismiss=\"modal\">Submit</button>" +
+        "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\">Close</button>" +
+        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni); listing.confirmsubmit();\">Submit</button>" +
+        "          <p id=\"success\" class=\"btn btn-success\">Success!</p>" +
         "        </div>" +
         "      </div>" +
         "    </div>" +
@@ -3851,11 +3852,13 @@ div#coreswap .selected-courses {
         //     "</dl>"
         // )
         $(".course-actions").prepend(
-            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.universalCourseIdentifier), 'btn-success': !listing.has(section.universalCourseIdentifier)}\"" +
-            "ng-bind=\"listing.has(section.universalCourseIdentifier) ? 'Remove' : listing.choosing \"" +
-            "ng-click=\"listing.toggle(section.universalCourseIdentifier); listing.log()\"" +
+            "<a ng-if=\"listing.choosing\" ng-class=\"{ 'btn-danger': listing.has(section.listingValue), 'btn-success': !listing.has(section.listingValue)}\"" +
+            "ng-bind=\"listing.has(section.listingValue) ? 'Remove' : listing.choosing \"" +
+            "ng-click=\"listing.toggle(section.listingValue); listing.log()\"" +
             " class=\"btn btn-lg ng-scope\"></a>"
         )
+        $('#success').hide();
+        $('#coreswap').hide();
     }
 }
 
