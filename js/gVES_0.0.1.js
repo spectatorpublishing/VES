@@ -3730,7 +3730,7 @@ document.onreadystatechange = () => {
         "      <!-- Modal content-->" +
         "      <div class=\"modal-content\">" +
         "        <div class=\"modal-header\">" +
-        "          <a class=\"modal-dismiss\" data-dismiss=\"modal\"><span class=\"sprite sprite-remove\"></span><span class=\"sr-only\">Close</span></a>" +
+        "          <a class=\"modal-dismiss\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\"><span class=\"sprite sprite-remove\"></span><span class=\"sr-only\">Close</span></a>" +
         "          <h4 class=\"modal-title\">{{custom_modal.title}}</h4>" +
         "        </div>" +
         "        <div class=\"modal-item\">" +
@@ -3745,7 +3745,7 @@ document.onreadystatechange = () => {
         "        </div>" +
         "        <div class=\"modal-footer\">" +
         "          <button type=\"button\" class=\"btn btn-default\" ng-click=\"listing.clearsubmit();\" data-dismiss=\"modal\">Close</button>" +
-        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni); listing.confirmsubmit();\">Submit</button>" +
+        "          <button id=\"submit\" type=\"button\" class=\"btn btn-default\" ng-click=\"listing.upload(userinfo.data.uni);\">Submit</button>" +
         "          <p id=\"success\" class=\"btn btn-success\">Success!</p>" +
         "        </div>" +
         "      </div>" +
