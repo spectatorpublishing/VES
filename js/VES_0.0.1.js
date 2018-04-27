@@ -1554,9 +1554,17 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				console.log("error yo!");
 			}
 			returnJson.uni = uni;
-			alert("Succesfully submitted! Please resubmit if you made a mistake.");
 			console.log(returnJson);
 			$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
+		},
+		clearsubmit: () => {
+			$('#success').hide();
+			$('#submit').show();
+		},
+		confirmsubmit: () => {
+			$('#success').show();
+			$('#submit').hide();
 		}
 	}
 
