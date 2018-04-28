@@ -3816,6 +3816,9 @@ div#coreswap .selected-courses {
         $("#program-course-lookup").append(`
             <div ng-if=\"userinfo.data.uni\" id=\"coreswap\">
                 <p>
+                  Welcome to Course Swap! Search for Core courses in Vergil and click the plus symbol to begin selecting classes you have and want. Then, click submit to post your swap request. Our magic algorithm will let you know when you are matched with someone, and we’ll send you an email with details on how to swap classes. Currently, Lit Hum, Fro Sci, U Writing, Art of Engineering, Contemporary Civilization, Art Hum, and Music Hum are able to be swapped.
+                </p>
+                <p>
                     <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Want This')\"></span>
                     <span>Classes I Want</span>
                 </p>
