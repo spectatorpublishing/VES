@@ -1498,6 +1498,9 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			else $scope.listing.choosing = intent
 			console.log($scope.listing.choosing)
 		},
+		getMode: () => {
+			return $scope.listing.choosing
+		},
 		want: new Set(),
 		have: new Set(),
 		isEmpty: () => {
