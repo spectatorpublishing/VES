@@ -16,6 +16,7 @@ var changeSidebarFxn = function() {
 		$('#program_chosen').show();
 		$('#program-information').show();
 		$('#coreswap').hide();
+		$('#loginprompt').hide();
 		showProgBar();
 	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
@@ -23,6 +24,7 @@ var changeSidebarFxn = function() {
 		$('#school_select').hide();
 		$('#program-information').hide();
 		$('#coreswap').show();
+		$('#loginprompt').show();
 	}
 }
 
@@ -1503,6 +1505,16 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		},
 		want: new Set(),
 		have: new Set(),
+		haveremove: (item) => {
+			$scope.listing.have.delete(item);
+		},
+		wantremove: (item) => {
+			$scope.listing.want.delete(item);
+		},
+		clearListing: () => {
+			$scope.listing.want.clear();
+			$scope.listing.have.clear();
+		},
 		isEmpty: () => {
 			return $scope.listing.want.size == 0 || $scope.listing.have.size == 0;
 		},

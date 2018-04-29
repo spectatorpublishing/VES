@@ -3775,6 +3775,11 @@ div#coreswap .selected-courses {
     color: white;
 }
 
+#loginprompt {
+  text-align: center;
+  margin-top: 1rem;
+}
+
         `;
 
         $("head").append($("<style>").attr("type", "text/css").html(coreswap_css));
@@ -3801,7 +3806,7 @@ div#coreswap .selected-courses {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-                  <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit();">Submit</button>
+                  <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
                   <p id="success" class="btn btn-success">Success!</p>
                 </div>
               </div>
@@ -3810,8 +3815,12 @@ div#coreswap .selected-courses {
         `)
 
         $("#program-course-lookup").append(
-          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
+          `<div id="loginprompt">
+              <a type="button" class="btn btn-success" ng-if="!userinfo.data.uni" href="https://cas.columbia.edu/cas/login?service=ias-qmss&destination=https%3A%2F%2Fvergil.registrar.columbia.edu%2Fcms%2Fuser%2Fwind">Please log in!</a>
+          </div>`
         )
+
+        $('#loginprompt').hide();
 
         $("#program-course-lookup").append(`
             <div ng-if=\"userinfo.data.uni\" id=\"coreswap\">
@@ -3826,7 +3835,7 @@ div#coreswap .selected-courses {
                     <span>Classes I Want</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.wantremove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
                 </div>
                 <p>
                     <span class=\"glyphicon glyphicon-plus btn btn-default\" 
@@ -3836,7 +3845,7 @@ div#coreswap .selected-courses {
                     <span>Classes I Have</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.haveremove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
                 </div>
                 <div class=\"submit-coreswap\">
                     <button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>
