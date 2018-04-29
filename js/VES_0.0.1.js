@@ -1584,6 +1584,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 				$('#submit').hide();
 			}
 			console.log(returnJson);
+			$scope.listing.choosing = null;
 			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
 		},
 		clearsubmit: () => {
