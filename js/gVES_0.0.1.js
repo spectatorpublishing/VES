@@ -3775,6 +3775,11 @@ div#coreswap .selected-courses {
     color: white;
 }
 
+#loginprompt {
+  text-align: center;
+  margin-top: 1rem;
+}
+
         `;
 
         $("head").append($("<style>").attr("type", "text/css").html(coreswap_css));
@@ -3810,7 +3815,9 @@ div#coreswap .selected-courses {
         `)
 
         $("#program-course-lookup").append(
-          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\" style=\"color:white;padding:20px;size:20px;font-size:20px;\">Please log in!</p>"
+          `<div id="loginprompt">
+              <a type="button" class="btn btn-success" ng-if="!userinfo.data.uni" href="https://cas.columbia.edu/cas/login?service=ias-qmss&destination=https%3A%2F%2Fvergil.registrar.columbia.edu%2Fcms%2Fuser%2Fwind">Please log in!</a>
+          </div>`
         )
 
         $('#loginprompt').hide();
