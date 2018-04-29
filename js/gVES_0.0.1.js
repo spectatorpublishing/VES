@@ -3873,6 +3873,7 @@ div#coreswap .selected-courses {
         )
         $('#success').hide();
         $('#coreswap').hide();
+        console.log($('.aside-label').html(`<button type="button" class="btn btn-primary btn-sm" ng-click="::progWidgetToggle()" data-toggle="tooltip" data-placement="left" title="" data-original-title="Search and view a program's requirements" tabindex="0"><span ng-bind="(global.showprogwidget) ? 'Close' : 'Open'" class="ng-binding">Open</span></button> Vergil+ Utilities`));
     }
 }
 
