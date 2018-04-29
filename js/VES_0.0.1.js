@@ -1502,6 +1502,9 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		},
 		want: new Set(),
 		have: new Set(),
+		remove: (item) => {
+			$scope.listing.want.delete(item);
+		},
 		clearListing: () => {
 			$scope.listing.want.clear();
 			$scope.listing.have.clear();
