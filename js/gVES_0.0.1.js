@@ -3832,14 +3832,14 @@ div#coreswap .selected-courses {
                     <span>Classes I Want</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.remove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.wantremove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
                 </div>
                 <p>
                     <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Have This')\"></span>
                     <span>Classes I Have</span>
                 </p>
                 <div class=\"selected-courses\">
-                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
+                    <p ng-repeat=\"i in listing.setToArray(listing.have)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.haveremove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
                 </div>
                 <div class=\"submit-coreswap\">
                     <button ng-click=\"listing.isEmpty() ? listing.emptyAlert() : listing.modal()\">Submit!</button>

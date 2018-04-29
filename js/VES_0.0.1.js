@@ -1502,7 +1502,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		},
 		want: new Set(),
 		have: new Set(),
-		remove: (item) => {
+		haveremove: (item) => {
+			$scope.listing.have.delete(item);
+		},
+		wantremove: (item) => {
 			$scope.listing.want.delete(item);
 		},
 		clearListing: () => {
