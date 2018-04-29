@@ -3819,14 +3819,20 @@ div#coreswap .selected-courses {
                   Welcome to Course Swap! Search for Core courses in Vergil and click the plus symbol to begin selecting classes you have and want. Then, click submit to post your swap request. Our magic algorithm will let you know when you are matched with someone, and we’ll send you an email with details on how to swap classes. Currently, Lit Hum, Fro Sci, U Writing, Art of Engineering, Contemporary Civilization, Art Hum, and Music Hum are able to be swapped.
                 </p>
                 <p>
-                    <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Want This')\"></span>
+                    <span class=\"glyphicon glyphicon-plus btn btn-default\" 
+                            ng-click=\"listing.toggleMode('I Want This')\"
+                            ng-class=\"(listing.getMode() === 'I Want This' ? 'glyphicon-ok' : 'glyphicon-plus')\" >
+                    </span>
                     <span>Classes I Want</span>
                 </p>
                 <div class=\"selected-courses\">
                     <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}</p>
                 </div>
                 <p>
-                    <span class=\"glyphicon glyphicon-plus btn btn-default\" ng-click=\"listing.toggleMode('I Have This')\"></span>
+                    <span class=\"glyphicon glyphicon-plus btn btn-default\" 
+                            ng-click=\"listing.toggleMode('I Have This')\"
+                            ng-class=\"(listing.getMode() === 'I Have This' ? 'glyphicon-ok' : 'glyphicon-plus')\" >
+                    </span>
                     <span>Classes I Have</span>
                 </p>
                 <div class=\"selected-courses\">
