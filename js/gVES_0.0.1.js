@@ -3810,8 +3810,10 @@ div#coreswap .selected-courses {
         `)
 
         $("#program-course-lookup").append(
-          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\">Please log in!</p>"
+          "<p id=\"loginprompt\" ng-if=\"!userinfo.data.uni\" style=\"color:white;padding:20px;size:20px;font-size:20px;\">Please log in!</p>"
         )
+
+        $('#loginprompt').hide();
 
         $("#program-course-lookup").append(`
             <div ng-if=\"userinfo.data.uni\" id=\"coreswap\">

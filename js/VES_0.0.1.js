@@ -16,6 +16,7 @@ var changeSidebarFxn = function() {
 		$('#program_chosen').show();
 		$('#program-information').show();
 		$('#coreswap').hide();
+		$('#loginprompt').hide();
 		showProgBar();
 	} else if (selected_fxn === 'Swap') {
 		sidebarFxn = 'Swap';
@@ -23,6 +24,7 @@ var changeSidebarFxn = function() {
 		$('#school_select').hide();
 		$('#program-information').hide();
 		$('#coreswap').show();
+		$('#loginprompt').show();
 	}
 }
 
