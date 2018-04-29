@@ -3801,7 +3801,7 @@ div#coreswap .selected-courses {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-                  <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit();">Submit</button>
+                  <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
                   <p id="success" class="btn btn-success">Success!</p>
                 </div>
               </div>

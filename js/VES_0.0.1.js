@@ -1502,6 +1502,10 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 		},
 		want: new Set(),
 		have: new Set(),
+		clearListing: () => {
+			$scope.listing.want.clear();
+			$scope.listing.have.clear();
+		},
 		isEmpty: () => {
 			return $scope.listing.want.size == 0 || $scope.listing.have.size == 0;
 		},
