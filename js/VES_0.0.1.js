@@ -1714,7 +1714,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			var heading = $('.heading').get(0);
 			//heading.setAttribute("style", "height:100px;");
 
-			vals = ['Major Requirements Checklists', 'Course Swap'];
+			vals = ['Course Swap', 'Major Requirements Checklists'];
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", vals[i].split(" ")[1]);
@@ -1727,7 +1727,7 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 
 			// Add school dropdown
 			var school_form = document.createElement("form");
-			school_form.setAttribute("id", "schoolform_a")
+			school_form.setAttribute("id", "schoolform_a");
 			var school_sel = document.createElement("select");
 			school_sel.setAttribute("name", "major_school");
 			school_sel.setAttribute("id", "school_select");
@@ -1743,6 +1743,12 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			school_form.appendChild(school_sel);
 			heading.insertBefore(school_form, heading.firstChild);
 			heading.insertBefore(form, heading.firstChild);
+
+			$('#school_select').hide();
+			$('#program_chosen').hide();
+			$('#program-information').hide();
+			$('#coreswap').show();
+			$('#loginprompt').show();
 		} else {
 			$('#sidebar_select').remove();
 			$('#sela_form').remove();
