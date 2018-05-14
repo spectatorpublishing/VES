@@ -1487,7 +1487,7 @@ app.controller("courses", function($scope, $routeParams) {
 app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
 	$scope.custom_modal = {
-		title: "Course Swap Submit"
+		title: "Core Swap Submit"
 	}
 
 	// Allow console logging
@@ -1714,11 +1714,11 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			var heading = $('.heading').get(0);
 			//heading.setAttribute("style", "height:100px;");
 
-			vals = ['Course Swap', 'Major Requirements Checklists'];
+			vals = ['Core Swap', 'Major Requirements Checklists'];
 			for (var i=0; i<vals.length; i++) {
 				var opt = document.createElement("option");
 				opt.setAttribute("value", vals[i].split(" ")[1]);
-				// if (vals[i] === 'Course Swap') opt.disabled = true;
+				// if (vals[i] === 'Core Swap') opt.disabled = true;
 				opt.innerHTML = vals[i];
 				sel.appendChild(opt);
 			}
