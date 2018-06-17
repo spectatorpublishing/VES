@@ -4317,6 +4317,45 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 		}
 	}
 
+	$scope.exportGcal = function() {
+		var events = [];
+		var CLIENT_ID= "685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com"
+		var API_KEY = "AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s";
+		var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+		var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+		$("#export-to-calendar").tooltip('destroy').removeAttr("data-toggle");
+
+		for (course in $scope.courses.data[$scope.active.Tab].courses) {
+			var thisCourse = $scope.courses.data[$scope.active.Tab].courses[course];
+			for (section in $scope.courses.data[$scope.active.Tab].courses[course].sections) {
+				var thisSection = $scope.courses.data[$scope.active.Tab].courses[course].sections[section];
+				if (thisSection.added_to_schedule == 1 && !thisSection.isPersonalEvent) {
+					if (thisSection.times[0]) {
+						for (weekday in thisSection.times[0].weekdays) {
+							data = {
+								'eventId': thisSection.uci,
+								'title': thisCourse.title,
+								'description': thisSection.description,
+								'startTime': String(thisSection.times[0].mTimeFrom) + "00",
+								'endTime': String(thisSection.times[0].mTimeTo) + "00",
+								'location': thisSection.times[0].location,
+								'dayOfWeek': $scope.favorites.weekdays[weekday].unit
+							};
+							events.push(data);
+						}
+					}
+				}
+			}
+		}
+		if (events.length) {
+			$icsExport = $().vergilgcal({'events': events});
+			//$icsExport.vergilics.download();
+
+			ga('send', 'event', 'Export to Google Calendars', $scope.active.Tab);
+		}
+	}
+
 	$scope.pushToSSOL = function() {
 		ga('send', 'event', 'Push to SSOL', $scope.active.Tab);
 	}
