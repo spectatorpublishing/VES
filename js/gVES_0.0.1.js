@@ -16549,8 +16549,8 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
       });
     }
     function updateSigninStatus(isSignedIn) {
-      //if (isSignedIn) createCalendar();
-      if (isSignedIn) testBatch();
+      if (isSignedIn) createCalendar();
+      //if (isSignedIn) testBatch();
     }
     function createCalendar() {
       console.log("Creating Calendar...");
@@ -16560,6 +16560,9 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
         'body': {'summary': 'Vergil+ Classes'}
       });
       // Execute the API request.
+
+      var batch = gapi.client.newBatch();
+
       request.execute(function(response) {
         console.log(response);
         calendarId = response.id;
@@ -16616,12 +16619,19 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
             'body': eventRequestBody
           });
 
-          eventRequest.execute(eventRequestResponse => {
-            console.log(eventRequestResponse)
-          })
+        //  eventRequest.execute(eventRequestResponse => {
+        //    console.log(eventRequestResponse)
+        //  })
+          batch.add(eventRequest);
+          console.log("Added event to batch")
+        });
+        batch.then(function(response){
+            console.log(response);
         });
       })
     }
+    
+    // This functions tests a batch request with two create calendar api calls
     function testBatch() {
         console.log("Testing for batch request");
         var batch = gapi.client.newBatch();
