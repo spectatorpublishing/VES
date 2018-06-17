@@ -16460,7 +16460,6 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
                 }
                 var d = new Date();
                 var day = d.getDay();
-                console.log(event);
                 if ((0 + event.dayOfWeek) == 7) {
                     event.dayOfWeek = 0;
                 }
@@ -16534,6 +16533,7 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
 
     var GoogleAuth;
     var signedIn;
+    var globalOptions;
 
     function initClient() {
         console.log("Client initialized")
@@ -16562,7 +16562,65 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
       // Execute the API request.
       request.execute(function(response) {
         console.log(response);
-      });
+        calendarId = response.id;
+        globalOptions.events.forEach((event, i) => {
+          var d = new Date();
+          var day = d.getDay();
+          if ((0 + event.dayOfWeek) == 7) {
+              event.dayOfWeek = 0;
+          }
+          var diff = 0 + event.dayOfWeek - day;
+          d.setDate(d.getDate() + diff);
+
+          // Set Time Zone
+          timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+          // Set Start Time
+          startDate = new Date(d.getTime())
+          startDate.setHours(event.startTime.substring(0, 2), event.startTime.substring(2, 4), "00")
+          startDate = startDate.toISOString()
+          start = {
+            timeZone,
+            'dateTime': startDate
+          }
+
+          // Set End Time
+          endDate = new Date(d.getTime())
+          endDate.setHours(event.endTime.substring(0, 2), event.endTime.substring(2, 4), "00")
+          endDate = endDate.toISOString()
+          end = {
+            timeZone,
+            'dateTime': endDate
+          }
+
+          // Set Recurrence
+          recurrence = ["RRULE:FREQ=WEEKLY;"]
+
+          // Set Description
+          description = event.description
+
+          // Set Summary
+          summary = event.title
+
+          eventRequestBody = {
+            start,
+            end,
+            recurrence,
+            description,
+            summary
+          }
+
+          var eventRequest = gapi.client.request({
+            'method': 'POST',
+            'path': `/calendar/v3/calendars/${calendarId}/events`,
+            'body': eventRequestBody
+          });
+
+          eventRequest.execute(eventRequestResponse => {
+            console.log(eventRequestResponse)
+          })
+        });
+      })
     }
     function testBatch() {
         console.log("Testing for batch request");
@@ -16588,7 +16646,8 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
 
     }
     $.fn.vergilgcal = function(options) {
-        GoogleAuth.signOut();
-        GoogleAuth.signIn();
+      globalOptions = options;
+      GoogleAuth.signOut();
+      GoogleAuth.signIn();
     }
 }(jQuery));
