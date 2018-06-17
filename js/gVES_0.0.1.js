@@ -16567,7 +16567,7 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
     function testBatch() {
         console.log("Testing for batch request");
         var batch = gapi.client.newBatch();
-        var testBatchRequest = function(name){
+        var testBatchRequest = function(){
             return gapi.client.request({
                 'method': 'POST',
                 'path': '/calendar/v3/calendars',
@@ -16575,7 +16575,13 @@ var gapi=window.gapi=window.gapi||{};gapi._bs=new Date().getTime();(function(){/
             });
         }
         console.log("Trying to add batch request")
-        batch.add(testBatchRequest);
+        var calendar1 = testBatchRequest();
+        var calendar2 = testBatchRequest();
+        
+        batch.add(calendar1);
+        batch.add(calendar2);
+        console.log("Added two batch requests")
+
         batch.then(function(response){
             console.log(response);
         })
