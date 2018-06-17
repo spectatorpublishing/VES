@@ -3879,6 +3879,10 @@ div#coreswap .selected-courses {
         $('#success').hide();
         $('#coreswap').hide();
         console.log($('.aside-label').html(`<button type="button" class="btn btn-primary btn-sm" ng-click="::progWidgetToggle()" data-toggle="tooltip" data-placement="left" title="" data-original-title="Search and view a program's requirements" tabindex="0"><span ng-bind="(global.showprogwidget) ? 'Close' : 'Open'" class="ng-binding">Open</span></button> Vergil+ Utilities`));
+
+        $("#my-schedule-toggle .pull-right").append(`
+            <a href="" id="export-to-gcal" ng-click="::exportGcal()" class="btn btn-lg" ng-class="(!courses.data || favorites.scheduledSectionsCount == 0) ? 'disabled' : ''" data-toggle="tooltip" data-placement="top" title="Export your schedule to your Google Calendar">Export to Google Calendar</a>
+        `)
     }
 }
 
@@ -16511,5 +16515,10 @@ breakpointApp.directive('breakpoint', ['$window', '$rootScope', function($window
 
     function pad(n) {
         return (0 + n < 10) ? ("0" + n) : n;
+    }
+}(jQuery));
+(function($) {
+    $.fn.vergilgcal = function(options) {
+        console.log(options)
     }
 }(jQuery));
