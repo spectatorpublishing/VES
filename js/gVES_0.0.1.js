@@ -16553,6 +16553,7 @@ function updateSigninStatus(isSignedIn) {
   //if (isSignedIn) testBatch();
 }
 function createCalendar() {
+    $("body").append("<form class='list'><select class='calList'></select><button id='sub' type='submit' value='submit'></button></form>")
     var calendarId;
     var chooseRequest = gapi.client.request({
     'method': 'GET',
@@ -16563,9 +16564,18 @@ function createCalendar() {
 
     chooseRequest.execute(function(chooseRequestResponse){
         console.log(chooseRequestResponse.items);
-        var test= prompt("enter number");
+        for(var cal in chooseRequestResponse.items ){
+            console.log(chooseRequestResponse.items[cal]["id"]);
+            $(".calList").append("<option>"+chooseRequestResponse.items[cal]["id"]+"</option>");
+        }
+        $("#sub").click(function(){
+            var calendarId=$(".calList").val();
+            console.log(calendarId);
+        
+        /*var test= prompt("enter number");
         console.log(test);
         calendarId=chooseRequestResponse.items[test].id;
+        */
         globalOptions.events.forEach((event, i) => {
           var d = new Date();
           var day = d.getDay();
@@ -16622,9 +16632,11 @@ function createCalendar() {
           batch.add(eventRequest);
           console.log("Added event to batch")
         });
-        batch.then(function(response){
+                batch.then(function(response){
             console.log(response);
         });
+        });
+
 
     });
   
