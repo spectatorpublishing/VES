@@ -1484,12 +1484,32 @@ app.controller("courses", function($scope, $routeParams) {
 });
 */
 
-app.controller("global", function($scope, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
+app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
+	
 	$scope.custom_modal = {
-		title: "Core Swap Submit"
-	}
+		title: "Core Swap Submit",
+		body:	` <div class="modal-item">
+                  <h2>You want:</h2>
+                  <div id="modalwant" ng-repeat="i in listing.setToArray(listing.want)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                  <h2>You have:</h2>
+                  <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                </div>`
+        
 
+	}
+	console.log(Filters)
+	$scope.modalChange= function (title, body){
+		$scope.custom_modal.title=title;
+		$scope.custom_modal.body= body;
+		$("#myModal .modal-body").html($compile(body)($scope)[0])
+		console.log($("#myModal").html())
+		console.log($scope.custom_modal);
+	}
 	// Allow console logging
 	$scope.listing = {
 		choosing: null,
@@ -1561,6 +1581,17 @@ app.controller("global", function($scope, $location, $http, $timeout, Variables,
 			return whitelist.includes(item)
 		},
 		modal: () => {
+		$scope.modalChange("Core Swap Submit",
+		` <div class="modal-item">
+                  <h2>You want:</h2>
+                  <div id="modalwant" ng-repeat="i in listing.setToArray(listing.want)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                  <h2>You have:</h2>
+                  <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
+                   <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
+                  </div>
+                </div>`);
 			$("#myModal").modal();
 		},
 		upload: (uni) => {
@@ -4318,6 +4349,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 	}
 
 	$scope.exportGcal = function() {
+		$scope.modalChange("Calendar List","<div class='dropdown'><select class='calList'></select></div>");
 		var events = [];
 		var CLIENT_ID= "685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com"
 		var API_KEY = "AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s";

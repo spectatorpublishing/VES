@@ -3799,18 +3799,10 @@ margin-top: 1rem;
               <a class="modal-dismiss" data-dismiss="modal"><span class="sprite sprite-remove"></span><span class="sr-only">Close</span></a>
               <h4 class="modal-title">{{custom_modal.title}}</h4>
             </div>
-            <div class="modal-item">
-              <h2>You want:</h2>
-              <div id="modalwant" ng-repeat="i in listing.setToArray(listing.want)">
-               <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
-              </div>
-              <h2>You have:</h2>
-              <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
-               <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
-              </div>
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" ng
+              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
               <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
               <p id="success" class="btn btn-success">Success!</p>
             </div>
@@ -16546,79 +16538,98 @@ function updateSigninStatus(isSignedIn) {
   //if (isSignedIn) testBatch();
 }
 function createCalendar() {
+    //$(".modal-item").html("<form class='list'><select class='calList'></select></form>");
     var calendarId;
     var chooseRequest = gapi.client.request({
     'method': 'GET',
     'path': 'https://www.googleapis.com/calendar/v3/users/me/calendarList'
     });
     var batch = gapi.client.newBatch();
-
+    var summaries={};
     chooseRequest.execute(function(chooseRequestResponse){
         console.log(chooseRequestResponse.items);
-        var test= prompt("enter number");
+        for(var cal in chooseRequestResponse.items ){
+            //console.log(chooseRequestResponse.items[cal]["id"]);
+            $(".calList").append("<option value=" +chooseRequestResponse.items[cal]["id"]+">" +chooseRequestResponse.items[cal]["summary"]+"</option>");
+            var sum=chooseRequestResponse.items[cal]["summary"];
+            summaries[sum]=chooseRequestResponse.items[cal]["id"];
+            console.log(sum);
+            console.log(summaries[sum]);
+            console.log(chooseRequestResponse.items[cal]["id"]);
+        }
+        $("#myModal").modal();
+        $("#submit").click(function(){
+            var calendarId=$(".calList option:selected").val();
+            console.log(calendarId);
+        
+        /*var test= prompt("enter number");
         console.log(test);
         calendarId=chooseRequestResponse.items[test].id;
-        globalOptions.events.forEach((event, i) => {
-          var d = new Date();
-          var day = d.getDay();
-          if ((0 + event.dayOfWeek) == 7) {
-              event.dayOfWeek = 0;
-          }
-          var diff = 0 + event.dayOfWeek - day;
-          d.setDate(d.getDate() + diff);
+        */
+            globalOptions.events.forEach((event, i) => {
+                var d = new Date();
+                var day = d.getDay();
+                if ((0 + event.dayOfWeek) == 7) {
+                    event.dayOfWeek = 0;
+                }
+                var diff = 0 + event.dayOfWeek - day;
+                d.setDate(d.getDate() + diff);
     
           // Set Time Zone
-          timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+                timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
     
           // Set Start Time
-          startDate = new Date(d.getTime())
-          startDate.setHours(event.startTime.substring(0, 2), event.startTime.substring(2, 4), "00")
-          startDate = startDate.toISOString()
-          start = {
-            timeZone,
-            'dateTime': startDate
-          }
+                startDate = new Date(d.getTime())
+                startDate.setHours(event.startTime.substring(0, 2), event.startTime.substring(2, 4), "00")
+                startDate = startDate.toISOString()
+                start = {
+                    timeZone,
+                    'dateTime': startDate
+                }
     
           // Set End Time
-          endDate = new Date(d.getTime())
-          endDate.setHours(event.endTime.substring(0, 2), event.endTime.substring(2, 4), "00")
-          endDate = endDate.toISOString()
-          end = {
-            timeZone,
-            'dateTime': endDate
-          }
+                endDate = new Date(d.getTime())
+                endDate.setHours(event.endTime.substring(0, 2), event.endTime.substring(2, 4), "00")
+                endDate = endDate.toISOString()
+                end = {
+                    timeZone,
+                    'dateTime': endDate
+                }
     
           // Set Recurrence
-          recurrence = ["RRULE:FREQ=WEEKLY;"]
+                recurrence = ["RRULE:FREQ=WEEKLY;"]
     
           // Set Description
-          description = event.description
+                description = event.description
     
           // Set Summary
-          summary = event.title
+                summary = event.title
     
-          eventRequestBody = {
-            start,
-            end,
-            recurrence,
-            description,
-            summary
-          }
-        path = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`;
-        console.log(path)
-        var eventRequest = gapi.client.request({
-            'method': 'POST',
-            'path': path,
-            'body': eventRequestBody
+                eventRequestBody = {
+                    start,
+                    end,
+                    recurrence,
+                    description,
+                    summary
+                }
+                path = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`;
+                console.log(path)
+                var eventRequest = gapi.client.request({
+                    'method': 'POST',
+                    'path': path,
+                    'body': eventRequestBody
+                });
+                batch.add(eventRequest);
+                console.log("Added event to batch")
+            });
+             batch.then(function(response){
+             console.log(response);
         });
-          batch.add(eventRequest);
-          console.log("Added event to batch")
-        });
-        batch.then(function(response){
-            console.log(response);
-        });
-
+             
     });
+
+
+});
   
   
 }
