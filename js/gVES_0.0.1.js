@@ -16514,156 +16514,142 @@ gapiScript.src = "https://apis.google.com/js/api.js"
 document.head.appendChild(gapiScript)
 
 gapiScript.onload = () => (function($) {
-gapi.load('client:auth2', initClient);
+  gapi.load('client:auth2', initClient);
 
-var GoogleAuth;
-var signedIn;
-var globalOptions;
+  var GoogleAuth;
+  var signedIn;
+  var globalOptions;
 
-function initClient() {
-    console.log("Client initialized")
-  gapi.client.init({
-      'apiKey': 'AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s',
-      'clientId': '685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com',
-      'scope': 'https://www.googleapis.com/auth/calendar'
-  }).then(function () {
-      GoogleAuth = gapi.auth2.getAuthInstance();
+  function initClient() {
+      console.log("Client initialized")
+    gapi.client.init({
+        'apiKey': 'AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s',
+        'clientId': '685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com',
+        'scope': 'https://www.googleapis.com/auth/calendar'
+    }).then(function () {
+        GoogleAuth = gapi.auth2.getAuthInstance();
 
-      // Listen for sign-in state changes.
-      GoogleAuth.isSignedIn.listen(updateSigninStatus);
-  });
-}
-function updateSigninStatus(isSignedIn) {
-  if (isSignedIn) createCalendar();
-  //if (isSignedIn) testBatch();
-}
-function createCalendar() {
-    //$(".modal-item").html("<form class='list'><select class='calList'></select></form>");
-    var calendarId;
-    var chooseRequest = gapi.client.request({
-    'method': 'GET',
-    'path': 'https://www.googleapis.com/calendar/v3/users/me/calendarList'
+        // Listen for sign-in state changes.
+        GoogleAuth.isSignedIn.listen(updateSigninStatus);
     });
-    var batch = gapi.client.newBatch();
-    var summaries={};
-    chooseRequest.execute(function(chooseRequestResponse){
-        console.log(chooseRequestResponse.items);
-        for(var cal in chooseRequestResponse.items ){
-            //console.log(chooseRequestResponse.items[cal]["id"]);
-            $(".calList").append("<option value=" +chooseRequestResponse.items[cal]["id"]+">" +chooseRequestResponse.items[cal]["summary"]+"</option>");
-            var sum=chooseRequestResponse.items[cal]["summary"];
-            summaries[sum]=chooseRequestResponse.items[cal]["id"];
-            console.log(sum);
-            console.log(summaries[sum]);
-            console.log(chooseRequestResponse.items[cal]["id"]);
-        }
-        $("#myModal").modal();
-        $("#submit").click(function(){
-            var calendarId=$(".calList option:selected").val();
-            console.log(calendarId);
-        
-        /*var test= prompt("enter number");
-        console.log(test);
-        calendarId=chooseRequestResponse.items[test].id;
-        */
-            globalOptions.events.forEach((event, i) => {
-                var d = new Date();
-                var day = d.getDay();
-                if ((0 + event.dayOfWeek) == 7) {
-                    event.dayOfWeek = 0;
-                }
-                var diff = 0 + event.dayOfWeek - day;
-                d.setDate(d.getDate() + diff);
-    
-          // Set Time Zone
-                timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    
-          // Set Start Time
-                startDate = new Date(d.getTime())
-                startDate.setHours(event.startTime.substring(0, 2), event.startTime.substring(2, 4), "00")
-                startDate = startDate.toISOString()
-                start = {
-                    timeZone,
-                    'dateTime': startDate
-                }
-    
-          // Set End Time
-                endDate = new Date(d.getTime())
-                endDate.setHours(event.endTime.substring(0, 2), event.endTime.substring(2, 4), "00")
-                endDate = endDate.toISOString()
-                end = {
-                    timeZone,
-                    'dateTime': endDate
-                }
-    
-          // Set Recurrence
-                recurrence = ["RRULE:FREQ=WEEKLY;"]
-    
-          // Set Description
-                description = event.description
-    
-          // Set Summary
-                summary = event.title
-    
-                eventRequestBody = {
-                    start,
-                    end,
-                    recurrence,
-                    description,
-                    summary
-                }
-                path = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`;
-                console.log(path)
-                var eventRequest = gapi.client.request({
-                    'method': 'POST',
-                    'path': path,
-                    'body': eventRequestBody
-                });
-                batch.add(eventRequest);
-                console.log("Added event to batch")
-            });
-             batch.then(function(response){
-             console.log(response);
-        });
-             
+  }
+  function updateSigninStatus(isSignedIn) {
+    if (isSignedIn) updateCalendarPrompt();
+  }
+  function updateCalendarPrompt() {
+      //$(".modal-item").html("<form class='list'><select class='calList'></select></form>");
+      var calendarId;
+      var chooseRequest = gapi.client.request({
+        'method': 'GET',
+        'path': 'https://www.googleapis.com/calendar/v3/users/me/calendarList'
+      });
+      var summaries={};
+      chooseRequest.execute(function(chooseRequestResponse){
+          let filteredCals = chooseRequestResponse.items.filter(i => i.accessRole === "writer" || i.accessRole === "owner")
+          for(var cal in filteredCals ){
+              $(".calList").append("<option value=" + filteredCals[cal]["id"]+">" +filteredCals[cal]["summary"]+"</option>");
+              var sum=filteredCals[cal]["summary"];
+              summaries[sum]=filteredCals[cal]["id"];
+          }
+          $(".calList").append("<option value=\"newCalendar\">New Calendar: Vergil Plus Classes</option>");
+          $("#myModal").modal();
+          $("#submit").click(function(){
+              var calendarId=$(".calList option:selected").val();
+              if (calendarId != "newCalendar") addClassesToID(calendarId)
+              else createCalendar()
+          });
+               
+      });
+
+  }
+
+  function createCalendar() {
+    var createRequest = gapi.client.request({
+      'method': 'POST',
+      'path': 'https://www.googleapis.com/calendar/v3/calendars',
+      'body': {'summary': 'Vergil Plus Classes'}
     });
 
-
-});
-  
-  
-}
-   //generate calendar list
-
-
-// This functions tests a batch request with two create calendar api calls
-function testBatch() {
-    console.log("Testing for batch request");
-    var batch = gapi.client.newBatch();
-    var testBatchRequest = function(){
-        return gapi.client.request({
-            'method': 'POST',
-            'path': '/calendar/v3/calendars',
-           'body': {'summary': 'Vergil+ Classes'}
-        });
-    }
-    // console.log("Trying to add batch request")
-    var calendar1 = testBatchRequest();
-    var calendar2 = testBatchRequest();
-    
-    batch.add(calendar1);
-    batch.add(calendar2);
-    console.log("Added two batch requests")
-
-    batch.then(function(response){
-        console.log(response);
+    createRequest.execute(resp => {
+      addClassesToID(resp.id)
     })
+  }
 
-}
-$.fn.vergilgcal = function(options) {
-  globalOptions = options;
-  console.log(GoogleAuth);
-  GoogleAuth.signOut();
-  GoogleAuth.signIn();
-}
+  function addClassesToID(calendarId) {
+    var batch = gapi.client.newBatch();
+
+    globalOptions.events.forEach((event, i) => {
+      console.log(event)
+      var d = new Date();
+      var day = d.getDay();
+      if ((0 + event.dayOfWeek) == 7) {
+          event.dayOfWeek = 0;
+      }
+      var diff = 0 + event.dayOfWeek - day;
+      d.setDate(d.getDate() + diff);
+
+      // Set Time Zone
+      timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+      // Set Start Time
+      startDate = new Date(d.getTime())
+      startDate.setHours(event.startTime.substring(0, 2), event.startTime.substring(2, 4), "00")
+      startDate = startDate.toISOString()
+      start = {
+          timeZone,
+          'dateTime': startDate
+      }
+
+      // Set End Time
+      endDate = new Date(d.getTime())
+      endDate.setHours(event.endTime.substring(0, 2), event.endTime.substring(2, 4), "00")
+      endDate = endDate.toISOString()
+      end = {
+          timeZone,
+          'dateTime': endDate
+      }
+
+      // Set Recurrence
+      recurrence = ["RRULE:FREQ=WEEKLY;"]
+
+      // Set Description
+      description = event.description
+
+      // Set Location
+      loc = event.location
+
+      // Set Summary
+      summary = event.title
+
+      eventRequestBody = {
+          start,
+          end,
+          recurrence,
+          description,
+          summary,
+          location: loc,
+      }
+      path = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`;
+      console.log(path)
+      var eventRequest = gapi.client.request({
+          'method': 'POST',
+          'path': path,
+          'body': eventRequestBody
+      });
+
+      batch.add(eventRequest);
+        //console.log("Added event to batch")
+      }
+    );
+    
+    batch.then(function(response){
+      //console.log(response);
+    })
+  }
+
+  $.fn.vergilgcal = function(options) {
+    globalOptions = options;
+    GoogleAuth.signOut();
+    GoogleAuth.signIn();
+  }
 }(jQuery));

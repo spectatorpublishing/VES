@@ -1602,7 +1602,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				console.log("error yo!");
 			}
 
-			console.log(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0);
+			//console.log(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0);
 
 			returnJson.uni = uni;
 			if(new Set([...$scope.listing.want].filter(x => $scope.listing.have.has(x))).size > 0) {
