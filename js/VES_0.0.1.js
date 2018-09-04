@@ -1503,12 +1503,21 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	}
 	console.log(Filters)
-	$scope.modalChange= function (title, body){
+	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
-		$scope.custom_modal.body= body;
+		$scope.custom_modal.body=body;
+		$scope.custom_modal.footer=footer;
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
-		console.log($("#myModal").html())
-		console.log($scope.custom_modal);
+		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
+		//console.log($("#myModal").html())
+		//console.log($scope.custom_modal);
+	}
+
+	$scope.gcal = {
+		callback: () => {
+			$().vergilgcal_modal_callback()
+
+		}
 	}
 	// Allow console logging
 	$scope.listing = {
@@ -4349,7 +4358,16 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 	}
 
 	$scope.exportGcal = function() {
-		$scope.modalChange("Calendar List","<div class='dropdown'><select class='calList'></select></div>");
+		$scope.modalChange(
+			"Calendar List",
+			"<div class='dropdown'><select class='calList'></select></div>",
+			`
+			<div ng-init="clicked = false">
+				<button type="button" class="btn btn-default" ng-if="!clicked" ng-click="gcal.callback() && clicked = true">Submit</button>
+				<button class="btn btn-success" ng-if="clicked">Success!</button>
+			</div>
+			`
+		);
 		var events = [];
 		var CLIENT_ID= "685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com"
 		var API_KEY = "AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s";

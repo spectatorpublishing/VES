@@ -3800,12 +3800,7 @@ margin-top: 1rem;
               <h4 class="modal-title">{{custom_modal.title}}</h4>
             </div>
             <div class="modal-body"></div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" ng
-              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-              <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
-              <p id="success" class="btn btn-success">Success!</p>
-            </div>
+            <div class="modal-footer"></div>
           </div>
         </div>
       </div>
@@ -16533,9 +16528,11 @@ gapiScript.onload = () => (function($) {
         GoogleAuth.isSignedIn.listen(updateSigninStatus);
     });
   }
+
   function updateSigninStatus(isSignedIn) {
     if (isSignedIn) updateCalendarPrompt();
   }
+
   function updateCalendarPrompt() {
       //$(".modal-item").html("<form class='list'><select class='calList'></select></form>");
       var calendarId;
@@ -16552,13 +16549,7 @@ gapiScript.onload = () => (function($) {
               summaries[sum]=filteredCals[cal]["id"];
           }
           $(".calList").append("<option value=\"newCalendar\">New Calendar: Vergil Plus Classes</option>");
-          $("#myModal").modal();
-          $("#submit").click(function(){
-              var calendarId=$(".calList option:selected").val();
-              if (calendarId != "newCalendar") addClassesToID(calendarId)
-              else createCalendar()
-          });
-               
+          $("#myModal").modal();       
       });
 
   }
@@ -16645,6 +16636,13 @@ gapiScript.onload = () => (function($) {
     batch.then(function(response){
       //console.log(response);
     })
+
+  }
+
+  $.fn.vergilgcal_modal_callback = () => {
+    var calendarId=$(".calList option:selected").val();
+    if (calendarId != "newCalendar") addClassesToID(calendarId);
+    else createCalendar();
   }
 
   $.fn.vergilgcal = function(options) {
@@ -16652,4 +16650,5 @@ gapiScript.onload = () => (function($) {
     GoogleAuth.signOut();
     GoogleAuth.signIn();
   }
+
 }(jQuery));
