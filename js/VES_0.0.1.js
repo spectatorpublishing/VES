@@ -4363,8 +4363,8 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 			"<div class='dropdown'><select class='calList'></select></div>",
 			`
 			<div ng-init="clicked = false">
-				<button type="button" class="btn btn-default" ng-if="!clicked" ng-click="gcal.callback() && clicked = true">Submit</button>
-				<button class="btn btn-success" ng-if="clicked">Success!</button>
+				<button type="button" class="btn btn-default" ng-show="!clicked" ng-click="gcal.callback(); clicked = true">Submit</button>
+				<button class="btn btn-success" ng-show="clicked">Success!</button>
 			</div>
 			`
 		);
