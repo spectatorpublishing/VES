@@ -1486,7 +1486,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	
+	var clicks=false;
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
 		body:	` <div class="modal-item">
@@ -1498,20 +1498,85 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
-                </div>`
+                </div>`,
+
+        footer:`<div><button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+              <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
+              <p id="success" class="btn btn-success">Success!</p></div>`
         
 
 	}
-	console.log(Filters)
-	$scope.modalChange= function (title, body){
+	console.log(Filters);
+	angular.element(document).ready(function () {
+	
+	if (localStorage.getItem("fightme") == null) {
+			console.log("HELOOOOOOO");
+
+			$scope.modalChange("Welcome", "<p>	Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.</p>", "<button id='transition'></button>");
+			$("#transition").click(function(){
+				/*$(".modal-header").html("<h4>Change Test</h4>");
+				$scope.modalChange('<h4>Change Test<h4>','<p>hello</p>',"<button id='transition2'>Next</button>");
+				$("#transition2").click(function(){
+				$(".modal-header").html("<h4>Blah d blah /h4>");
+				$scope.modalChange('<h4>Change Test<h4>','<p>Who wants the smoke</p>',"<button id='transition2'>Next</button>");
+				*/
+			});
+			});
+			
+			//$(".modal-header").html("<h4>Welcome</h4>");
+			//$("modal-body").text("Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.")
+			$("#myModal").modal();
+			localStorage.setItem("fightme", true);
+	}
+
+	if (window.navigator.standalone == true) {
+		$("body").addClass("full-screen-app");
+	}
+
+	 var header = document.querySelector("#program-course-lookup .heading");
+	// header.setAttribute("style", "height:100px;");
+
+	if (iOSver = iOSversion()) {
+		if (iOSver[0] < 8) {
+			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
+			if (Modernizr.touch) {
+								var $body = $("body");
+
+				$(document).on('focus', 'input', function(e) {
+					$body.addClass('fixfixed');
+				}).on('blur', 'input', function(e) {
+					$body.removeClass('fixfixed');
+				});
+			}
+		}
+	}
+});
+	$scope.tutorial=[];
+	$scope.cSwap{
+		top="",
+		mid="",
+		bottom=""
+	}
+
+	}
+	$scope.tutorialNext=function(){
+		for (var count in $scope.tutorial){
+			$(modal)$scope.tutorial[count].top
+		}
+	}
+	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body= body;
-		$("#myModal .modal-body").html($compile(body)($scope)[0])
-		console.log($("#myModal").html())
+		$scope.custom_modal.footer= footer;
+		$("#myModal .modal-body").html($compile(body)($scope)[0]);
+		$("#myModal .modal-footer").html($compile(footer)($scope)[0]);
+
+		console.log($("#myModal").html());
 		console.log($scope.custom_modal);
 	}
 	// Allow console logging
 	$scope.listing = {
+		
 		choosing: null,
 		toggleMode: (intent) => {
 			console.log($scope.listing.choosing)
@@ -1591,10 +1656,12 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
-                </div>`);
+                </div>`,`<div  ng-model="clicks" ng-init='clicks=false'><button type="button" class="btn btn-default" ng-click=" listing.clearsubmit();" data-dismiss="modal">Close</button> <button id="submit" type="button" class="btn btn-default" ng-click="clicks=true;listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
+              <p id="success" class="btn btn-success" ng-if='clicks'  >Success!</p></div>`);
 			$("#myModal").modal();
 		},
 		upload: (uni) => {
+			console.log("wORKS");
 			var returnJson = {};
 			returnJson.want = [...$scope.listing.want];
 			returnJson.have = [...$scope.listing.have];
@@ -2348,34 +2415,7 @@ $timeout(function() {
     */
 }, 2000);
 
-angular.element(document).ready(function () {
-	if (localStorage.getItem("fightme") == null) {
-			alert("Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.");
-			localStorage.setItem("fightme", true);
-	}
 
-	if (window.navigator.standalone == true) {
-		$("body").addClass("full-screen-app");
-	}
-
-	 var header = document.querySelector("#program-course-lookup .heading");
-	// header.setAttribute("style", "height:100px;");
-
-	if (iOSver = iOSversion()) {
-		if (iOSver[0] < 8) {
-			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
-			if (Modernizr.touch) {
-				var $body = $("body");
-
-				$(document).on('focus', 'input', function(e) {
-					$body.addClass('fixfixed');
-				}).on('blur', 'input', function(e) {
-					$body.removeClass('fixfixed');
-				});
-			}
-		}
-	}
-});
 
 });
 
@@ -4349,7 +4389,9 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
 	}
 
 	$scope.exportGcal = function() {
-		$scope.modalChange("Calendar List","<div class='dropdown'><select class='calList'></select></div>");
+
+		$scope.modalChange("Calendar List","<div class='dropdown'><button id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Cal List <span class='caret'></span></button><ul class='dropdown-menu calList' aria-labelledby='dropdownMenuButton'></ul></div>",`<div  ng-model="clicks" ng-init='clicks=false'><button type="button" class="btn btn-default" ng-click=" listing.clearsubmit();" data-dismiss="modal">Close</button> <button id="submit" type="button" class="btn btn-default slurp" ng-click="clicks=true;">Submit</button>
+              <p id="success" class="btn btn-success" ng-if='clicks'  >Success!</p></div>` );
 		var events = [];
 		var CLIENT_ID= "685293451899-jv0dpc73t9rcgjsic0orv459sungpf6f.apps.googleusercontent.com"
 		var API_KEY = "AIzaSyB1W0eqGjeUiWZjCyk0_wn5LoUPRLWJs-s";
@@ -4630,7 +4672,7 @@ app.controller("myplanner", function($scope, $location, $http, $timeout, Variabl
           						$(".details-head-with-hint").tooltip();
           					}, 1);
           				}
-          			}
+          			} 
           		}
           	});
           }

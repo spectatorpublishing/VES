@@ -3801,10 +3801,7 @@ margin-top: 1rem;
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" ng
-              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-              <button id="submit" type="button" class="btn btn-default" ng-click="listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing();">Submit</button>
-              <p id="success" class="btn btn-success">Success!</p>
+              
             </div>
           </div>
         </div>
@@ -16557,17 +16554,23 @@ function createCalendar() {
         console.log(chooseRequestResponse.items);
         for(var cal in chooseRequestResponse.items ){
             //console.log(chooseRequestResponse.items[cal]["id"]);
-            $(".calList").append("<option value=" +chooseRequestResponse.items[cal]["id"]+">" +chooseRequestResponse.items[cal]["summary"]+"</option>");
+            $(".calList").append("<li><a class='dropdown-item' id=" +chooseRequestResponse.items[cal]["id"]+">" +chooseRequestResponse.items[cal]["summary"]+"</a></li>");
             var sum=chooseRequestResponse.items[cal]["summary"];
             summaries[sum]=chooseRequestResponse.items[cal]["id"];
             console.log(sum);
             console.log(summaries[sum]);
             console.log(chooseRequestResponse.items[cal]["id"]);
         }
+        var calendarId;
+        $(".calList a").on("click",function(){
+            calendarId=this.id;
+        });
+
         $("#myModal").modal();
-        $("#submit").click(function(){
-            var calendarId=$(".calList option:selected").val();
+        $(".slurp").click(function(){
+            //var calendarId=$(".calList option:selected").val();
             console.log(calendarId);
+            $("#submit").hide();
         
         /*var test= prompt("enter number");
         console.log(test);
