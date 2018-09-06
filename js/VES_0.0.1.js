@@ -1605,9 +1605,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
-                </div>`,`<div><button type="button" class="btn btn-default" ng
-              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-              <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();">Submit</button></div>`);
+                </div>`,`<div><button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+              <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();" data-dismiss="modal">Submit</button>
+              </div>`);
 			$("#myModal").modal();
 		},
 		upload: (uni) => {
