@@ -1503,6 +1503,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	}
 	console.log(Filters)
+	
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -1522,6 +1523,10 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	// Allow console logging
 	$scope.listing = {
 		choosing: null,
+		close: ()=>{
+		console.log("check");
+		$("#myModal").modal();
+	},
 		toggleMode: (intent) => {
 			console.log($scope.listing.choosing)
 			console.log(intent)
@@ -1600,7 +1605,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
-                </div>`);
+                </div>`,`<div><button type="button" class="btn btn-default" ng
+              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+              <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();">Submit</button></div>`);
 			$("#myModal").modal();
 		},
 		upload: (uni) => {
