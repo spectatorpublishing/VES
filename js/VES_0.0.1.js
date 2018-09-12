@@ -1749,6 +1749,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if ($scope.global.showprogwidget) {
 
 			$("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
+			var  check= $("#sela_form");
+			check.parent().html("");
+			
 
 			// Add basic html dropdown
 			var form = document.createElement("form");
