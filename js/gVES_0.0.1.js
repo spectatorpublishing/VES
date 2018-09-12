@@ -3846,10 +3846,20 @@ margin-top: 1rem;
     `)
 
     $(".class-more-info").append(
-        "<dl ng-if=\"::section.universalCourseIdentifier\">" +
-        "<dt>Universal Course Identifier</dt>" +
-        "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
-        "</dl>"
+        `
+        <dl ng-if="::section.universalCourseIdentifier">
+            <dt>Universal Course Identifier</dt>
+            <dd ng-bind="::section.universalCourseIdentifier"></dd>
+        </dl>
+        `
+    )
+
+    $(".course-actions > :nth-child(1)").after(
+        `
+        <a class="btn btn-lg ng-scope btn-success course-reviews">
+            Review
+        </a>
+        `
     )
     // $(".class-more-info").append(
     //     "<dl ng-if=\"::course.ribbit\">" +
