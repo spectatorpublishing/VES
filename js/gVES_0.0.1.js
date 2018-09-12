@@ -3856,7 +3856,7 @@ margin-top: 1rem;
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope btn-success course-reviews">
+        <a class="btn btn-lg ng-scope btn-success course-reviews" ng-click="openReviews()">
             Review
         </a>
         `

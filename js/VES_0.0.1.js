@@ -1520,6 +1520,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 		}
 	}
+
+	$scope.openReviews = () => {
+		$scope.modalChange("Reviews", "Body Here", "Footer Here")
+		$("#myModal").modal();
+	}
 	// Allow console logging
 	$scope.listing = {
 		choosing: null,
