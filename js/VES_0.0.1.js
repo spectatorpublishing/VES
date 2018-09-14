@@ -1514,16 +1514,21 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		//console.log($scope.custom_modal);
 	}
 
+
+    $scope.reviewsButton = function() { 
+
+    	// placeholder: to be replaced w click fxnality
+        console.log("testing google.com");
+        $.post("https://google.com", null, function(data, status) {
+            console.log("${data} and status is ${status}")
+        })
+    }
+
 	$scope.gcal = {
 		callback: () => {
 			$().vergilgcal_modal_callback()
 
 		}
-	}
-
-	$scope.openReviews = () => {
-		$scope.modalChange("Reviews", "Body Here", "Footer Here")
-		$("#myModal").modal();
 	}
 	// Allow console logging
 	$scope.listing = {

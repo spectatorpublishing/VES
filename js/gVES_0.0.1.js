@@ -3850,17 +3850,25 @@ margin-top: 1rem;
         <dl ng-if="::section.universalCourseIdentifier">
             <dt>Universal Course Identifier</dt>
             <dd ng-bind="::section.universalCourseIdentifier"></dd>
+            <button ng-click=
         </dl>
         `
     )
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope btn-success course-reviews" ng-click="openReviews()">
+        <a class="btn btn-lg ng-scope btn-success course-reviews">
             Review
         </a>
         `
     )
+
+    $(".course-reviews").each(function(index) {
+        $(this).attr("ng-click", "reviewsButton();")
+        $(this).attr("onclick", "reviewsButton();")
+        console.log( $(this) );
+    })
+
     // $(".class-more-info").append(
     //     "<dl ng-if=\"::course.ribbit\">" +
     //     "<dt>Ribbit Link</dt>" +
