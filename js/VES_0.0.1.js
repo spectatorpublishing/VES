@@ -1486,6 +1486,13 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
+	var modalCounter=0;
+	function modalContent(a,b,c){
+		this.heading= a;
+		this.instructions= b;
+		this.footer=c;
+	}
+
 	
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
@@ -1502,6 +1509,40 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
         
 
 	}
+	var tutorial_intro = `<p>Thank you for downloading Vergil+!
+
+	The extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar.
+
+
+	angular.element(document).ready(function () {
+	if (localStorage.getItem("fightme") == null) {
+			$scope.nextModal();
+			localStorage.setItem("fightme", true);
+			$("#myModal").modal();
+	}
+
+	if (window.navigator.standalone == true) {
+		$("body").addClass("full-screen-app");
+	}
+
+	 var header = document.querySelector("#program-course-lookup .heading");
+	// header.setAttribute("style", "height:100px;");
+
+	if (iOSver = iOSversion()) {
+		if (iOSver[0] < 8) {
+			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
+			if (Modernizr.touch) {
+				var $body = $("body");
+
+				$(document).on('focus', 'input', function(e) {
+					$body.addClass('fixfixed');
+				}).on('blur', 'input', function(e) {
+					$body.removeClass('fixfixed');
+				});
+			}
+		}
+	}
+});
 	console.log(Filters)
 	
 	$scope.modalChange= function (title, body, footer){
@@ -1513,6 +1554,20 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		//console.log($("#myModal").html())
 		//console.log($scope.custom_modal);
 	}
+	$scope.nextModal= function(){
+
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		modalCounter++;
+	}
+	$scope.tutorial_features=[
+		new modalContent("Welcome","","<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("Open Sidebar","","<button ng-click='nextModal()'>Next</button>"), 
+		new modalContent("Smart Search","","<button ng-click='nextModal()'>Next</button>"), 
+		new modalContent("Live Class Enrollment","","<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("GCal Export","","<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("Tutorial Complete","","<button data-dismiss='modal'>Close</button>")
+
+	]
 
 	$scope.gcal = {
 		callback: () => {
@@ -1749,6 +1804,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if ($scope.global.showprogwidget) {
 
 			$("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
+			var  check= $("#sela_form");
+			check.parent().html("");
+			
 
 			// Add basic html dropdown
 			var form = document.createElement("form");
@@ -2364,34 +2422,7 @@ $timeout(function() {
     */
 }, 2000);
 
-angular.element(document).ready(function () {
-	if (localStorage.getItem("fightme") == null) {
-			alert("Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.");
-			localStorage.setItem("fightme", true);
-	}
 
-	if (window.navigator.standalone == true) {
-		$("body").addClass("full-screen-app");
-	}
-
-	 var header = document.querySelector("#program-course-lookup .heading");
-	// header.setAttribute("style", "height:100px;");
-
-	if (iOSver = iOSversion()) {
-		if (iOSver[0] < 8) {
-			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
-			if (Modernizr.touch) {
-				var $body = $("body");
-
-				$(document).on('focus', 'input', function(e) {
-					$body.addClass('fixfixed');
-				}).on('blur', 'input', function(e) {
-					$body.removeClass('fixfixed');
-				});
-			}
-		}
-	}
-});
 
 });
 
