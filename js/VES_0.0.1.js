@@ -1486,7 +1486,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	
+
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
 		body:	` <div class="modal-item">
@@ -1499,11 +1499,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
                 </div>`
-        
+
 
 	}
 	console.log(Filters)
-	
+
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -1515,14 +1515,17 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 
 
-    $scope.reviewsButton = function() { 
+  $scope.reviewsButton = function() {
 
-    	// placeholder: to be replaced w click fxnality
-        console.log("testing google.com");
-        $.post("https://google.com", null, function(data, status) {
-            console.log("${data} and status is ${status}")
-        })
-    }
+  	// placeholder: to be replaced w click fxnality
+      console.log("testing google.com");
+      // $.post("https://google.com", null, function(data, status) {
+      //     console.log("${data} and status is ${status}")
+      // });
+			$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O </h2>", "<h3> Foot </h3>");
+			$("#myModal").modal();
+
+  }
 
 	$scope.gcal = {
 		callback: () => {
