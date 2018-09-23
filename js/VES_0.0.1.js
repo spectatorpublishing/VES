@@ -1514,19 +1514,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		//console.log($scope.custom_modal);
 	}
 
-
-  $scope.reviewsButton = function() {
-
-  	// placeholder: to be replaced w click fxnality
-      console.log("testing google.com");
-      // $.post("https://google.com", null, function(data, status) {
-      //     console.log("${data} and status is ${status}")
-      // });
-			$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O </h2>", "<h3> Foot </h3>");
-			$("#myModal").modal();
-
-  }
-
 	$scope.gcal = {
 		callback: () => {
 			$().vergilgcal_modal_callback()
@@ -4117,6 +4104,39 @@ $scope.modalBooks = function(section, course) {
 	$scope.$parent.modalCourse = course;
 	$scope.setActiveModalTab(2);
 	$scope.courseModal();
+}
+
+$scope.reviewsButton = function(section, course) {
+	//who's ready for some hacky shit.
+	$scope.$parent.modalSection = section;
+	$scope.$parent.modalCourse = course;
+
+	console.log($scope)
+
+	var name = $scope.modalSection.instructors[0].name
+	console.log("Getting reviews for:", name);
+
+	//testing...
+	name = "Ken Ross"
+	console.log("jk we only have 2 people in our database, getting someone else...");
+
+	$.ajax({
+	    method: 'POST',
+	   	url: "http://localhost:3000/api/getReviews",
+	   	headers: {'Content-Type':'application/json'},
+	   	data: "{\"name\": \""+name+"\"}",
+	   	success: function(data, status) {
+	    	console.log(data, "and status is", status)
+	    	setReviewModal(data)
+	    }
+	});
+}
+
+function setReviewModal(data){
+  	console.log("Review data:", data)
+  	data = "<h3>"+data[0].details.professor+" is "+data[0].professor["describe-professor"]+" and in "+data[0].reviewer["school_in"]+"</h3>"
+  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", data);
+	$('#myModal').modal();
 }
 
 });
