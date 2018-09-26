@@ -1563,14 +1563,14 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		modalCounter++;
 	}
-	var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
-	var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
-	var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
+	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
+	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
+	//var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
 
 	var c_images="C:\Users\south\OneDrive\Documents\GitHub\VES\content_images";
-	var sidebar=`<img src= '${osburl}'> `;
-	var s_search=`<img src="${ssurl}">`;
-	var gcal_tutorial=`<img src="${gcurl}">`;
+	var sidebar=`<img src= '${c_images}\open_sidebar.gif'> `;
+	var s_search=`<img src="${c_images}\smart_search.gif">`;
+	var gcal_tutorial=`<img src="${c_images}\gcal.gif">`;
 	$scope.tutorial_features=[
 		new modalContent("Welcome",`${tutorial_intro}`,"<button ng-click='nextModal()'>Next</button>"),
 		new modalContent("Open Sidebar",`${sidebar}`,"<button ng-click='nextModal()'>Next</button>"), 
