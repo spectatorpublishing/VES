@@ -39,6 +39,10 @@
   "web_accessible_resources": [
    "js/VES_0.0.1.js",
    "js/gVES_0.0.1.js",
-   "icons/vergil-plain.png"
+   "icons/vergil-plain.png",
+   "content_images/coreswap.gif",
+   "gcal.gif",
+   "open_sidebar.gif",
+   "smart_search.gif"
   ]
 }

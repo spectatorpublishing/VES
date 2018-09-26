@@ -7,7 +7,9 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
-
+var reset= function(){
+	localStorage.removeItem("fightme");
+}
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -1487,10 +1489,11 @@ app.controller("courses", function($scope, $routeParams) {
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
 	var modalCounter=0;
-	function modalContent(a,b,c){
+	function modalContent(a,b,c,d){
 		this.heading= a;
 		this.instructions= b;
 		this.footer=c;
+		this.image_url=d;
 	}
 
 	
@@ -1513,6 +1516,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	The extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar.
 
+	More features are coming soon, and please send us your feedback to <a href="mailto:vergilplus@columbiaspectator.com">vergilplus@columbiaspectator.com</a>.</p>`;
 
 	angular.element(document).ready(function () {
 	if (localStorage.getItem("fightme") == null) {
@@ -1559,13 +1563,21 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		modalCounter++;
 	}
+	var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
+	var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
+	var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
+
+	var c_images="C:\Users\south\OneDrive\Documents\GitHub\VES\content_images";
+	var sidebar=`<img src= '${osburl}'> `;
+	var s_search=`<img src="${ssurl}">`;
+	var gcal_tutorial=`<img src="${gcurl}">`;
 	$scope.tutorial_features=[
-		new modalContent("Welcome","","<button ng-click='nextModal()'>Next</button>"),
-		new modalContent("Open Sidebar","","<button ng-click='nextModal()'>Next</button>"), 
-		new modalContent("Smart Search","","<button ng-click='nextModal()'>Next</button>"), 
-		new modalContent("Live Class Enrollment","","<button ng-click='nextModal()'>Next</button>"),
-		new modalContent("GCal Export","","<button ng-click='nextModal()'>Next</button>"),
-		new modalContent("Tutorial Complete","","<button data-dismiss='modal'>Close</button>")
+		new modalContent("Welcome",`${tutorial_intro}`,"<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("Open Sidebar",`${sidebar}`,"<button ng-click='nextModal()'>Next</button>"), 
+		new modalContent("Smart Search",`${s_search}`,"<button ng-click='nextModal()'>Next</button>"), 
+		new modalContent("Live Class Enrollment","","<button ng-click='nextModal()'>Next</button>",),
+		new modalContent("GCal Export",`${gcal_tutorial}`,"<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("Tutorial Complete","","<button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>")
 
 	]
 
