@@ -1486,7 +1486,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	
+
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
 		body:	` <div class="modal-item">
@@ -1499,11 +1499,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
                 </div>`
-        
+
 
 	}
 	console.log(Filters)
-	
+
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -4107,6 +4107,39 @@ $scope.modalBooks = function(section, course) {
 	$scope.$parent.modalCourse = course;
 	$scope.setActiveModalTab(2);
 	$scope.courseModal();
+}
+
+$scope.reviewsButton = function(section, course) {
+	//who's ready for some hacky shit.
+	$scope.$parent.modalSection = section;
+	$scope.$parent.modalCourse = course;
+
+	console.log($scope)
+
+	var name = $scope.modalSection.instructors[0].name
+	console.log("Getting reviews for:", name);
+
+	//testing...
+	name = "Ken Ross"
+	console.log("jk we only have 2 people in our database, getting someone else...");
+
+	$.ajax({
+	    method: 'POST',
+	   	url: "http://localhost:3000/api/getReviews",
+	   	headers: {'Content-Type':'application/json'},
+	   	data: "{\"name\": \""+name+"\"}",
+	   	success: function(data, status) {
+	    	console.log(data, "and status is", status)
+	    	setReviewModal(data)
+	    }
+	});
+}
+
+function setReviewModal(data){
+  	console.log("Review data:", data)
+  	data = "<h3>"+data[0].details.professor+" is "+data[0].professor["describe-professor"]+" and in "+data[0].reviewer["school_in"]+"</h3>"
+  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", data);
+	$('#myModal').modal();
 }
 
 });
