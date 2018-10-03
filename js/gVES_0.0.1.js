@@ -3867,12 +3867,10 @@ margin-top: 1rem;
 
     $(".course-reviews").each(function(index) {
         $(this).attr("ng-click", "reviewsButton(section, course);")
-        $(this).attr("onclick", "reviewsButton(section, course);")
         console.log( $(this) );
     })
     $(".submit-reviews").each(function(index) {
-        $(this).attr("ng-click", "reviewsButton();")
-        $(this).attr("onclick", "reviewsButton();")
+        $(this).attr("ng-click", "submitReviewsButton(section, course);")
         console.log( $(this) );
     })
 
