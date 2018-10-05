@@ -4121,7 +4121,8 @@ $scope.reviewsButton = function(section, course) {
 
 	$.ajax({
 	    method: 'POST',
-	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually
+	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually everywhere in file.
+	   												 //also http -> https after testing everywhere in file
 	   	headers: {'Content-Type':'application/json'},
 	   	data: "{\"name\": \""+name+"\"}",
 	   	success: function(data, status) {
@@ -4142,15 +4143,21 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>", 
-		"<form>"+
-		"<input type=\"checkbox\" namsection, coursee=\"tag1\" value=\"tag1\" id=\"tag1\" ng-model=\"reviewData.tag1\"><label for=\"tag1\"> noice</label>"+
-		"<input type=\"checkbox\" namsection, coursee=\"tag2\" value=\"tag2\" id=\"tag2\" ng-model=\"reviewData.tag2\"><label for=\"tag2\"> funny :DDDDD</label>"+
-		"<input type=\"checkbox\" namsection, coursee=\"tag3\" value=\"tag3\" id=\"tag3\" ng-model=\"reviewData.tag3\"><label for=\"tag3\"> mean >:(</label>"+
-		"<input type=\"checkbox\" namsection, coursee=\"tag4\" value=\"tag4\" id=\"tag4\" ng-model=\"reviewData.tag4\"><label for=\"tag4\"> STRICT!</label>"+
-		"<input type=\"checkbox\" namsection, coursee=\"tag5\" value=\"tag5\" id=\"tag5\" ng-model=\"reviewData.tag5\"><label for=\"tag5\"> boring</label>"+
-		"<input type=\"submit\" value=\"Submit\">"+
-		"</form>");
+	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>",
+		`<form>
+			<input type="radio" name="score" value="1" checked> 1
+			<input type="radio" name="score" value="2" checked> 2
+			<input type="radio" name="score" value="3" checked> 3
+			<input type="radio" name="score" value="4" checked> 4
+			<input type="radio" name="score" value="5" checked> 5<br>
+			<input type="range" min="1" max="100" value="50" class="slider" id="myRange"><br>
+			<input type="checkbox" namsection, coursee="tag1" value="tag1" id="tag1" ng-model="reviewData.tag1"><label for="tag1"> noice</label>
+			<input type="checkbox" namsection, coursee="tag2" value="tag2" id="tag2" ng-model="reviewData.tag2"><label for="tag2"> funny :DDDDD</label>
+			<input type="checkbox" namsection, coursee="tag3" value="tag3" id="tag3" ng-model="reviewData.tag3"><label for="tag3"> mean >:(</label>
+			<input type="checkbox" namsection, coursee="tag4" value="tag4" id="tag4" ng-model="reviewData.tag4"><label for="tag4"> STRICT!</label>
+			<input type="checkbox" namsection, coursee="tag5" value="tag5" id="tag5" ng-model="reviewData.tag5"><label for="tag5"> boring</label>
+			<input type="submit" value="Submit">
+		</form>`);
 	$('#myModal').modal();
 }
 });
@@ -5142,7 +5149,7 @@ $scope.$watch('program', function() {
 
 		// $("#program-information .ng-scope").show()
 		// var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
-		var my_url = 'https://localhost:3000/api/getMajorData';
+		var my_url = 'http://localhost:3000/api/getMajorData';
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
@@ -5176,7 +5183,7 @@ $scope.$watch('program', function() {
 		    };
 
 			// my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
-			my_url = 'https://localhost:3000/api/reportBadData';
+			my_url = 'http://localhost:3000/api/reportBadData';
 		    var bad_data_btn = document.createElement("button");
 		    bad_data_btn.innerHTML = "Inaccurate data?";
 		    bad_data_btn.setAttribute("style","color: black");
