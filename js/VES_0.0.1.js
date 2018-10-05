@@ -4134,7 +4134,8 @@ $scope.reviewsButton = function(section, course) {
 
 function setReviewModal(data){
   	console.log("Review data:", data)
-  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", data);
+  	var dataDisplay = "<h2>"+data[0].details.course_name+"</h2>"
+  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", dataDisplay);
 	$('#myModal').modal();
 }
 
