@@ -1504,6 +1504,52 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 	console.log(Filters)
 
+//find me
+	$scope.submitReview = function(e){
+		// 
+
+		var radios = document.getElementsByName('score');
+		var slider = document.getElementById('hourRange')
+		var tags = document.getElementsByName('courseTag')
+		var chosenTags = [];
+
+
+		for (var i = 0, length = radios.length; i < length; i++){
+			if (radios[i].checked){
+				var score = radios[i].value;
+				break;
+			}
+		}
+		for (var j = 0, length = tags.length; j < length; j++){
+			if(tags[j].checked){
+				// console.log(tags[j].value)
+				chosenTags.push( tags[j].value );
+			}
+		}
+		console.log(chosenTags);
+		console.log(score)
+		console.log(slider.value)
+
+
+
+		
+		// console.log($("#submitReviewForm").$('input'));
+
+		// score
+		// console.log( $("#submitReviewForm").find("[name='score']"));
+		//console.log( $("#submitReviewForm").find("[name='score']").find("[checked=true]"));
+
+		// // $.ajax({
+		// 	method: 'GET',
+		// 	url: 'https://google.com',
+		// 	success: function(data, status) {
+		// 		console.log(data, "DATA, STATUS ", status)
+		// 		alert(data);
+		// 	}
+
+		// })
+	}
+
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -4143,24 +4189,31 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
+
+
+
 	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>",
-		`<form>
+		`<form id="submitReviewForm" ng-submit="submitReview()" novalidate >
 			<input type="radio" name="score" value="1" checked> 1
 			<input type="radio" name="score" value="2" checked> 2
 			<input type="radio" name="score" value="3" checked> 3
 			<input type="radio" name="score" value="4" checked> 4
 			<input type="radio" name="score" value="5" checked> 5<br>
-			<input type="range" min="1" max="100" value="50" class="slider" id="myRange"><br>
-			<input type="checkbox" namsection, coursee="tag1" value="tag1" id="tag1" ng-model="reviewData.tag1"><label for="tag1"> noice</label>
-			<input type="checkbox" namsection, coursee="tag2" value="tag2" id="tag2" ng-model="reviewData.tag2"><label for="tag2"> funny :DDDDD</label>
-			<input type="checkbox" namsection, coursee="tag3" value="tag3" id="tag3" ng-model="reviewData.tag3"><label for="tag3"> mean >:(</label>
-			<input type="checkbox" namsection, coursee="tag4" value="tag4" id="tag4" ng-model="reviewData.tag4"><label for="tag4"> STRICT!</label>
-			<input type="checkbox" namsection, coursee="tag5" value="tag5" id="tag5" ng-model="reviewData.tag5"><label for="tag5"> boring</label>
+			<input type="range" min="1" max="20" value="10" class="slider" id="hourRange"><br>
+			<input type="checkbox" name="courseTag" value="noice" id="tag1" ng-model="reviewData.tag1"> noice
+			<input type="checkbox" name="courseTag" value="funny :DDDDD" id="tag2" ng-model="reviewData.tag2">funny :DDDDD
+			<input type="checkbox" name="courseTag" value="mean >:(" id="tag3" ng-model="reviewData.tag3">mean >:(
+			<input type="checkbox" name="courseTag" value="STRICT!" id="tag4" ng-model="reviewData.tag4">STRICT!
+			<input type="checkbox" name="courseTag" value="boring" id="tag5" ng-model="reviewData.tag5">boring
 			<input type="submit" value="Submit">
 		</form>`);
+
+
 	$('#myModal').modal();
 }
 });
+
+
 
 app.controller("searchresults", function($scope, $location, $http, $filter, $timeout, UserFavorites, CWApi, CWFeeds) {
 	var formListener = $scope.$watch('form', $scope.processContextualCourses, true);
