@@ -1506,29 +1506,35 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 //find me
 	$scope.submitReview = function(e){
-		// 
-
-		var radios = document.getElementsByName('score');
-		var slider = document.getElementById('hourRange');
+		var stars = document.getElementsByClassName('stars');
+		var slider = document.getElementById('hoursRange');
 		var tags = document.getElementsByName('courseTag');
 		var chosenTags = [];
 
+		var school = document.getElementsByName('schoolSelect');
+		var chosenSchool;
+		school.forEach(s => { if(s.checked) chosenSchool = s.value;});
 
-		for (var i = 0, length = radios.length; i < length; i++){
-			if (radios[i].checked){
-				var score = radios[i].value;
-				break;
-			}
-		}
+		var year = document.getElementsByName('yearSelect');
+		var chosenYear;
+		year.forEach(y => { if(y.checked) chosenYear = y.value;});
+
+		var major = document.getElementsByName('majorSelect');
+		var chosenMajor;
+		major.forEach(m => { if(m.checked) chosenMajor = m.value;});
+
 		for (var j = 0, length = tags.length; j < length; j++){
 			if(tags[j].checked){
 				chosenTags.push( tags[j].value );
 			}
 		}
-
-		console.log(chosenTags);
-		console.log(score)
-		console.log(slider.value)
+		
+		console.log(stars.length);
+		console.log(slider.value);
+		chosenTags.forEach(t => console.log(t));
+		console.log(chosenSchool);
+		console.log(chosenYear);
+		console.log(chosenMajor);
 
 
 
@@ -1558,6 +1564,39 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
 		//console.log($("#myModal").html())
 		//console.log($scope.custom_modal);
+	}
+
+	$scope.starClick = function(i) {
+		$scope.starsHover(i);
+		blockUnhover = true;
+	}
+
+	$scope.blockUnhover = false;
+
+	$scope.starsHover = function(i) {
+		blockUnhover = false;
+		stars = document.getElementsByClassName("stars");
+		for (j=0; j<stars.length; j++) {
+			star = stars[j];
+			if (star.getAttribute("score") <= i) {
+				$(star).html("★");
+				star.style.color = "#e8a552";
+			} else {
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}
+	}
+
+	$scope.starUnhover = function(i) {
+		if (!blockUnhover) {
+			stars = document.getElementsByClassName("stars");
+			for (j=0; j<stars.length; j++) {
+				star = stars[j];
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}	
 	}
 
 	$scope.gcal = {
@@ -4196,10 +4235,10 @@ function setReviewModal(data){
 $scope.submitReviewsButton = function(section, course) {
 	console.log("clicked")
 	toStudentInfo = function(){
-		var profDiv = document.getElementById('profWrapper');
+		var courseDiv = document.getElementById('courseWrapper');
 		var stuDiv = document.getElementById('studentWrapper');
 
-		profDiv.style.display = 'none';
+		courseDiv.style.display = 'none';
 		stuDiv.style.display = 'block';
 	}
 
@@ -4210,12 +4249,14 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var submissionForm = "<form id=\"submitReviewForm\" ng-submit=\"submitReview()\" novalidate>"
 
-	// professor page
-	submissionForm += "<div id=\"profWrapper\">"
-	for(var i = 1; i < 6; i++) {
-		submissionForm += "<input type=\"radio\" name=\"score\" value=\""+i+"\" checked> "+i
+	// course page
+	submissionForm += "<div id=\"courseWrapper\">"
+	for (var i=1; i<6; i++) {
+		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
-	submissionForm += "<br/><input type=\"range\" min=\"1\" max=\"100\" value=\"50\" class=\"slider\" id=\"hoursRange\"><br>"
+
+	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
@@ -4227,19 +4268,22 @@ $scope.submitReviewsButton = function(section, course) {
 
 	// student into page
 	submissionForm += "<div id=\"studentWrapper\">"
-	submissionForm += "School <select name=\"School\">"
-	submissionForm += "<option value=\"CC\">CC</option>"
-	submissionForm += "<option value=\"SEAS\">SEAS</option>"
-	submissionForm += "<option value=\"GS\">GS</option>"
-	submissionForm += "<option value=\"Barnard\">Barnard</option>"
-	submissionForm += "</select>"
+	submissionForm += "School"
+	submissionForm += "<br/><input type=\"radio\" name=\"schoolSelect\" value=\"CC\" checked> CC"
+	submissionForm += "<br/><input type=\"radio\" name=\"schoolSelect\" value=\"SEAS\"> SEAS"
+	submissionForm += "<br/><input type=\"radio\" name=\"schoolSelect\" value=\"GS\"> GS"
 
-	submissionForm += "<br/>Year <select name=\"year\">"
-	submissionForm += "<option value=\"Freshman\">Freshman</option>"
-	submissionForm += "<option value=\"Sophomore\">Sophomore</option>"
-	submissionForm += "<option value=\"Junior\">Junior</option>"
-	submissionForm += "<option value=\"Senior\">Senior</option>"
-	submissionForm += "</select>"
+	submissionForm += "<br/></br> Year"
+	submissionForm += "<br/><input type=\"radio\" name=\"yearSelect\" value=\"firstyear\" checked> Freshman"
+	submissionForm += "<br/><input type=\"radio\" name=\"yearSelect\" value=\"secondyear\"> Sophomore"
+	submissionForm += "<br/><input type=\"radio\" name=\"yearSelect\" value=\"thirdyear\"> Junior"
+	submissionForm += "<br/><input type=\"radio\" name=\"yearSelect\" value=\"forrthyear\"> Senior"
+
+	submissionForm += "<br/></br> Major"
+	submissionForm += "<br/><input type=\"radio\" name=\"majorSelect\" value=\"math\" checked> Math"
+	submissionForm += "<br/><input type=\"radio\" name=\"majorSelect\" value=\"physics\"> Physics"
+	submissionForm += "<br/><input type=\"radio\" name=\"majorSelect\" value=\"english\"> English"
+	submissionForm += "<br/><input type=\"radio\" name=\"majorSelect\" value=\"art\"> Art"
 
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\" id=\"reviewSubmitButton\">"
 	submissionForm += "</div>"
