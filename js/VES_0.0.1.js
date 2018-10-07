@@ -1117,10 +1117,10 @@ app.factory('Filters', function($http) {
 	// Filters = $http.get('feeds/filters.js');
 
 	program_courses = [];
-	// var my_url = 'http://localhost:3000/api/getDeptData';
+	var my_url = 'http://localhost:3000/api/getDeptData';
 	// var fn = "local.json";
 
-	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
+	// var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
 	var schools = ['GS','SEAS','CC'];
 
 	var promises = [];
@@ -1486,7 +1486,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	
+
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
 		body:	` <div class="modal-item">
@@ -1499,11 +1499,57 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
                 </div>`
-        
+
 
 	}
 	console.log(Filters)
-	
+
+//find me
+	$scope.submitReview = function(e){
+		// 
+
+		var radios = document.getElementsByName('score');
+		var slider = document.getElementById('hourRange')
+		var tags = document.getElementsByName('courseTag')
+		var chosenTags = [];
+
+
+		for (var i = 0, length = radios.length; i < length; i++){
+			if (radios[i].checked){
+				var score = radios[i].value;
+				break;
+			}
+		}
+		for (var j = 0, length = tags.length; j < length; j++){
+			if(tags[j].checked){
+				// console.log(tags[j].value)
+				chosenTags.push( tags[j].value );
+			}
+		}
+		console.log(chosenTags);
+		console.log(score)
+		console.log(slider.value)
+
+
+
+		
+		// console.log($("#submitReviewForm").$('input'));
+
+		// score
+		// console.log( $("#submitReviewForm").find("[name='score']"));
+		//console.log( $("#submitReviewForm").find("[name='score']").find("[checked=true]"));
+
+		// // $.ajax({
+		// 	method: 'GET',
+		// 	url: 'https://google.com',
+		// 	success: function(data, status) {
+		// 		console.log(data, "DATA, STATUS ", status)
+		// 		alert(data);
+		// 	}
+
+		// })
+	}
+
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -1626,13 +1672,14 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				$('#success').hide();
 				$('#submit').show();
 			} else {
-				$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+				// $http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
+				$http.post('http://localhost:3000/api/coreSwap', returnJson);
 				$('#success').show();
 				$('#submit').hide();
 			}
 			console.log(returnJson);
 			$scope.listing.choosing = null;
-			// $http.post('http://localhost:3000/api/coreSwap', returnJson);
+			
 		},
 		clearsubmit: () => {
 			$('#success').hide();
@@ -1641,7 +1688,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 
 	//Instantiate nicknames
-	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
+	// nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
+	nicknames = $http.post('http://localhost:3000/api/getNicknames');
 	$scope.global = {
 		variables: {},
 		basicFiltersShown: 1,
@@ -4109,7 +4157,66 @@ $scope.modalBooks = function(section, course) {
 	$scope.courseModal();
 }
 
+$scope.reviewsButton = function(section, course) {
+	$scope.$parent.modalSection = section;
+	$scope.$parent.modalCourse = course;
+
+	var name = $scope.modalSection.instructors[0].name
+	console.log("Getting reviews for:", name);
+
+	//testing...
+	name = "Ken Ross"
+	console.log("jk we only have 2 people in our database, getting someone else...");
+
+	$.ajax({
+	    method: 'POST',
+	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually everywhere in file.
+	   												 //also http -> https after testing everywhere in file
+	   	headers: {'Content-Type':'application/json'},
+	   	data: "{\"name\": \""+name+"\"}",
+	   	success: function(data, status) {
+	    	console.log(data, "and status is", status)
+	    	setReviewModal(data)
+	    }
+	});
+}
+
+function setReviewModal(data){
+  	console.log("Review data:", data)
+  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", data);
+	$('#myModal').modal();
+}
+
+$scope.submitReviewsButton = function(section, course) {
+	console.log("clicked")
+	$scope.$parent.modalSection = section;
+	$scope.$parent.modalCourse = course;
+
+
+
+
+	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>",
+		`<form id="submitReviewForm" ng-submit="submitReview()" novalidate >
+			<input type="radio" name="score" value="1" checked> 1
+			<input type="radio" name="score" value="2" checked> 2
+			<input type="radio" name="score" value="3" checked> 3
+			<input type="radio" name="score" value="4" checked> 4
+			<input type="radio" name="score" value="5" checked> 5<br>
+			<input type="range" min="1" max="20" value="10" class="slider" id="hourRange"><br>
+			<input type="checkbox" name="courseTag" value="noice" id="tag1" ng-model="reviewData.tag1"> noice
+			<input type="checkbox" name="courseTag" value="funny :DDDDD" id="tag2" ng-model="reviewData.tag2">funny :DDDDD
+			<input type="checkbox" name="courseTag" value="mean >:(" id="tag3" ng-model="reviewData.tag3">mean >:(
+			<input type="checkbox" name="courseTag" value="STRICT!" id="tag4" ng-model="reviewData.tag4">STRICT!
+			<input type="checkbox" name="courseTag" value="boring" id="tag5" ng-model="reviewData.tag5">boring
+			<input type="submit" value="Submit">
+		</form>`);
+
+
+	$('#myModal').modal();
+}
 });
+
+
 
 app.controller("searchresults", function($scope, $location, $http, $filter, $timeout, UserFavorites, CWApi, CWFeeds) {
 	var formListener = $scope.$watch('form', $scope.processContextualCourses, true);
@@ -5097,7 +5204,8 @@ $scope.$watch('program', function() {
 		$scope.global.progwidgetSelected = true;
 
 		// $("#program-information .ng-scope").show()
-		var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
+		// var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
+		var my_url = 'http://localhost:3000/api/getMajorData';
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
@@ -5130,7 +5238,8 @@ $scope.$watch('program', function() {
 			    }
 		    };
 
-			my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
+			// my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
+			my_url = 'http://localhost:3000/api/reportBadData';
 		    var bad_data_btn = document.createElement("button");
 		    bad_data_btn.innerHTML = "Inaccurate data?";
 		    bad_data_btn.setAttribute("style","color: black");

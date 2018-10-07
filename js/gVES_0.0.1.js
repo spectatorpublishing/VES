@@ -3820,7 +3820,7 @@ margin-top: 1rem;
               Welcome to Core Swap! Search for Core courses in Vergil and click the plus symbol to begin selecting classes you have and want. Then, click submit to post your swap request. Our magic algorithm will let you know when you are matched with someone, and we’ll send you an email with details on how to swap classes. Currently, Lit Hum, Fro Sci, U Writing, Art of Engineering, Contemporary Civilization, Art Hum, and Music Hum are able to be swapped.
             </p>
             <p>
-                <span class=\"glyphicon glyphicon-plus btn btn-default\" 
+                <span class=\"glyphicon glyphicon-plus btn btn-default\"
                         ng-click=\"listing.toggleMode('I Want This')\"
                         ng-class=\"(listing.getMode() === 'I Want This' ? 'glyphicon-ok' : 'glyphicon-plus')\" >
                 </span>
@@ -3830,7 +3830,7 @@ margin-top: 1rem;
                 <p ng-repeat=\"i in listing.setToArray(listing.want)\">{{i.split(", ")[0]}}<br>Section {{i.split(", ")[1]}}<span style=\"margin-left:10px;\" ng-click=\"listing.wantremove(i);\" class=\"glyphicon glyphicon-remove btn btn-default\"></span></p>
             </div>
             <p>
-                <span class=\"glyphicon glyphicon-plus btn btn-default\" 
+                <span class=\"glyphicon glyphicon-plus btn btn-default\"
                         ng-click=\"listing.toggleMode('I Have This')\"
                         ng-class=\"(listing.getMode() === 'I Have This' ? 'glyphicon-ok' : 'glyphicon-plus')\" >
                 </span>
@@ -3846,11 +3846,34 @@ margin-top: 1rem;
     `)
 
     $(".class-more-info").append(
-        "<dl ng-if=\"::section.universalCourseIdentifier\">" +
-        "<dt>Universal Course Identifier</dt>" +
-        "<dd ng-bind=\"::section.universalCourseIdentifier\"></dd>" +
-        "</dl>"
+        `
+        <dl ng-if="::section.universalCourseIdentifier">
+            <dt>Universal Course Identifier</dt>
+            <dd ng-bind="::section.universalCourseIdentifier"></dd>
+        </dl>
+        `
     )
+
+    $(".course-actions > :nth-child(1)").after(
+        `
+        <a class="btn btn-lg ng-scope btn-success course-reviews">
+            Review
+        </a>
+        <a class="btn btn-lg ng-scope btn-success submit-reviews">
+            Submit Review
+        </a>
+        `
+    )
+
+    $(".course-reviews").each(function(index) {
+        $(this).attr("ng-click", "reviewsButton(section, course);")
+        console.log( $(this) );
+    })
+    $(".submit-reviews").each(function(index) {
+        $(this).attr("ng-click", "submitReviewsButton(section, course);")
+        console.log( $(this) );
+    })
+
     // $(".class-more-info").append(
     //     "<dl ng-if=\"::course.ribbit\">" +
     //     "<dt>Ribbit Link</dt>" +
@@ -16549,7 +16572,7 @@ gapiScript.onload = () => (function($) {
               summaries[sum]=filteredCals[cal]["id"];
           }
           $(".calList").append("<option value=\"newCalendar\">New Calendar: Vergil Plus Classes</option>");
-          $("#myModal").modal();       
+          $("#myModal").modal();
       });
 
   }
@@ -16632,7 +16655,7 @@ gapiScript.onload = () => (function($) {
         //console.log("Added event to batch")
       }
     );
-    
+
     batch.then(function(response){
       //console.log(response);
     })
