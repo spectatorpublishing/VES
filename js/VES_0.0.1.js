@@ -4221,6 +4221,8 @@ $scope.submitReviewsButton = function(section, course) {
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" name=\"courseTag\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
+
+	submissionForm += "<br/><input type=\"button\" value=\"Next\" onclick=\"toStudentInfo()\">"
 	submissionForm += "</div>"
 
 	// student into page
@@ -4238,11 +4240,11 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<option value=\"Junior\">Junior</option>"
 	submissionForm += "<option value=\"Senior\">Senior</option>"
 	submissionForm += "</select>"
+
+	submissionForm += "<br/><input type=\"submit\" value=\"Submit\" id=\"reviewSubmitButton\">"
 	submissionForm += "</div>"
 
-	// Buttons
-	submissionForm += "<br/><input type=\"submit\" value=\"Submit\" id=\"reviewSubmitButton\">"
-	submissionForm += "<br/><input type=\"button\" value=\"Next\" onclick=\"toStudentInfo()\">"
+
 	submissionForm += "</form>"
 
 	$scope.modalChange("submit reviews", header, submissionForm);
