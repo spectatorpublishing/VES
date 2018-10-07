@@ -4215,7 +4215,7 @@ $scope.submitReviewsButton = function(section, course) {
 	for(var i = 1; i < 6; i++) {
 		submissionForm += "<input type=\"radio\" name=\"score\" value=\""+i+"\" checked> "+i
 	}
-	submissionForm += "<br/><input type=\"range\" min=\"1\" max=\"100\" value=\"50\" class=\"slider\" id=\"hourRange\"><br>"
+	submissionForm += "<br/><input type=\"range\" min=\"1\" max=\"100\" value=\"50\" class=\"slider\" id=\"hoursRange\"><br>"
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
