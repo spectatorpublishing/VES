@@ -4117,7 +4117,7 @@ $scope.reviewsButton = function(section, course) {
 
 	//testing...
 	name = "Ken Ross"
-	console.log("jk we only have 2 people in our database, getting someone else...");
+	console.log("jk we only have 2 people in our database, getting our boi Ken Ross instead");
 
 	$.ajax({
 	    method: 'POST',
@@ -4134,8 +4134,13 @@ $scope.reviewsButton = function(section, course) {
 
 function setReviewModal(data){
   	console.log("Review data:", data)
-  	var dataDisplay = "<h2>"+data[0].details.course_name+"</h2>"
-  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", dataDisplay);
+  	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+  	var dataDisplay = 
+  		`<h4>Class: ${data[0].details.course_name}<br/>
+  		Professor rating: ${data[0].professor["rate-professor"]}<br/>
+  		Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
+  		This professor is: ${data[0].professor["describe-professor"]}</h4>`;
+  	$scope.modalChange("Modal test!", header, dataDisplay);
 	$('#myModal').modal();
 }
 
@@ -4144,21 +4149,21 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>",
-		`<form>
-			<input type="radio" name="score" value="1" checked> 1
-			<input type="radio" name="score" value="2" checked> 2
-			<input type="radio" name="score" value="3" checked> 3
-			<input type="radio" name="score" value="4" checked> 4
-			<input type="radio" name="score" value="5" checked> 5<br>
-			<input type="range" min="1" max="100" value="50" class="slider" id="myRange"><br>
-			<input type="checkbox" namsection, coursee="tag1" value="tag1" id="tag1" ng-model="reviewData.tag1"><label for="tag1"> noice</label>
-			<input type="checkbox" namsection, coursee="tag2" value="tag2" id="tag2" ng-model="reviewData.tag2"><label for="tag2"> funny :DDDDD</label>
-			<input type="checkbox" namsection, coursee="tag3" value="tag3" id="tag3" ng-model="reviewData.tag3"><label for="tag3"> mean >:(</label>
-			<input type="checkbox" namsection, coursee="tag4" value="tag4" id="tag4" ng-model="reviewData.tag4"><label for="tag4"> STRICT!</label>
-			<input type="checkbox" namsection, coursee="tag5" value="tag5" id="tag5" ng-model="reviewData.tag5"><label for="tag5"> boring</label>
-			<input type="submit" value="Submit">
-		</form>`);
+	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+
+	var submissionForm = "<form>"
+	for(var i = 1; i < 6; i++) {
+		submissionForm += "<input type=\"radio\" name=\"score\" value=\""+i+"\" checked> "+i
+	}
+	submissionForm += "<br/><input type=\"range\" min=\"1\" max=\"100\" value=\"50\" class=\"slider\" id=\"myRange\"><br>"
+
+	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
+	for (var i = 0; i < tags.length; i++) {
+		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
+	}
+	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
+
+	$scope.modalChange("submit reviews", header, submissionForm);
 	$('#myModal').modal();
 }
 });
