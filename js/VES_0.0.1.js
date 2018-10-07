@@ -1575,7 +1575,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				star.style.color = "#e8a552";
 			} else {
 				$(star).html("☆");
-				star.style.color = "black";
+				star.style.color = "#003087";
 			}
 		}
 	}
@@ -1586,7 +1586,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			for (j=0; j<stars.length; j++) {
 				star = stars[j];
 				$(star).html("☆");
-				star.style.color = "black";
+				star.style.color = "#003087";
 			}
 		}	
 	}
