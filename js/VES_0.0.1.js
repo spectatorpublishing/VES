@@ -1504,6 +1504,52 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 	console.log(Filters)
 
+//find me
+	$scope.submitReview = function(e){
+		// 
+
+		var radios = document.getElementsByName('score');
+		var slider = document.getElementById('hourRange')
+		var tags = document.getElementsByName('courseTag')
+		var chosenTags = [];
+
+
+		for (var i = 0, length = radios.length; i < length; i++){
+			if (radios[i].checked){
+				var score = radios[i].value;
+				break;
+			}
+		}
+		for (var j = 0, length = tags.length; j < length; j++){
+			if(tags[j].checked){
+				// console.log(tags[j].value)
+				chosenTags.push( tags[j].value );
+			}
+		}
+		console.log(chosenTags);
+		console.log(score)
+		console.log(slider.value)
+
+
+
+		
+		// console.log($("#submitReviewForm").$('input'));
+
+		// score
+		// console.log( $("#submitReviewForm").find("[name='score']"));
+		//console.log( $("#submitReviewForm").find("[name='score']").find("[checked=true]"));
+
+		// // $.ajax({
+		// 	method: 'GET',
+		// 	url: 'https://google.com',
+		// 	success: function(data, status) {
+		// 		console.log(data, "DATA, STATUS ", status)
+		// 		alert(data);
+		// 	}
+
+		// })
+	}
+
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
@@ -1636,9 +1682,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   <div id="modalhave" ng-repeat="i in listing.setToArray(listing.have)">
                    <p>{{i.split(", ")[0]}}</br>Section {{i.split(", ")[1]}}</p>
                   </div>
-                </div>`,`<div><button type="button" class="btn btn-default" ng
-              click="listing.clearsubmit();" data-dismiss="modal">Close</button>
-              <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();">Submit</button></div>`);
+                </div>`,`<div><button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
+              <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();" data-dismiss="modal">Submit</button>
+              </div>`);
 			$("#myModal").modal();
 		},
 		upload: (uni) => {
@@ -1782,6 +1828,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if ($scope.global.showprogwidget) {
 
 			$("#progwidget button").tooltip('destroy').removeAttr("data-toggle");
+			var  check= $("#sela_form");
+			check.parent().html("");
+			
 
 			// Add basic html dropdown
 			var form = document.createElement("form");
@@ -4197,9 +4246,12 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
 
 	$scope.modalChange("submit reviews", header, submissionForm);
+
 	$('#myModal').modal();
 }
 });
+
+
 
 app.controller("searchresults", function($scope, $location, $http, $filter, $timeout, UserFavorites, CWApi, CWFeeds) {
 	var formListener = $scope.$watch('form', $scope.processContextualCourses, true);
