@@ -1,3 +1,14 @@
+.stars {
+	color: black;
+	font-size: 3rem;
+	padding-right: 0.5rem;
+}
+
+.stars:focus {
+	outline: none;
+	border: 0;
+}
+
 div#program-information {
   padding: 0;
 }

@@ -1510,8 +1510,39 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$scope.custom_modal.footer=footer;
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
-		//console.log($("#myModal").html())
-		//console.log($scope.custom_modal);
+	}
+
+	$scope.starClick = function(i) {
+		$scope.starsHover(i);
+		blockUnhover = true;
+	}
+
+	$scope.blockUnhover = false;
+
+	$scope.starsHover = function(i) {
+		blockUnhover = false;
+		stars = document.getElementsByClassName("stars");
+		for (j=0; j<stars.length; j++) {
+			star = stars[j];
+			if (star.getAttribute("score") <= i) {
+				$(star).html("★");
+				star.style.color = "#e8a552";
+			} else {
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}
+	}
+
+	$scope.starUnhover = function(i) {
+		if (!blockUnhover) {
+			stars = document.getElementsByClassName("stars");
+			for (j=0; j<stars.length; j++) {
+				star = stars[j];
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}	
 	}
 
 	$scope.gcal = {
@@ -4152,9 +4183,10 @@ $scope.submitReviewsButton = function(section, course) {
 	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
 
 	var submissionForm = "<form>"
-	for(var i = 1; i < 6; i++) {
-		submissionForm += "<input type=\"radio\" name=\"score\" value=\""+i+"\" checked> "+i
+	for (var i=1; i<6; i++) {
+		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
+
 	submissionForm += "<br/><input type=\"range\" min=\"1\" max=\"100\" value=\"50\" class=\"slider\" id=\"myRange\"><br>"
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
