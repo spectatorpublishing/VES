@@ -1556,8 +1556,39 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$scope.custom_modal.footer=footer;
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
-		//console.log($("#myModal").html())
-		//console.log($scope.custom_modal);
+	}
+
+	$scope.starClick = function(i) {
+		$scope.starsHover(i);
+		blockUnhover = true;
+	}
+
+	$scope.blockUnhover = false;
+
+	$scope.starsHover = function(i) {
+		blockUnhover = false;
+		stars = document.getElementsByClassName("stars");
+		for (j=0; j<stars.length; j++) {
+			star = stars[j];
+			if (star.getAttribute("score") <= i) {
+				$(star).html("★");
+				star.style.color = "#e8a552";
+			} else {
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}
+	}
+
+	$scope.starUnhover = function(i) {
+		if (!blockUnhover) {
+			stars = document.getElementsByClassName("stars");
+			for (j=0; j<stars.length; j++) {
+				star = stars[j];
+				$(star).html("☆");
+				star.style.color = "black";
+			}
+		}	
 	}
 
 	$scope.gcal = {
@@ -4166,7 +4197,7 @@ $scope.reviewsButton = function(section, course) {
 
 	//testing...
 	name = "Ken Ross"
-	console.log("jk we only have 2 people in our database, getting someone else...");
+	console.log("jk we only have 2 people in our database, getting our boi Ken Ross instead");
 
 	$.ajax({
 	    method: 'POST',
@@ -4183,7 +4214,13 @@ $scope.reviewsButton = function(section, course) {
 
 function setReviewModal(data){
   	console.log("Review data:", data)
-  	$scope.modalChange("Modal test!", "<h2> B I N G O  B O N G O Testing!</h2>", data);
+  	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+  	var dataDisplay = 
+  		`<h4>Class: ${data[0].details.course_name}<br/>
+  		Professor rating: ${data[0].professor["rate-professor"]}<br/>
+  		Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
+  		This professor is: ${data[0].professor["describe-professor"]}</h4>`;
+  	$scope.modalChange("Modal test!", header, dataDisplay);
 	$('#myModal').modal();
 }
 
@@ -4192,25 +4229,23 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
+	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
 
+	var submissionForm = "<form>"
+	for (var i=1; i<6; i++) {
+		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+	}
 
+	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
-	$scope.modalChange("submit reviews", "<h1>this teacher:</h1>",
-		`<form id="submitReviewForm" ng-submit="submitReview()" novalidate >
-			<input type="radio" name="score" value="1" checked> 1
-			<input type="radio" name="score" value="2" checked> 2
-			<input type="radio" name="score" value="3" checked> 3
-			<input type="radio" name="score" value="4" checked> 4
-			<input type="radio" name="score" value="5" checked> 5<br>
-			<input type="range" min="1" max="20" value="10" class="slider" id="hourRange"><br>
-			<input type="checkbox" name="courseTag" value="noice" id="tag1" ng-model="reviewData.tag1"> noice
-			<input type="checkbox" name="courseTag" value="funny :DDDDD" id="tag2" ng-model="reviewData.tag2">funny :DDDDD
-			<input type="checkbox" name="courseTag" value="mean >:(" id="tag3" ng-model="reviewData.tag3">mean >:(
-			<input type="checkbox" name="courseTag" value="STRICT!" id="tag4" ng-model="reviewData.tag4">STRICT!
-			<input type="checkbox" name="courseTag" value="boring" id="tag5" ng-model="reviewData.tag5">boring
-			<input type="submit" value="Submit">
-		</form>`);
+	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
+	for (var i = 0; i < tags.length; i++) {
+		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
+	}
+	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
 
+	$scope.modalChange("submit reviews", header, submissionForm);
 
 	$('#myModal').modal();
 }
