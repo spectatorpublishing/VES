@@ -3856,7 +3856,7 @@ margin-top: 1rem;
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope btn-success course-reviews">
+        <a class="btn btn-lg ng-scope btn-success course-reviews" >
             Review
         </a>
         <a class="btn btn-lg ng-scope btn-success submit-reviews">
@@ -3867,6 +3867,8 @@ margin-top: 1rem;
 
     $(".course-reviews").each(function(index) {
         $(this).attr("ng-click", "reviewsButton(section, course);")
+        $(this).attr("ng-mouseover", "hoverEnterReviewsButton(section, course);")
+        $(this).attr("ng-mouseleave", "hoverLeaveReviewsButton(section, course);")
         console.log( $(this) );
     })
     $(".submit-reviews").each(function(index) {

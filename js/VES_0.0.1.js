@@ -4157,6 +4157,14 @@ $scope.modalBooks = function(section, course) {
 	$scope.courseModal();
 }
 
+$scope.hoverEnterReviewsButton = function(section, course) {
+	console.log("Ay you HOVERED THO")
+}
+
+$scope.hoverLeaveReviewsButton = function(section, course) {
+	console.log("Ay you LEFT THO")
+}
+
 $scope.reviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
