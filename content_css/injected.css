@@ -26,3 +26,11 @@ aside div.content {
 #program_chosen {
   padding: .5rem 0;
 }
+
+#reviewSubmitButton{
+  display: none;
+}
+
+#studentWrapper{
+  display: none;
+}
