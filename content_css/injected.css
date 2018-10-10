@@ -38,6 +38,11 @@ aside div.content {
   padding: .5rem 0;
 }
 
+h1.title {
+	padding-left: .5em;
+	color: #003087;
+}
+
 #hoursRange.slider {
     -webkit-appearance: none;
     width: 100%;
@@ -48,6 +53,7 @@ aside div.content {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-top: .5em;
 }
 
 #hoursRange.slider::-webkit-slider-thumb {
@@ -68,7 +74,37 @@ aside div.content {
     cursor: pointer;
 }
 
-h4.hours {
+h4.submitText {
 	color: #003087;
 	display: inline;
+}
+
+h6.submitText {
+	margin: 0;
+}
+
+.checkboxStyling {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+label.checkboxLabel {
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid gray;
+}
+
+input + label.checkboxLabel {
+  border-color: #003087;
+  color: #003087;
+}
+
+input:checked + label.checkboxLabel {
+  background: #E6A65D;
 }

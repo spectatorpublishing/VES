@@ -4229,23 +4229,27 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+	var header = `<h1 class="title">${$scope.modalSection.instructors[0].name}</h1>`
 
-	var submissionForm = "<form>"
+	var submissionForm = "<form><h4 class=\"submitText\">Professor Rating: </h4>"
+	submissionForm += "<h6 class=\"submitText\">Rate this professor on a scale of 1-5</h6>"
 	for (var i=1; i<6; i++) {
-		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+		submissionForm += "<label ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</label>"
 	}
 
-	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<br><h4 class=\"submitText\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output>"
+	submissionForm += "<h6 class=\"submitText\">Approximate how many hours you spent on this class a week</h6>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
+	submissionForm += "<h4 class=\"submitText\">Professor Tags:</h4>"
+	submissionForm += "<h6 class=\"submitText\">Describe your professor the best you can with these tags</h6>"
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
-		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
+		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\" class=\"checkboxStyling\"><label for=\""+tags[i]+"\" class=\"checkboxLabel\"> "+tags[i]+"</label>"
 	}
-	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
+	submissionForm += "<br><input type=\"submit\" value=\"Submit\"></form>"
 
-	$scope.modalChange("submit reviews", header, submissionForm);
+	$scope.modalChange("Quick Review Submission", header, submissionForm);
 
 	$('#myModal').modal();
 }
