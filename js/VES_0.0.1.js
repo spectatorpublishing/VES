@@ -1530,6 +1530,22 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		console.log(score)
 		console.log(slider.value)
 
+		
+		"course": {
+        "recommend": true,
+        "hours_spent": slider.value, 
+        "describe-course": [
+            "funny"
+        ]
+    	},
+		"professor": {
+        "take-professor-again": ,
+        "describe-professor": [
+           chosenTags
+        ],
+        "rate-professor": score; 
+    },
+
 
 
 		
