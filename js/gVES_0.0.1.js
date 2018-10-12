@@ -3856,11 +3856,11 @@ margin-top: 1rem;
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope btn-success course-reviews">
-            Review
+        <a class="btn btn-lg ng-scope course-reviews">
+            Review <div class="course-plus"><b>+</b></div>
         </a>
-        <a class="btn btn-lg ng-scope btn-success submit-reviews">
-            Submit Review
+        <a class="btn btn-lg ng-scope course-reviews submit-reviews">
+            Submit Review <div class="course-plus"><b>+</b></div>
         </a>
         `
     )
