@@ -4245,10 +4245,17 @@ $scope.submitReviewsButton = function(section, course) {
 	}
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
 
+	submissionForm += `<p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p>`
+
 	$scope.modalChange("submit reviews", header, submissionForm);
 
 	$('#myModal').modal();
 }
+
+$scope.moreInfoClicked = function(section, course) {
+	// yayyy
+	console.log("user requested more information");
+
 });
 
 
