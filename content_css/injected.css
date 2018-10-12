@@ -39,6 +39,7 @@ aside div.content {
 }
 
 #hoursRange.slider {
+	/*new slider branch fuckery*/
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
