@@ -1554,6 +1554,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
 		$scope.custom_modal.footer=footer;
+		$("#myModal .modal-title").html($compile(title)($scope)[0])
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
 	}
@@ -4237,7 +4238,10 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+	var header = `<div class="review-modal-header">
+					<p>${$scope.modalSection.instructors[0].name}</p>
+					<p>${course}</p>
+				</div>`;
 
 	var submissionForm = "<form>"
 	for (var i=1; i<6; i++) {
@@ -4251,11 +4255,12 @@ $scope.submitReviewsButton = function(section, course) {
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
-	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
+	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form></div>"
 
-	submissionForm += `<p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p>`
+	var footer = `<div><p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p></div>`
 
-	$scope.modalChange("submit reviews", header, submissionForm);
+
+	$scope.modalChange(header, submissionForm, footer);
 
 	$('#myModal').modal();
 }
