@@ -4243,7 +4243,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course}</p>
 				</div>`;
 
-	var submissionForm = "<form>"
+	var submissionForm = "<div><form>"
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
@@ -4258,7 +4258,6 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form></div>"
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p></div>`
-
 
 	$scope.modalChange(header, submissionForm, footer);
 
