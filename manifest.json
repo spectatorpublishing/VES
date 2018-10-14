@@ -34,15 +34,12 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
-    "https://vergil.registrar.columbia.edu/*"
+    "https://vergil.registrar.columbia.edu/*",
+    "fileSystem"
   ],
   "web_accessible_resources": [
    "js/VES_0.0.1.js",
    "js/gVES_0.0.1.js",
-   "icons/vergil-plain.png",
-   "content_images/coreswap.gif",
-   "gcal.gif",
-   "open_sidebar.gif",
-   "smart_search.gif"
+   "icons/vergil-plain.png"
   ]
 }

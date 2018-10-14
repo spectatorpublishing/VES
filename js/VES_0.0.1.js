@@ -7,9 +7,22 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
+var display_tutorial= function(){
+		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="nextModal(); $("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
+		//console.log("AAAAAbbbbAAAAA");
+}
 var reset= function(){
 	localStorage.removeItem("fightme");
+	//display_tutorial();
+	//console.log("test")	;
 }
+$( document ).ready(function(){
+		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="$("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
+		//console.log("AAAAAbbbbAAAAA");
+});
+
+reset();
+
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -29,7 +42,6 @@ var changeSidebarFxn = function() {
 		$('#loginprompt').show();
 	}
 }
-
 var showProgBar = function() {
 	$('#program_chosen').show(); // show prog bar
 }
@@ -1520,6 +1532,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	angular.element(document).ready(function () {
 	if (localStorage.getItem("fightme") == null) {
+			modalCounter=0;
 			$scope.nextModal();
 			localStorage.setItem("fightme", true);
 			$("#myModal").modal();
@@ -1559,18 +1572,20 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		//console.log($scope.custom_modal);
 	}
 	$scope.nextModal= function(){
-
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		modalCounter++;
+		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
+		$(".modal-body").css({"padding":"0 10% 0 10%"})
+
 	}
 	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
 	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
 	//var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
-
-	var c_images="C:\Users\south\OneDrive\Documents\GitHub\VES\content_images";
-	var sidebar=`<img src= '${c_images}\open_sidebar.gif'> `;
-	var s_search=`<img src="${c_images}\smart_search.gif">`;
-	var gcal_tutorial=`<img src="${c_images}\gcal.gif">`;
+	
+	var c_images="../content_images";
+	var sidebar=`<img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"> `;
+	var s_search=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img">`;
+	var gcal_tutorial=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img">`;
 	$scope.tutorial_features=[
 		new modalContent("Welcome",`${tutorial_intro}`,"<button ng-click='nextModal()'>Next</button>"),
 		new modalContent("Open Sidebar",`${sidebar}`,"<button ng-click='nextModal()'>Next</button>"), 
@@ -1580,7 +1595,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		new modalContent("Tutorial Complete","","<button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>")
 
 	]
-
 	$scope.gcal = {
 		callback: () => {
 			$().vergilgcal_modal_callback()
