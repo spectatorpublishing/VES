@@ -4264,7 +4264,7 @@ $scope.moreInfoClicked = function(section, course) {
 	// yayyy
 	console.log("user requested more information");
 
-});
+}});
 
 
 
