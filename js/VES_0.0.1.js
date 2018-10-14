@@ -7,7 +7,7 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
-
+var prof_rate=["harsh","somewhat harsh","fair","somewhat lenient", "lenient"];
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -4234,7 +4234,7 @@ function setReviewModal(data){
 }
 
 $scope.submitReviewsButton = function(section, course) {
-	console.log("clicked")
+	console.log("clicked");
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
@@ -4243,13 +4243,21 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course}</p>
 				</div>`;
 
-	var submissionForm = "<div><form>"
+	var submissionForm = "<form>";
+	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
+
+	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\" style=\"display:inline;color:#E8A552;font-size:18px;\">Fair</output></div>"
+	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
+	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
+
+
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
 
-	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
-	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
+
+	
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
