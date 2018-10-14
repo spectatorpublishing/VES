@@ -4247,22 +4247,32 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
 	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
 
+
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
 
+
 	
+
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
 
+	submissionForm += `<p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p></div>`
+
 	$scope.modalChange("submit reviews", header, submissionForm);
 
 	$('#myModal').modal();
 }
-});
+
+$scope.moreInfoClicked = function(section, course) {
+	// yayyy
+	console.log("user requested more information");
+
+}});
 
 
 
