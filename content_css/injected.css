@@ -66,10 +66,27 @@ aside div.content {
   background: #E6A65D;
   cursor: pointer;
 }
-h4.hours {
-	color: #003087;
-	display: inline;
+
+.hours input, .hours input:focus {
+  border: none;
 }
+
+.hours label {
+  color: #777;
+}
+
+.hours h4 {
+	color: #002f87;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.hours .star{
+  color: #eaa55e;
+}
+
 .course-actions .course-reviews{
   background: #789CC1;
   position:relative
