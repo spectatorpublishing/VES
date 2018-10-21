@@ -1602,8 +1602,24 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		// yayyy
 		console.log("user requested more information on ", course, professor)
 	}
-	$scope.submitForm = function(){
-		console.log("submit the stuff")
+	$scope.submitForm = function(course, professor){
+		console.log("submit the stuff", course, professor)
+		var hours = parseInt($("#hoursOutputId").text())
+		var teacherRating = $("#profRateId").text()
+		var starScore = 0
+		$("#starSystem span").each(function(i){
+			if($(this).text() == "★"){
+				starScore = i
+			}
+		})
+		var chosenTags = []
+		$("#tagChoices input").each(function(i){
+			if($(this).prop("checked")){
+				chosenTags.push($(this).prop("value"))
+			}
+		})
+		
+		
 	}
 	// Allow console logging
 	$scope.listing = {
@@ -4258,19 +4274,19 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
 	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
 
-
+	submissionForm += `<div id="starSystem">`
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
-
-
-	
+	submissionForm += `</div>`
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
+	submissionForm += `<div id="tagChoices">`
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
-	submissionForm += '<br/><input type="submit" value="Submit" ng-click="submitForm()"></form></div>'
+	submissionForm += `</div>`
+	submissionForm += `<br/><input type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
