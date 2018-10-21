@@ -1598,13 +1598,20 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 		}
 	}
+	$scope.moreInfoClicked = function(course, professor){
+		// yayyy
+		console.log("user requested more information on ", course, professor)
+	}
+	$scope.submitForm = function(){
+		console.log("submit the stuff")
+	}
 	// Allow console logging
 	$scope.listing = {
 		choosing: null,
 		close: ()=>{
-		console.log("check");
-		$("#myModal").modal();
-	},
+			console.log("check")
+			$("#myModal").modal()
+		},
 		toggleMode: (intent) => {
 			console.log($scope.listing.choosing)
 			console.log(intent)
@@ -4240,14 +4247,14 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var header = `<div class="review-modal-header">
 					<p>${$scope.modalSection.instructors[0].name}</p>
-					<p>${course}</p>
+					<p>${course.title}</p>
 				</div>`;
 
 	var submissionForm = "<form>";
-	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\">10</output></div>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
-	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\" style=\"display:inline;color:#E8A552;font-size:18px;\">Fair</output></div>"
+	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\">Fair</output></div>"
 	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
 	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
 
@@ -4263,20 +4270,16 @@ $scope.submitReviewsButton = function(section, course) {
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
-	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form></div>"
+	submissionForm += '<br/><input type="submit" value="Submit" ng-click="submitForm()"></form></div>'
 
-	var footer = `<div><p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p></div>`
+	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
 	$scope.modalChange(header, submissionForm, footer);
 
 	$('#myModal').modal();
 }
 
-$scope.moreInfoClicked = function(section, course) {
-	// yayyy
-	console.log("user requested more information");
-
-}});
+});
 
 
 
