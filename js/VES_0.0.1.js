@@ -4244,7 +4244,12 @@ $scope.submitReviewsButton = function(section, course) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
 
-	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\" style=\"display:inline;color:#E8A552;font-size:18px;\">10</output></div>"
+	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
+	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+
+	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
 	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
@@ -4253,11 +4258,18 @@ $scope.submitReviewsButton = function(section, course) {
 	}
 	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
 
+	submissionForm += `<p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p>`
+
 	$scope.modalChange("submit reviews", header, submissionForm);
 
 	$('#myModal').modal();
 }
-});
+
+$scope.moreInfoClicked = function(section, course) {
+	// yayyy
+	console.log("user requested more information");
+
+}});
 
 
 

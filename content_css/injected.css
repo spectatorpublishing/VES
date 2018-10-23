@@ -1,12 +1,12 @@
 .stars {
-	color: #003087;
-	font-size: 3rem;
-	padding-right: 0.5rem;
+  color: #003087;
+  font-size: 3rem;
+  padding-right: 0.5rem;
 }
 
 .stars:focus {
-	outline: none;
-	border: 0;
+  outline: none;
+  border: 0;
 }
 
 div#program-information {
@@ -37,39 +37,7 @@ aside div.content {
 #program_chosen {
   padding: .5rem 0;
 }
-#hoursRange.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;   
-  background: #003087;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
 
-#hoursRange.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%; 
-  background: #E8A552;
-  cursor: pointer;
-}
-
-#hoursRange.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #E6A65D;
-  cursor: pointer;
-}
-h4.hours {
-	color: #003087;
-	display: inline;
-}
 .course-actions .course-reviews{
   background: #789CC1;
   position:relative
@@ -79,4 +47,124 @@ h4.hours {
   top: 0;
   right: .5rem;
   color: #e8a55e;
+}
+
+/*submit review modal css*/
+/*slider css*/
+.submitModalText {
+  color: #002f87;
+  display: inline;
+  font-weight: bold;
+}
+
+#hoursRange.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;   
+    background: #002f87;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+#hoursRange.slider::-webkit-slider-thumb { 
+  border-radius: 15px 15px 15px 15px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+#hoursRange.slider::-moz-range-thumb {
+    border-radius: 15px 15px 15px 15px;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+output.submitModalTextOutput {
+  display: inline;
+  font-size:18px;
+}
+
+/*radio button/checkmark css*/
+.radioDiv {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    display: inline;
+    font-size:18px;
+}
+
+/* Hide the browser's default radio button */
+.radioDiv input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radioSpan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #002f87;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioDiv:hover input ~ .radioSpan {
+    background-color: #002f87;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioDiv input:checked ~ .radioSpan {
+    background-color: #Eaa55e;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioSpan:after{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioDiv input:checked ~ .radioSpan:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioDiv .radioSpan:after {
+ 	top: 6px;
+	left: 8px;
+	background: #Eaa55e;
+    
+  /*Add another block-level blank space*/
+  content: '';
+ 
+  /*Make it a small rectangle so the border will create an L-shape*/
+  width: 4px;
+  height: 8px;
+ 
+  /*Add a white border on the bottom and left, creating that 'L' */
+  border: solid #eee;
+  border-width: 0 2px 2px 0;
+ 
+  /*Rotate the L 45 degrees to turn it into a checkmark*/
+  transform: rotate(45deg);
 }
