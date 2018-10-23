@@ -4317,7 +4317,6 @@ function groupFactors(data) {
 function setReviewModal(data){
   	console.log("Review data:", data)
   	$scope.$parent.activeReviews = data;
-  	console.log($scope)
   	var dataDisplay, header;
   	if (data.length != 0) {
 		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
@@ -4370,24 +4369,26 @@ function setReviewModal(data){
 		dataDisplay += `</h4>`;
 
 		modalBody = `
-			<div ng-init="review=0">
-			<div ng-show="review == 0">${dataDisplay}</div>
-			<div ng-show="review != 0">
-				<h4 >
-					Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
-					Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
-					Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
-					Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
-					Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
-					Organized: {{activeReviews[review - 1]["organized"]}}<br>
-					Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
-					Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
-					Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
-				</h4>
-			</div>
-			<a ng-show="review > 0" ng-click="review = review - 1">&#8249;</a>
-			<p ng-bind="review"></p>
-			<a ng-show="review < ${data.length}" ng-click="review = review + 1">&#8250;</a>
+			<div ng-init="review=0" class="showReview">
+				<div ng-show="review == 0">${dataDisplay}</div>
+				<div ng-show="review != 0">
+					<h4 >
+						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
+						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
+						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
+						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
+						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
+						Organized: {{activeReviews[review - 1]["organized"]}}<br>
+						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
+						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
+						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
+					</h4>
+				</div>
+				<div class="navigator">
+					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+				</div>
 			</div>
 		`
 
