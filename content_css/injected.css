@@ -75,7 +75,6 @@ h4.submitModalText {
   color: #002f87;
   display: inline;
 }
-
 output.submitModalTextOutput {
   color: #Eaa55e;
   display: inline;
@@ -107,4 +106,14 @@ output.submitModalTextOutput {
   top: 0;
   right: .5rem;
   color: #e8a55e;
+}
+#hoursOutputId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+}
+#profRateId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
 }
