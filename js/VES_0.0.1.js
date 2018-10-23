@@ -4327,6 +4327,11 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 
+	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
+	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+
 	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
@@ -4348,16 +4353,26 @@ $scope.submitReviewsButton = function(section, course) {
 							<br />
 						</div>`
 
-	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
+	const tags = ["Mandatory Recitations",
+		"Pop Quizzes",
+		"Graded In-Class Assignments",
+		"Attendance Factors Into The Grade",
+		"Participating In-Class Factors Into The Grade",
+		"High Monetary Costs To Taking Class",
+		"Class Is Not Curved"];
+
+	submissionForm += `<div class="tags">`
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
+	submissionForm += `</div>`
+
 	submissionForm += `</div>`
 	submissionForm += `<br/><input type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
-	$scope.modalChange(header, submissionForm, footer);
+	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
 
 	$('#myModal').modal();
 }

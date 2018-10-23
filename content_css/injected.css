@@ -154,3 +154,24 @@ output.submitModalTextOutput {
     background: #Eaa55e;
     cursor: pointer;
 }
+
+.submissionForm .tags {
+  text-align: justify;
+}
+
+.submissionForm input[type="checkbox"] {
+    display: none;
+}
+
+.submissionForm input[type="checkbox"]:checked + label {
+  background-color: #f7a34d;
+}
+
+.submissionForm input[type="checkbox"] + label {
+  background-color: #133c80;
+  color: white;
+  padding: .3rem .5rem;
+  border-radius: 10rem;
+  user-select: none;
+  -moz-user-select: none;
+}
