@@ -1637,7 +1637,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			"selfTeach": teacherRating,
 			"organized": teacherRating,
 			"TAs": teacherRating,
-			"requirement": false,
+			"requirement": true,
 			"recommendation": 5,
 			"factors": chosenTags,
 			"professor": professor,
@@ -4275,6 +4275,24 @@ $scope.reviewsButton = function(section, course) {
 	});
 }
 
+function avgNums(data, key) {
+	vals = [];
+	for (var i=0; i<data.length; i++) {
+		vals.push(data[i][key]);
+	}
+	sum = vals.reduce(function(a, b) { return a + b; });
+	return Math.floor(sum/vals.length);
+}
+
+function avgBool(data, key) {
+	truths = 0;
+	for (var i=0; i<data.length; i++) {
+		if (data[i][key]) { truths += 1; }
+	}
+	var ans = Math.floor(((truths * 100)/data.length)).toString() + "%"
+	return ans;
+}
+
 function setReviewModal(data){
   	console.log("Review data:", data)
   	var dataDisplay, header;
@@ -4283,12 +4301,35 @@ function setReviewModal(data){
 		
 		// Template for booleans in future
 		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
-		  
-		dataDisplay = 
-	  		`<h4> Professor Effective: ${data[0].effective}<br/>
-			Professor Grading: ${data[0].grading}<br/>
-			Hours Per Week: ${data[0].hoursPerWeek}<br/>
-	  		This professor is: ${data[0].factors}</h4>`;
+
+		results = {};
+		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "TAs","recommendation"];
+		disp_bools = ["requirement"];
+		disp_numbers.forEach(function(key) {
+			results[key] = avgNums(data, key);
+		})
+		disp_bools.forEach(function(key) {
+			results[key] = avgBool(data, key);
+		})
+		console.log(results);
+
+		dataDisplay = `<h4>
+		Hours Per Week: ${results["hoursPerWeek"]}<br>
+		Harshness of Grading: ${results["grading"]}<br>
+		Interesting: ${results["interesting"]}<br>
+		Effectiveness: ${results["effective"]}<br>
+		Necessary to Self-Teach: ${results["selfTeach"]}<br>
+		Organized: ${results["organized"]}<br>
+		Helpfulness of TAs: ${results["TAs"]}<br>
+		Would Recommend: ${results["recommendation"]}<br>
+		Requirement: ${results["requirement"]} said yes<br>
+		</h4>`;
+
+		// dataDisplay = 
+	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
+		// 	Professor Grading: ${data[0].grading}<br/>
+		// 	Hours Per Week: ${data[0].hoursPerWeek}<br/>
+	 //  		This professor is: ${data[0].factors}</h4>`;
 	  	
 	} else { // inform user that no review data currently exists
 		var courseNum = $scope.modalSection.subtitle;
