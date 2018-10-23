@@ -1605,7 +1605,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	$scope.submitForm = function(professor, course){
 		console.log("submit the stuff", course, professor)
 		var hours = parseInt($("#hoursOutputId").text())
-		var teacherRating = parseInt($("#p_rate").prop("value"))
+		var teacherRating = parseInt($("#p_rate").prop("value"));
+		var sem_str = $scope.modalCourse.id.substring(0,5);
+		var yr = sem_str.substring(0,4);
+		var ssn = getSemesterFromIndex(sem_str[4]);
+		var semester = ssn + " " + yr;
 		// var starScore = 0
 		// $("#starSystem span").each(function(i){
 		// 	if($(this).text() == "★"){
@@ -1624,7 +1628,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				"year": "freshman",
 				"school": "CC",
 				"major": "Math",
-				"semester": "Fall 2017"
+				"semester": semester
 			},
 			"hoursPerWeek": hours,
 			"grading": teacherRating,
@@ -4252,8 +4256,7 @@ $scope.hoverLeaveReviewsButton = function(section, course) {
 $scope.reviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
-
-	var profName = $scope.modalSection.instructors[0].name
+	var profName = $scope.modalSection.instructors[0].name;
 	var courseNumber = course.title; 
 	console.log("Getting reviews for:", name);
 
@@ -4274,22 +4277,32 @@ $scope.reviewsButton = function(section, course) {
 
 function setReviewModal(data){
   	console.log("Review data:", data)
-	var header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
-	
-	// Template for booleans in future
-	// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
-	  
-	var dataDisplay = 
-  		`<h4> Professor Effective: ${data[0].effective}<br/>
-		Professor Grading: ${data[0].grading}<br/>
-		Hours Per Week: ${data[0].hoursPerWeek}<br/>
-  		This professor is: ${data[0].factors}</h4>`;
-  	$scope.modalChange(header, dataDisplay, "<div> footer stuff </div>");
+  	var dataDisplay, header;
+  	if (data.length != 0) {
+		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
+		
+		// Template for booleans in future
+		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
+		  
+		dataDisplay = 
+	  		`<h4> Professor Effective: ${data[0].effective}<br/>
+			Professor Grading: ${data[0].grading}<br/>
+			Hours Per Week: ${data[0].hoursPerWeek}<br/>
+	  		This professor is: ${data[0].factors}</h4>`;
+	  	
+	} else { // inform user that no review data currently exists
+		var courseNum = $scope.modalSection.subtitle;
+		var instructor = $scope.modalSection.instructors[0].name;
+		header = `<div><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
+		datas = "No data for " + instructor + " teaching " + courseNum;
+		dataDisplay = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+	}
+
+	$scope.modalChange(header, dataDisplay, "<div> footer stuff </div>");
 	$('#myModal').modal();
 }
 
 $scope.submitReviewsButton = function(section, course) {
-	console.log("clicked");
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
