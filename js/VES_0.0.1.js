@@ -4293,6 +4293,25 @@ function avgBool(data, key) {
 	return ans;
 }
 
+function avgPresence(data, key) {
+	count = 0;
+	for (var i=0; i<data.length; i++) {
+		if (data[i].includes(key)) {
+			count += 1;
+		}
+	}
+	var ans = Math.floor(((count * 100)/data.length)).toString() + "%"
+	return ans;
+}
+
+function groupFactors(data) {
+	facts = [];
+	for (var i=0; i<data.length; i++) {
+		facts.push(data[i]['factors']);
+	}
+	return facts;
+}
+
 function setReviewModal(data){
   	console.log("Review data:", data)
   	var dataDisplay, header;
@@ -4303,15 +4322,29 @@ function setReviewModal(data){
 		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
 
 		results = {};
+		factors_results = {};
 		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "TAs","recommendation"];
 		disp_bools = ["requirement"];
+		disp_factors = [
+        	"mandatory recitations",
+        	"pop quizzes",
+        	"graded in class assignments",
+        	"attendance factors into the grade",
+        	"participating in class factors into the grade",
+        	"high monetary costs to taking class",
+        	"class is not curved"
+    	]
+    	grp_factors = groupFactors(data);
 		disp_numbers.forEach(function(key) {
 			results[key] = avgNums(data, key);
 		})
 		disp_bools.forEach(function(key) {
 			results[key] = avgBool(data, key);
 		})
-		console.log(results);
+		disp_factors.forEach(function(key) {
+			factors_results[key] = avgPresence(grp_factors, key);
+		})
+		console.log(factors_results);
 
 		dataDisplay = `<h4>
 		Hours Per Week: ${results["hoursPerWeek"]}<br>
@@ -4322,8 +4355,15 @@ function setReviewModal(data){
 		Organized: ${results["organized"]}<br>
 		Helpfulness of TAs: ${results["TAs"]}<br>
 		Would Recommend: ${results["recommendation"]}<br>
-		Requirement: ${results["requirement"]} said yes<br>
-		</h4>`;
+		Requirement: ${results["requirement"]} said yes<br><br>
+
+		FACTORS<br>`
+		
+		Object.keys(factors_results).forEach(function(factor) {
+			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+		})
+
+		dataDisplay += `</h4>`;
 
 		// dataDisplay = 
 	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
