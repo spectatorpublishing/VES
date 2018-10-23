@@ -4314,6 +4314,11 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 
+	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
+	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+
 	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
