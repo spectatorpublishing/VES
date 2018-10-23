@@ -1557,6 +1557,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$("#myModal .modal-title").html($compile(title)($scope)[0])
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
+		if (!footer) $("#myModal .modal-footer").hide()
+		else $("#myModal .modal-footer").show()
 	}
 
 	$scope.starClick = function(i) {
@@ -1605,7 +1607,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	$scope.submitForm = function(professor, course){
 		console.log("submit the stuff", course, professor)
 		var hours = parseInt($("#hoursOutputId").text())
-		var teacherRating = parseInt($("#p_rate").prop("value"))
+		var teacherRating = parseInt($("#p_rate").prop("value"));
+		var sem_str = $scope.modalCourse.id.substring(0,5);
+		var yr = sem_str.substring(0,4);
+		var ssn = getSemesterFromIndex(sem_str[4]);
+		var semester = ssn + " " + yr;
 		// var starScore = 0
 		// $("#starSystem span").each(function(i){
 		// 	if($(this).text() == "★"){
@@ -1624,7 +1630,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				"year": "freshman",
 				"school": "CC",
 				"major": "Math",
-				"semester": "Fall 2017"
+				"semester": semester
 			},
 			"hoursPerWeek": hours,
 			"grading": teacherRating,
@@ -1633,7 +1639,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			"selfTeach": teacherRating,
 			"organized": teacherRating,
 			"TAs": teacherRating,
-			"requirement": false,
+			"requirement": true,
 			"recommendation": 5,
 			"factors": chosenTags,
 			"professor": professor,
@@ -4252,8 +4258,7 @@ $scope.hoverLeaveReviewsButton = function(section, course) {
 $scope.reviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
-
-	var profName = $scope.modalSection.instructors[0].name
+	var profName = $scope.modalSection.instructors[0].name;
 	var courseNumber = course.title; 
 	console.log("Getting reviews for:", name);
 
@@ -4272,24 +4277,100 @@ $scope.reviewsButton = function(section, course) {
 	});
 }
 
+function avgNums(data, key) {
+	vals = [];
+	for (var i=0; i<data.length; i++) {
+		vals.push(data[i][key]);
+	}
+	sum = vals.reduce(function(a, b) { return a + b; });
+	return Math.floor(sum/vals.length);
+}
+
+function avgBool(data, key) {
+	truths = 0;
+	for (var i=0; i<data.length; i++) {
+		if (data[i][key]) { truths += 1; }
+	}
+	var ans = Math.floor(((truths * 100)/data.length)).toString() + "%"
+	return ans;
+}
+
 function setReviewModal(data){
   	console.log("Review data:", data)
-	var header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
-	
-	// Template for booleans in future
-	// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
-	  
-	var dataDisplay = 
-  		`<h4> Professor Effective: ${data[0].effective}<br/>
-		Professor Grading: ${data[0].grading}<br/>
-		Hours Per Week: ${data[0].hoursPerWeek}<br/>
-  		This professor is: ${data[0].factors}</h4>`;
-  	$scope.modalChange(header, dataDisplay, "<div> footer stuff </div>");
+  	$scope.$parent.activeReviews = data;
+  	var dataDisplay, header;
+  	if (data.length != 0) {
+		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
+		
+		// Template for booleans in future
+		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
+
+		results = {};
+		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "TAs","recommendation"];
+		disp_bools = ["requirement"];
+		disp_numbers.forEach(function(key) {
+			results[key] = avgNums(data, key);
+		})
+		disp_bools.forEach(function(key) {
+			results[key] = avgBool(data, key);
+		})
+		console.log(results);
+
+		dataDisplay = `<h4>
+		Hours Per Week: ${results["hoursPerWeek"]}<br>
+		Harshness of Grading: ${results["grading"]}<br>
+		Interesting: ${results["interesting"]}<br>
+		Effectiveness: ${results["effective"]}<br>
+		Necessary to Self-Teach: ${results["selfTeach"]}<br>
+		Organized: ${results["organized"]}<br>
+		Helpfulness of TAs: ${results["TAs"]}<br>
+		Would Recommend: ${results["recommendation"]}<br>
+		Requirement: ${results["requirement"]} said yes<br>
+		</h4>`;
+
+		modalBody = `
+			<div ng-init="review=0" class="showReview">
+				<div ng-show="review == 0">${dataDisplay}</div>
+				<div ng-show="review != 0">
+					<h4 >
+						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
+						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
+						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
+						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
+						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
+						Organized: {{activeReviews[review - 1]["organized"]}}<br>
+						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
+						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
+						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
+					</h4>
+				</div>
+				<div class="navigator">
+					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+				</div>
+			</div>
+		`
+
+		// dataDisplay = 
+	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
+		// 	Professor Grading: ${data[0].grading}<br/>
+		// 	Hours Per Week: ${data[0].hoursPerWeek}<br/>
+	 //  		This professor is: ${data[0].factors}</h4>`;
+	  	
+	} else { // inform user that no review data currently exists
+		var courseNum = $scope.modalSection.subtitle;
+		var instructor = $scope.modalSection.instructors[0].name;
+		header = `<div><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
+		datas = "No data for " + instructor + " teaching " + courseNum;
+		modalBody = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+	}
+
+	$scope.modalChange(header, modalBody);
 	$('#myModal').modal();
 }
 
 $scope.submitReviewsButton = function(section, course) {
-	console.log("clicked");
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
