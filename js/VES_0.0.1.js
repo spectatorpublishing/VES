@@ -1557,6 +1557,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$("#myModal .modal-title").html($compile(title)($scope)[0])
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
+		if (!footer) $("#myModal .modal-footer").hide()
+		else $("#myModal .modal-footer").show()
 	}
 
 	$scope.starClick = function(i) {
@@ -4314,6 +4316,8 @@ function groupFactors(data) {
 
 function setReviewModal(data){
   	console.log("Review data:", data)
+  	$scope.$parent.activeReviews = data;
+  	console.log($scope)
   	var dataDisplay, header;
   	if (data.length != 0) {
 		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
@@ -4365,6 +4369,28 @@ function setReviewModal(data){
 
 		dataDisplay += `</h4>`;
 
+		modalBody = `
+			<div ng-init="review=0">
+			<div ng-show="review == 0">${dataDisplay}</div>
+			<div ng-show="review != 0">
+				<h4 >
+					Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
+					Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
+					Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
+					Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
+					Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
+					Organized: {{activeReviews[review - 1]["organized"]}}<br>
+					Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
+					Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
+					Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
+				</h4>
+			</div>
+			<a ng-show="review > 0" ng-click="review = review - 1">&#8249;</a>
+			<p ng-bind="review"></p>
+			<a ng-show="review < ${data.length}" ng-click="review = review + 1">&#8250;</a>
+			</div>
+		`
+
 		// dataDisplay = 
 	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
 		// 	Professor Grading: ${data[0].grading}<br/>
@@ -4376,10 +4402,10 @@ function setReviewModal(data){
 		var instructor = $scope.modalSection.instructors[0].name;
 		header = `<div><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
 		datas = "No data for " + instructor + " teaching " + courseNum;
-		dataDisplay = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+		modalBody = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
 	}
 
-	$scope.modalChange(header, dataDisplay, "<div> footer stuff </div>");
+	$scope.modalChange(header, modalBody);
 	$('#myModal').modal();
 }
 
