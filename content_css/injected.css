@@ -204,3 +204,8 @@ output.submitModalTextOutput {
 .showReview a.button:hover {
   opacity: 0.9;
 }
+
+.btn-submit {
+  color: #FFF;
+  background: rgb(120, 156, 193);
+}
