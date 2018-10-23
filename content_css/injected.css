@@ -37,6 +37,65 @@ aside div.content {
 #program_chosen {
   padding: .5rem 0;
 }
+#hoursRange.slider {
+  /*new slider branch fuckery*/
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;   
+    background: #002f87;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+#hoursRange.slider::-webkit-slider-thumb { 
+  border-radius: 15px 15px 15px 15px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+#hoursRange.slider::-moz-range-thumb {
+    border-radius: 15px 15px 15px 15px;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+.hours input, .hours input:focus {
+  border: none;
+}
+
+h4.submitModalText {
+  color: #002f87;
+  display: inline;
+}
+output.submitModalTextOutput {
+  color: #Eaa55e;
+  display: inline;
+  font-size:18px;
+}
+
+.hours label {
+  color: #777;
+}
+
+.hours h4 {
+	color: #002f87;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.hours .star{
+  color: #eaa55e;
+}
 
 .course-actions .course-reviews{
   background: #789CC1;
@@ -47,6 +106,16 @@ aside div.content {
   top: 0;
   right: .5rem;
   color: #e8a55e;
+}
+#hoursOutputId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+}
+#profRateId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
 }
 
 /*submit review modal css*/
@@ -86,85 +155,23 @@ aside div.content {
     cursor: pointer;
 }
 
-output.submitModalTextOutput {
-  display: inline;
-  font-size:18px;
+.submissionForm .tags {
+  text-align: justify;
 }
 
-/*radio button/checkmark css*/
-.radioDiv {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-    display: inline;
-    font-size:18px;
-}
-
-/* Hide the browser's default radio button */
-.radioDiv input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-/* Create a custom radio button */
-.radioSpan {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #002f87;
-    border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.radioDiv:hover input ~ .radioSpan {
-    background-color: #002f87;
-}
-
-/* When the radio button is checked, add a blue background */
-.radioDiv input:checked ~ .radioSpan {
-    background-color: #Eaa55e;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.radioSpan:after{
-    content: "";
-    position: absolute;
+.submissionForm input[type="checkbox"] {
     display: none;
 }
 
-/* Show the indicator (dot/circle) when checked */
-.radioDiv input:checked ~ .radioSpan:after {
-    display: block;
+.submissionForm input[type="checkbox"]:checked + label {
+  background-color: #f7a34d;
 }
 
-/* Style the indicator (dot/circle) */
-.radioDiv .radioSpan:after {
- 	top: 6px;
-	left: 8px;
-	background: #Eaa55e;
-    
-  /*Add another block-level blank space*/
-  content: '';
- 
-  /*Make it a small rectangle so the border will create an L-shape*/
-  width: 4px;
-  height: 8px;
- 
-  /*Add a white border on the bottom and left, creating that 'L' */
-  border: solid #eee;
-  border-width: 0 2px 2px 0;
- 
-  /*Rotate the L 45 degrees to turn it into a checkmark*/
-  transform: rotate(45deg);
+.submissionForm input[type="checkbox"] + label {
+  background-color: #133c80;
+  color: white;
+  padding: .3rem .5rem;
+  border-radius: 10rem;
+  user-select: none;
+  -moz-user-select: none;
 }

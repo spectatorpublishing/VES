@@ -7,7 +7,7 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
-
+var prof_rate=["harsh","somewhat harsh","fair","somewhat lenient", "lenient"];
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -1504,56 +1504,57 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 	console.log(Filters)
 
-//find me
-	$scope.submitReview = function(e){
-		// 
+//find me. Check submitForm for new submitFn
+	// $scope.submitReview = function(e){
+	// 	// 
 
-		var radios = document.getElementsByName('score');
-		var slider = document.getElementById('hourRange')
-		var tags = document.getElementsByName('courseTag')
-		var chosenTags = [];
+	// 	var radios = document.getElementsByName('score');
+	// 	var slider = document.getElementById('hourRange')
+	// 	var tags = document.getElementsByName('courseTag')
+	// 	var chosenTags = [];
 
 
-		for (var i = 0, length = radios.length; i < length; i++){
-			if (radios[i].checked){
-				var score = radios[i].value;
-				break;
-			}
-		}
-		for (var j = 0, length = tags.length; j < length; j++){
-			if(tags[j].checked){
-				// console.log(tags[j].value)
-				chosenTags.push( tags[j].value );
-			}
-		}
-		console.log(chosenTags);
-		console.log(score)
-		console.log(slider.value)
+	// 	for (var i = 0, length = radios.length; i < length; i++){
+	// 		if (radios[i].checked){
+	// 			var score = radios[i].value;
+	// 			break;
+	// 		}
+	// 	}
+	// 	for (var j = 0, length = tags.length; j < length; j++){
+	// 		if(tags[j].checked){
+	// 			// console.log(tags[j].value)
+	// 			chosenTags.push( tags[j].value );
+	// 		}
+	// 	}
+	// 	console.log(chosenTags);
+	// 	console.log(score)
+	// 	console.log(slider.value)
 
 
 
 		
-		// console.log($("#submitReviewForm").$('input'));
+	// 	// console.log($("#submitReviewForm").$('input'));
 
-		// score
-		// console.log( $("#submitReviewForm").find("[name='score']"));
-		//console.log( $("#submitReviewForm").find("[name='score']").find("[checked=true]"));
+	// 	// score
+	// 	// console.log( $("#submitReviewForm").find("[name='score']"));
+	// 	//console.log( $("#submitReviewForm").find("[name='score']").find("[checked=true]"));
 
-		// // $.ajax({
-		// 	method: 'GET',
-		// 	url: 'https://google.com',
-		// 	success: function(data, status) {
-		// 		console.log(data, "DATA, STATUS ", status)
-		// 		alert(data);
-		// 	}
+	// 	// // $.ajax({
+	// 	// 	method: 'GET',
+	// 	// 	url: 'https://google.com',
+	// 	// 	success: function(data, status) {
+	// 	// 		console.log(data, "DATA, STATUS ", status)
+	// 	// 		alert(data);
+	// 	// 	}
 
-		// })
-	}
+	// 	// })
+	// }
 
 	$scope.modalChange= function (title, body, footer){
 		$scope.custom_modal.title=title;
 		$scope.custom_modal.body=body;
 		$scope.custom_modal.footer=footer;
+		$("#myModal .modal-title").html($compile(title)($scope)[0])
 		$("#myModal .modal-body").html($compile(body)($scope)[0])
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
 	}
@@ -1597,13 +1598,65 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 		}
 	}
+	$scope.moreInfoClicked = function(course, professor){
+		// yayyy
+		console.log("user requested more information on ", course, professor)
+	}
+	$scope.submitForm = function(professor, course){
+		console.log("submit the stuff", course, professor)
+		var hours = parseInt($("#hoursOutputId").text())
+		var teacherRating = parseInt($("#p_rate").prop("value"))
+		// var starScore = 0
+		// $("#starSystem span").each(function(i){
+		// 	if($(this).text() == "★"){
+		// 		starScore = i
+		// 	}
+		// })
+		var chosenTags = []
+		$("#tagChoices input").each(function(i){
+			if($(this).prop("checked")){
+				chosenTags.push($(this).prop("value"))
+			}
+		})
+		// Make up personal stuff for demo purpose Change for correctness.
+		var jsonLoad = 	{"personal":
+			{
+				"year": "freshman",
+				"school": "CC",
+				"major": "Math",
+				"semester": "Fall 2017"
+			},
+			"hoursPerWeek": hours,
+			"grading": teacherRating,
+			"interesting": teacherRating,
+			"effective": teacherRating,
+			"selfTeach": teacherRating,
+			"organized": teacherRating,
+			"TAs": teacherRating,
+			"requirement": false,
+			"recommendation": 5,
+			"factors": chosenTags,
+			"professor": professor,
+			"courseNumber": course
+		}
+		console.log(jsonLoad)
+		$http({
+			method: 'POST',
+			url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+			headers: {'Content-Type':'application/json'},
+			data: jsonLoad,
+		}).success(function(data, status) {
+			console.log(data, "and status is", status)
+		});
+		
+	}
 	// Allow console logging
 	$scope.listing = {
 		choosing: null,
 		close: ()=>{
-		console.log("check");
-		$("#myModal").modal();
-	},
+			console.log("check")
+			$("#myModal").modal()
+		},
 		toggleMode: (intent) => {
 			console.log($scope.listing.choosing)
 			console.log(intent)
@@ -4200,49 +4253,66 @@ $scope.reviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var name = $scope.modalSection.instructors[0].name
+	var profName = $scope.modalSection.instructors[0].name
+	var courseNumber = course.title; 
 	console.log("Getting reviews for:", name);
 
 	//testing...
-	name = "Ken Ross"
-	console.log("jk we only have 2 people in our database, getting our boi Ken Ross instead");
+	// name = "Ken Ross"
+	// console.log("jk we only have 2 people in our database, getting our boi Ken Ross instead");
 
-	$.ajax({
+	$http({
 	    method: 'POST',
-	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually everywhere in file.
-	   												 //also http -> https after testing everywhere in file
+	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
 	   	headers: {'Content-Type':'application/json'},
-	   	data: "{\"name\": \""+name+"\"}",
-	   	success: function(data, status) {
+		data: `{"profName": "${profName}", "courseNumber": "${courseNumber}"}`
+	}).success(function(data, status) {
 	    	console.log(data, "and status is", status)
 	    	setReviewModal(data)
-	    }
 	});
 }
 
 function setReviewModal(data){
   	console.log("Review data:", data)
-  	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
-  	var dataDisplay = 
-  		`<h4>Class: ${data[0].details.course_name}<br/>
-  		Professor rating: ${data[0].professor["rate-professor"]}<br/>
-  		Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
-  		This professor is: ${data[0].professor["describe-professor"]}</h4>`;
-  	$scope.modalChange("Modal test!", header, dataDisplay);
+	var header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
+	
+	// Template for booleans in future
+	// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
+	  
+	var dataDisplay = 
+  		`<h4> Professor Effective: ${data[0].effective}<br/>
+		Professor Grading: ${data[0].grading}<br/>
+		Hours Per Week: ${data[0].hoursPerWeek}<br/>
+  		This professor is: ${data[0].factors}</h4>`;
+  	$scope.modalChange(header, dataDisplay, "<div> footer stuff </div>");
 	$('#myModal').modal();
 }
 
 $scope.submitReviewsButton = function(section, course) {
-	console.log("clicked")
+	console.log("clicked");
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var header = `<h1>${$scope.modalSection.instructors[0].name}</h1>`
+	var header = `<div class="review-modal-header">
+					<p>${$scope.modalSection.instructors[0].name}</p>
+					<p>${course.title}</p>
+				</div>`;
 
-	var submissionForm = "<form>"
-	for (var i=1; i<6; i++) {
-		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
-	}
+	var submissionForm = "<form>";
+	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\">Fair</output></div>"
+	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
+	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
+
+	// submissionForm += `<div id="starSystem">`
+	// for (var i=1; i<6; i++) {
+	// 	submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+	// }
+	// submissionForm += `</div>`
+
+	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
+	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 
 	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
 	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
@@ -4252,24 +4322,49 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
 	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
-	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
+	for (var i=1; i<6; i++) {
+		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+	}
+
+	submissionForm += `<div class="hours">
+							<h4>
+								On average, how many hours per week do you devote to this course?
+								<span class="star">*</span>
+							</h4>
+							<input type="number"
+									placeholder="0" 
+									step="1" 
+									min="0" 
+									max="50"/>
+							<label >hours per week</label>
+							<br />
+						</div>`
+
+	const tags = ["Mandatory Recitations",
+		"Pop Quizzes",
+		"Graded In-Class Assignments",
+		"Attendance Factors Into The Grade",
+		"Participating In-Class Factors Into The Grade",
+		"High Monetary Costs To Taking Class",
+		"Class Is Not Curved"];
+
+	submissionForm += `<div class="tags">`
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
-	submissionForm += "<br/><input type=\"submit\" value=\"Submit\"></form>"
+	submissionForm += `</div>`
 
-	submissionForm += `<p><a ng-click="moreInfoClicked(${section}, ${course})">More information</a></p>`
+	submissionForm += `</div>`
+	submissionForm += `<br/><input type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
-	$scope.modalChange("submit reviews", header, submissionForm);
+	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
+
+	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
 
 	$('#myModal').modal();
 }
 
-$scope.moreInfoClicked = function(section, course) {
-	// yayyy
-	console.log("user requested more information");
-
-}});
+});
 
 
 
