@@ -4299,9 +4299,6 @@ $scope.submitReviewsButton = function(section, course) {
 				</div>`;
 
 	var submissionForm = "<form>";
-	submissionForm += "<br/><div><h4 class=\"hours\">Hours Spent: </h4><output class=\"hoursOutput\" id=\"hoursOutputId\">10</output></div>"
-	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
-
 	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\">Fair</output></div>"
 	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
 	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
@@ -4312,24 +4309,17 @@ $scope.submitReviewsButton = function(section, course) {
 	// }
 	// submissionForm += `</div>`
 
+	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
+	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
+
+	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
+	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
+
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
 	}
-  
-	submissionForm += `<br/>
-						<div>
-							<h4 class="hours">Hours Spent: </h4>
-							<output class="hoursOutput" id="hoursOutputId">10</output>
-						</div>`
-
-	submissionForm += `<input type="range" 
-								min="1" 
-								max="20" 
-								value="10" 
-								class="slider" 
-								id="hoursRange" 
-								oninput="hoursOutputId.value = hoursRange.value">
-						<br/>`
 
 	submissionForm += `<div class="hours">
 							<h4>
