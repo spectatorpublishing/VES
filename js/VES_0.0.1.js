@@ -4312,9 +4312,40 @@ $scope.submitReviewsButton = function(section, course) {
 	// }
 	// submissionForm += `</div>`
 
-	// const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
-	const tags =  ["mandatory recitations", "pop quizzes", "graded in class assignments", "attendance factors into the grade", "participating in class factors into the grade", "high monetary costs to taking class", "class is not curved"]
-	submissionForm += `<div id="tagChoices">`
+	for (var i=1; i<6; i++) {
+		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+	}
+  
+	submissionForm += `<br/>
+						<div>
+							<h4 class="hours">Hours Spent: </h4>
+							<output class="hoursOutput" id="hoursOutputId">10</output>
+						</div>`
+
+	submissionForm += `<input type="range" 
+								min="1" 
+								max="20" 
+								value="10" 
+								class="slider" 
+								id="hoursRange" 
+								oninput="hoursOutputId.value = hoursRange.value">
+						<br/>`
+
+	submissionForm += `<div class="hours">
+							<h4>
+								On average, how many hours per week do you devote to this course?
+								<span class="star">*</span>
+							</h4>
+							<input type="number"
+									placeholder="0" 
+									step="1" 
+									min="0" 
+									max="50"/>
+							<label >hours per week</label>
+							<br />
+						</div>`
+
+	const tags = ["noice", "funny :DDDDD", "mean >:(", "STRICT!", "boring"]
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}

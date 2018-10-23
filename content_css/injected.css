@@ -67,6 +67,9 @@ aside div.content {
     cursor: pointer;
 }
 
+.hours input, .hours input:focus {
+  border: none;
+}
 
 h4.submitModalText {
   color: #002f87;
@@ -77,6 +80,23 @@ output.submitModalTextOutput {
   display: inline;
   font-size:18px;
 }
+
+.hours label {
+  color: #777;
+}
+
+.hours h4 {
+	color: #002f87;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.hours .star{
+  color: #eaa55e;
+}
+
 .course-actions .course-reviews{
   background: #789CC1;
   position:relative
