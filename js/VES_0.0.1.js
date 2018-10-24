@@ -7,17 +7,17 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
-var display_tutorial= function(){
+/*var display_tutorial= function(){
 		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="nextModal(); $("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
 		//console.log("AAAAAbbbbAAAAA");
-}
+}*/
 var reset= function(){
 	localStorage.removeItem("fightme");
 	//display_tutorial();
 	//console.log("test")	;
 }
 $( document ).ready(function(){
-		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="$("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
+		$(".col-xs-9 ng-scope").append('<h2>TESTING</h2>');
 		//console.log("AAAAAbbbbAAAAA");
 });
 
@@ -1500,7 +1500,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	var modalCounter=0;
+	var modalCounter=-1;
 	function modalContent(a,b,c,d){
 		this.heading= a;
 		this.instructions= b;
@@ -1572,26 +1572,32 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		//console.log($scope.custom_modal);
 	}
 	$scope.nextModal= function(){
-		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		modalCounter++;
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
-		$(".modal-body").css({"padding":"0 10% 0 10%"})
+		$(".modal-body").css({"padding":"0 10% 0 10%"});
 
+	}
+	$scope.prevModal= function(){
+		modalCounter-=1;
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
+		$(".modal-body").css({"padding":"0 10% 0 10%"});
 	}
 	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
 	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
 	//var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
-	
+	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
 	var c_images="../content_images";
 	var sidebar=`<img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"> `;
 	var s_search=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img">`;
 	var gcal_tutorial=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img">`;
 	$scope.tutorial_features=[
-		new modalContent("Welcome",`${tutorial_intro}`,"<button ng-click='nextModal()'>Next</button>"),
-		new modalContent("Open Sidebar",`${sidebar}`,"<button ng-click='nextModal()'>Next</button>"), 
-		new modalContent("Smart Search",`${s_search}`,"<button ng-click='nextModal()'>Next</button>"), 
-		new modalContent("Live Class Enrollment","","<button ng-click='nextModal()'>Next</button>",),
-		new modalContent("GCal Export",`${gcal_tutorial}`,"<button ng-click='nextModal()'>Next</button>"),
+		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
+		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
+		new modalContent("Live Class Enrollment","",`${tutorial_buttons}`),
+		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
 		new modalContent("Tutorial Complete","","<button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>")
 
 	]
