@@ -4377,6 +4377,11 @@ function setReviewModal(data){
 
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
+				<div class="navigator">
+					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+				</div>
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
 					<div class="tags">
