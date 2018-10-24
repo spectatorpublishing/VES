@@ -4384,10 +4384,18 @@ function setReviewModal(data){
 				</div>
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
-					<div class="tags">
-						<label class="pageTag" ng-repeat="tag in activeReviews[review - 1]['factors']">{{tag}}</label>
-					</div>
-					<h4>
+					<h4 class="studentInfoTitle">STUDENT INFO</h4>
+					<h4 class="studentInfo">
+						School: {{activeReviews[review-1]["personal"]["school"]}}<br>
+						Year: {{activeReviews[review-1]["personal"]["year"]}}<br>
+						Major: {{activeReviews[review-1]["personal"]["major"]}}
+					</h4>
+					<h4 class="studentInfoTitle">COURSE INFO</h4>
+					<h4 class="studentInfo">
+						Professor: {{activeReviews[review-1]["professor"]}}<br>
+						{{activeReviews[review-1]["personal"]["semester"]}}
+					</h4>
+					<h4 >
 						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
 						<input type="range" min="0" max="20" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="submitSlider slider" id="p_rate" disabled><br>
 						
