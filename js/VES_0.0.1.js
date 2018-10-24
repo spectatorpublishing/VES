@@ -7,8 +7,8 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
-var prof_rate=["harsh","somewhat harsh","fair","somewhat lenient", "lenient"];
-var disToAgree = ["strongly disagree", "somewhat disagree", "neutral", "somewhat agree", "strongly agree"]
+var prof_rate=["Harsh","Somewhat Harsh","Fair","Somewhat Lenient", "Lenient"];
+var disToAgree = ["Strongly Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Strongly Agree"]
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -4502,9 +4502,12 @@ $scope.submitReviewsButton = function(section, course) {
 		console.log($("#" + idName));
 		console.log()
 
+		if (window.sliderOptions === undefined) window.sliderOptions = {}
+		window.sliderOptions[idName] = options;
+
 		submissionForm += `<br/><div><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
-		submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[parseInt($("#"+idName).prop("value"))]}"><br>`
-		{/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */}
+		submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]"><br>`
+		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
 
 	var textbox = function(placeHolder, idName) {
