@@ -4372,6 +4372,17 @@ function setReviewModal(data){
 			<div ng-init="review=0" class="showReview">
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
+					<h4 class="studentInfoTitle">STUDENT INFO</h4>
+					<h4 class="studentInfo">
+						School: {{activeReviews[review-1]["personal"]["school"]}}<br>
+						Year: {{activeReviews[review-1]["personal"]["year"]}}<br>
+						Major: {{activeReviews[review-1]["personal"]["major"]}}
+					</h4>
+					<h4 class="studentInfoTitle">COURSE INFO</h4>
+					<h4 class="studentInfo">
+						Professor: {{activeReviews[review-1]["professor"]}}<br>
+						{{activeReviews[review-1]["personal"]["semester"]}}
+					</h4>
 					<h4 >
 						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
 						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>

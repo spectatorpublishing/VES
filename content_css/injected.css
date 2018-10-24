@@ -209,3 +209,16 @@ output.submitModalTextOutput {
   color: #FFF;
   background: rgb(120, 156, 193);
 }
+
+.studentInfo {
+  margin-left: 10px;
+  color: #003c6f;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.studentInfoTitle {
+  margin-left: 10px;
+  color: #95c0e5;
+  margin-bottom: 0px;
+}
