@@ -4584,7 +4584,7 @@ $scope.submitReviewsButton = function(section, course) {
 	}
 	submissionForm += `</div>`
 
-	submissionForm += `</div>`
+	//submissionForm += `</div>`
 	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
