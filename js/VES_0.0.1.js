@@ -4368,48 +4368,89 @@ function setReviewModal(data){
 		})
 		console.log(factors_results);
 
-		dataDisplay = `<h4>
-		Hours Per Week: ${results["hoursPerWeek"]}<br>
-		Harshness of Grading: ${results["grading"]}<br>
-		Interesting: ${results["interesting"]}<br>
-		Effectiveness: ${results["effective"]}<br>
-		Necessary to Self-Teach: ${results["selfTeach"]}<br>
-		Organized: ${results["organized"]}<br>
-		Helpfulness of TAs: ${results["TAs"]}<br>
-		Would Recommend: ${results["recommendation"]}<br>
-		Requirement: ${results["requirement"]} said yes<br><br>
-
+		dataDisplay = `<div class="viewingSliderText">
+						<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}<h4>
+						<input type="range" min="0" max="20" value=${results["hoursPerWeek"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Harshness of Grading: ${results["grading"]}<h4>
+						<input type="range" min="0" max="5" value=${results["grading"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Interesting: ${results["interesting"]}<h4>
+						<input type="range" min="0" max="5" value=${results["interesting"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Effectiveness: ${results["effective"]}<h4>
+						<input type="range" min="0" max="5" value=${results["effective"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}<h4>
+						<input type="range" min="0" max="5" value=${results["selfTeach"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Organized: ${results["organized"]}<h4>
+						<input type="range" min="0" max="5" value=${results["organized"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Helpfulness of TAs: ${results["TAs"]}<h4>
+						<input type="range" min="0" max="5" value=${results["TAs"]} class="submitSlider slider" id="p_rate" disabled><br>
+						<h4 class="question"> Would Recommend: ${results["recommendation"]}<h4>
+						<input type="range" min="0" max="5" value=${results["recommendation"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Requirement: ${results["requirement"]} said yes<br><br>
 		FACTORS<br>`
 		
 		Object.keys(factors_results).forEach(function(factor) {
 			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
 		})
 
-		dataDisplay += `</h4>`;
+		dataDisplay += `</div>`;
 
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
-				<div ng-show="review == 0">${dataDisplay}</div>
-				<div ng-show="review != 0">
-					<h4 >
-						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
-						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
-						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
-						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
-						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
-						Organized: {{activeReviews[review - 1]["organized"]}}<br>
-						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
-						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
-						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
-					</h4>
-				</div>
 				<div class="navigator">
 					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
 					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
 					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 				</div>
-			</div>
-		`
+				<div ng-show="review == 0">${dataDisplay}</div>
+				<div ng-show="review != 0">
+					<h4 class="studentInfoTitle">STUDENT INFO</h4>
+					<h4 class="studentInfo">
+						School: {{activeReviews[review-1]["personal"]["school"]}}<br>
+						Year: {{activeReviews[review-1]["personal"]["year"]}}<br>
+						Major: {{activeReviews[review-1]["personal"]["major"]}}
+					</h4>
+					<h4 class="studentInfoTitle">COURSE INFO</h4>
+					<h4 class="studentInfo">
+						Professor: {{activeReviews[review-1]["professor"]}}<br>
+						{{activeReviews[review-1]["personal"]["semester"]}}
+					</h4>
+					<h4 >
+						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
+						<input type="range" min="0" max="20" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Organized: {{activeReviews[review - 1]["organized"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['TAs']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="submitSlider slider" id="p_rate" disabled><br>
+						
+						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
+					</h4>
+				</div>`		
+
+		modalBody +=
+				`	<div class="navigator">
+						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					</div>
+				</div>
+				`
 
 		// dataDisplay = 
 	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
@@ -4541,7 +4582,7 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += `</div>`
 
 	submissionForm += `</div>`
-	submissionForm += `<br/><input type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
