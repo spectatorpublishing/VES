@@ -4389,13 +4389,29 @@ function setReviewModal(data){
 					</div>
 					<h4>
 						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
+						<input type="range" min="0" max="20" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Organized: {{activeReviews[review - 1]["organized"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['TAs']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
+						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="submitSlider slider" id="p_rate" disabled><br>
+						
 						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
 					</h4>
 				</div>`		
