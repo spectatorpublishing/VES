@@ -16,12 +16,9 @@ var reset= function(){
 	//display_tutorial();
 	//console.log("test")	;
 }
-$( document ).ready(function(){
-		$(".col-xs-9 ng-scope").append('<h2>TESTING</h2>');
-		//console.log("AAAAAbbbbAAAAA");
-});
 
-reset();
+
+
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
@@ -1500,7 +1497,7 @@ app.controller("courses", function($scope, $routeParams) {
 
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
-	var modalCounter=-1;
+	var modalCounter=(-1);
 	function modalContent(a,b,c,d){
 		this.heading= a;
 		this.instructions= b;
@@ -1532,6 +1529,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	angular.element(document).ready(function () {
 	if (localStorage.getItem("fightme") == null) {
+
 			modalCounter=0;
 			$scope.nextModal();
 			localStorage.setItem("fightme", true);
@@ -1570,6 +1568,12 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		$("#myModal .modal-footer").html($compile(footer)($scope)[0])
 		//console.log($("#myModal").html())
 		//console.log($scope.custom_modal);
+	}
+	$scope.callModal=function(){
+		modalCounter=(-1);
+		$scope.nextModal();
+		$("#myModal").modal();
+		consol.log("hello");
 	}
 	$scope.nextModal= function(){
 		modalCounter++;
