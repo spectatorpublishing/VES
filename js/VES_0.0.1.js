@@ -1662,17 +1662,19 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			"recommendation": recommend,
 			"factors": chosenTags,
 			"professor": professor,
-			"courseNumber": course
+			"courseNumber": course,
+			"A-possible": 0,
+			"requirement": false
 		}
 		console.log(jsonLoad)
-		// $http({
-		// 	method: 'POST',
-		// 	url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
-		// 	headers: {'Content-Type':'application/json'},
-		// 	data: jsonLoad,
-		// }).success(function(data, status) {
-		// 	console.log(data, "and status is", status)
-		// });
+		$http({
+			method: 'POST',
+			url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+			headers: {'Content-Type':'application/json'},
+			data: jsonLoad,
+		}).success(function(data, status) {
+			console.log(data, "and status is", status)
+		});
 		
 	}
 	// Allow console logging
@@ -4516,7 +4518,7 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["Firstyear", "bah", "humbug", "YA RNERD"], 'yearQ')
+	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
 
 	questionTitle("What school are you?", true)
 	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
