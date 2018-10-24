@@ -4349,22 +4349,22 @@ function setReviewModal(data){
 		})
 		console.log(factors_results);
 
-		dataDisplay = `<h4>
-						Hours Per Week: ${results["hoursPerWeek"]}<br>
+		dataDisplay = `<div class="viewingSliderText">
+						<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}<h4>
 						<input type="range" min="0" max="20" value=${results["hoursPerWeek"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Harshness of Grading: ${results["grading"]}<br>
+						<h4 class="question"> Harshness of Grading: ${results["grading"]}<h4>
 						<input type="range" min="0" max="5" value=${results["grading"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Interesting: ${results["interesting"]}<br>
+						<h4 class="question"> Interesting: ${results["interesting"]}<h4>
 						<input type="range" min="0" max="5" value=${results["interesting"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Effectiveness: ${results["effective"]}<br>
+						<h4 class="question"> Effectiveness: ${results["effective"]}<h4>
 						<input type="range" min="0" max="5" value=${results["effective"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Necessary to Self-Teach: ${results["selfTeach"]}<br>
+						<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}<h4>
 						<input type="range" min="0" max="5" value=${results["selfTeach"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Organized: ${results["organized"]}<br>
+						<h4 class="question"> Organized: ${results["organized"]}<h4>
 						<input type="range" min="0" max="5" value=${results["organized"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Helpfulness of TAs: ${results["TAs"]}<br>
+						<h4 class="question"> Helpfulness of TAs: ${results["TAs"]}<h4>
 						<input type="range" min="0" max="5" value=${results["TAs"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Would Recommend: ${results["recommendation"]}<br>
+						<h4 class="question"> Would Recommend: ${results["recommendation"]}<h4>
 						<input type="range" min="0" max="5" value=${results["recommendation"]} class="submitSlider slider" id="p_rate" disabled><br>
 						Requirement: ${results["requirement"]} said yes<br><br>
 		FACTORS<br>`
@@ -4373,7 +4373,7 @@ function setReviewModal(data){
 			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
 		})
 
-		dataDisplay += `</h4>`;
+		dataDisplay += `</div>`;
 
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
