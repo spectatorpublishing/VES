@@ -4295,6 +4295,25 @@ function avgBool(data, key) {
 	return ans;
 }
 
+function avgPresence(data, key) {
+	count = 0;
+	for (var i=0; i<data.length; i++) {
+		if (data[i].includes(key)) {
+			count += 1;
+		}
+	}
+	var ans = Math.floor(((count * 100)/data.length)).toString() + "%"
+	return ans;
+}
+
+function groupFactors(data) {
+	facts = [];
+	for (var i=0; i<data.length; i++) {
+		facts.push(data[i]['factors']);
+	}
+	return facts;
+}
+
 function setReviewModal(data){
   	console.log("Review data:", data)
   	$scope.$parent.activeReviews = data;
@@ -4306,27 +4325,55 @@ function setReviewModal(data){
 		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
 
 		results = {};
+		factors_results = {};
 		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "TAs","recommendation"];
 		disp_bools = ["requirement"];
+		disp_factors = [
+        	"mandatory recitations",
+        	"pop quizzes",
+        	"graded in class assignments",
+        	"attendance factors into the grade",
+        	"participating in class factors into the grade",
+        	"high monetary costs to taking class",
+        	"class is not curved"
+    	]
+    	grp_factors = groupFactors(data);
 		disp_numbers.forEach(function(key) {
 			results[key] = avgNums(data, key);
 		})
 		disp_bools.forEach(function(key) {
 			results[key] = avgBool(data, key);
 		})
-		console.log(results);
+		disp_factors.forEach(function(key) {
+			factors_results[key] = avgPresence(grp_factors, key);
+		})
+		console.log(factors_results);
 
 		dataDisplay = `<h4>
-		Hours Per Week: ${results["hoursPerWeek"]}<br>
-		Harshness of Grading: ${results["grading"]}<br>
-		Interesting: ${results["interesting"]}<br>
-		Effectiveness: ${results["effective"]}<br>
-		Necessary to Self-Teach: ${results["selfTeach"]}<br>
-		Organized: ${results["organized"]}<br>
-		Helpfulness of TAs: ${results["TAs"]}<br>
-		Would Recommend: ${results["recommendation"]}<br>
-		Requirement: ${results["requirement"]} said yes<br>
-		</h4>`;
+						Hours Per Week: ${results["hoursPerWeek"]}<br>
+						<input type="range" min="0" max="20" value=${results["hoursPerWeek"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Harshness of Grading: ${results["grading"]}<br>
+						<input type="range" min="0" max="5" value=${results["grading"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Interesting: ${results["interesting"]}<br>
+						<input type="range" min="0" max="5" value=${results["interesting"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Effectiveness: ${results["effective"]}<br>
+						<input type="range" min="0" max="5" value=${results["effective"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Necessary to Self-Teach: ${results["selfTeach"]}<br>
+						<input type="range" min="0" max="5" value=${results["selfTeach"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Organized: ${results["organized"]}<br>
+						<input type="range" min="0" max="5" value=${results["organized"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Helpfulness of TAs: ${results["TAs"]}<br>
+						<input type="range" min="0" max="5" value=${results["TAs"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Would Recommend: ${results["recommendation"]}<br>
+						<input type="range" min="0" max="5" value=${results["recommendation"]} class="submitSlider slider" id="p_rate" disabled><br>
+						Requirement: ${results["requirement"]} said yes<br><br>
+		FACTORS<br>`
+		
+		Object.keys(factors_results).forEach(function(factor) {
+			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+		})
+
+		dataDisplay += `</h4>`;
 
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
@@ -4337,7 +4384,10 @@ function setReviewModal(data){
 				</div>
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
-					<h4 >
+					<div class="tags">
+						<label class="pageTag" ng-repeat="tag in activeReviews[review - 1]['factors']">{{tag}}</label>
+					</div>
+					<h4>
 						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
 						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
 						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
@@ -4348,9 +4398,16 @@ function setReviewModal(data){
 						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
 						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
 					</h4>
+				</div>`		
+
+		modalBody +=
+				`	<div class="navigator">
+						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					</div>
 				</div>
-			</div>
-		`
+				`
 
 		// dataDisplay = 
 	 //  		`<h4> Professor Effective: ${data[0].effective}<br/>
@@ -4401,7 +4458,7 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
 
 	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
-	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
+	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"submitSlider slider\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
 
 	for (var i=1; i<6; i++) {
 		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
@@ -4436,7 +4493,7 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += `</div>`
 
 	submissionForm += `</div>`
-	submissionForm += `<br/><input type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
