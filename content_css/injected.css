@@ -118,6 +118,12 @@ output.submitModalTextOutput {
   font-size:18px;
 }
 
+.sliderOutput {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+}
+
 /*submit review modal css*/
 /*slider css*/
 .submitModalText {

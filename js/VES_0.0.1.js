@@ -8,6 +8,7 @@ var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
 var prof_rate=["harsh","somewhat harsh","fair","somewhat lenient", "lenient"];
+var disToAgree = ["strongly disagree", "somewhat disagree", "neutral", "somewhat agree", "strongly agree"]
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -1606,18 +1607,38 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	}
 	$scope.submitForm = function(professor, course){
 		console.log("submit the stuff", course, professor)
-		var hours = parseInt($("#hoursOutputId").text())
-		var teacherRating = parseInt($("#p_rate").prop("value"));
-		var sem_str = $scope.modalCourse.id.substring(0,5);
-		var yr = sem_str.substring(0,4);
-		var ssn = getSemesterFromIndex(sem_str[4]);
-		var semester = ssn + " " + yr;
-		// var starScore = 0
-		// $("#starSystem span").each(function(i){
-		// 	if($(this).text() == "★"){
-		// 		starScore = i
-		// 	}
-		// })
+		var gradYear;
+		var school;
+		var semester;
+		$("#yearQ input").each(function(i){
+			if($(this).prop("checked")){
+				gradYear = $(this).prop("value")
+			}
+		})
+		$("#schoolQ input").each(function(i){
+			if($(this).prop("checked")){
+				school = $(this).prop("value")
+			}
+		})
+		var major = $("#majorEntry textarea").val()
+		var secondmajor = $("#secondMajor textarea").val()
+		var profName = $("#professorName textarea").val()
+		$("#semesterQ input").each(function(i){
+			if($(this).prop("checked")){
+				semester = $(this).prop("value")
+			}
+		})
+		var hoursPerWeek = parseInt($("#hoursPerWeek input").val())
+		var grading = parseInt($("#prof_rating").prop("value"))
+		var interest = parseInt($("#interest_class").prop("value"))	
+		var whyInterest = $("#whyInteresting textarea").val();
+		var goodTeacher = parseInt($("#good_teacher").prop("value"))
+		var selfTeaching = parseInt($("#self_teaching").prop("value"))
+		var easyA = parseInt($("#easy_a").prop("value"))
+		var organization = parseInt($("#organizational_skills").prop("value"))
+		var recommend = parseInt($("#recommend_prof").prop("value"))
+		var whyRecommend = $("#recommendProfText textarea").val()
+
 		var chosenTags = []
 		$("#tagChoices input").each(function(i){
 			if($(this).prop("checked")){
@@ -1627,33 +1648,31 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		// Make up personal stuff for demo purpose Change for correctness.
 		var jsonLoad = 	{"personal":
 			{
-				"year": "freshman",
-				"school": "CC",
-				"major": "Math",
+				"year": gradYear,
+				"school": school,
+				"major": major,
 				"semester": semester
 			},
-			"hoursPerWeek": hours,
-			"grading": teacherRating,
-			"interesting": teacherRating,
-			"effective": teacherRating,
-			"selfTeach": teacherRating,
-			"organized": teacherRating,
-			"TAs": teacherRating,
-			"requirement": true,
-			"recommendation": 5,
+			"hoursPerWeek": hoursPerWeek,
+			"grading": grading,
+			"interesting": interest,
+			"effective": goodTeacher,
+			"selfTeach": selfTeaching,
+			"organized": organization,
+			"recommendation": recommend,
 			"factors": chosenTags,
 			"professor": professor,
 			"courseNumber": course
 		}
 		console.log(jsonLoad)
-		$http({
-			method: 'POST',
-			url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
-			headers: {'Content-Type':'application/json'},
-			data: jsonLoad,
-		}).success(function(data, status) {
-			console.log(data, "and status is", status)
-		});
+		// $http({
+		// 	method: 'POST',
+		// 	url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+		// 	headers: {'Content-Type':'application/json'},
+		// 	data: jsonLoad,
+		// }).success(function(data, status) {
+		// 	console.log(data, "and status is", status)
+		// });
 		
 	}
 	// Allow console logging
@@ -4420,46 +4439,92 @@ $scope.submitReviewsButton = function(section, course) {
 				</div>`;
 
 	var submissionForm = "<form>";
-	submissionForm += "<br/><div><h4 class=\"hours\">Teacher Rating</h4><output class=\"hoursOutput\" id=\"profRateId\">Fair</output></div>"
-	submissionForm += "<input type=\"range\" min=\"0\" max=\"4\" value=\"2\" class=\"slider\" id=\"p_rate\" oninput=\"profRateId.value = prof_rate[p_rate.value]\"><br>"
-	//$("#rtings").text(`${prof_rate[$("#p_rate").val()]}`);
 
-	// submissionForm += `<div id="starSystem">`
-	// for (var i=1; i<6; i++) {
-	// 	submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
-	// }
-	// submissionForm += `</div>`
-
-	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
-	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
-	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
-	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
-
-	submissionForm += "<br/><div id=\"radoi\"><h4 class=\"submitModalText\">lmao?: </h4><br/>"
-	submissionForm += "<label class=\"radioDiv\">ye <input type=\"radio\" name=\"radGroup\" checked=\"checked\"/><span class=\"radioSpan\"></span></label><br>"
-	submissionForm += "<label class=\"radioDiv\">hon hon <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
-	submissionForm += "<label class=\"radioDiv\">:DDDDDDDDDD <input type=\"radio\" name=\"radGroup\"/><span class=\"radioSpan\"></span></label><br>"
-
-	submissionForm += "<br/><div><h4 class=\"submitModalText\">Hours Spent: </h4><output class=\"submitModalTextOutput\" id=\"hoursOutputId\">10</output></div>"
-	submissionForm += "<input type=\"range\" min=\"1\" max=\"20\" value=\"10\" class=\"slider\" id=\"hoursRange\" oninput=\"hoursOutputId.value = hoursRange.value\"><br>"
-
-	for (var i=1; i<6; i++) {
-		submissionForm += "<span ng-click=\"starClick(" + i + ")\" ng-mouseover=\"starsHover(" + i + ")\" ng-mouseleave=\"starUnhover(" + i + ")\" class=\"stars\" score=\"" + i + "\">☆</span>"
+	var radioButtons = function(options, name){
+		submissionForm += `<div id="${name}">`
+		options.forEach(function(value){
+			submissionForm += `<label class="radioDiv">${value}<input type="radio" value="${value}" name="${name}" checked="checked"/><span class="radioSpan"></span></label><br>`
+		})
+		submissionForm += `</div>`
 	}
 
-	submissionForm += `<div class="hours">
-							<h4>
-								On average, how many hours per week do you devote to this course?
-								<span class="star">*</span>
-							</h4>
-							<input type="number"
-									placeholder="0" 
-									step="1" 
-									min="0" 
-									max="50"/>
-							<label >hours per week</label>
-							<br />
-						</div>`
+	var questionTitle = function(question, required){
+		if(required){
+			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+		} else {
+			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+		}
+	}
+
+	var slider = function(options, idName){
+		// options[parseInt($("#"+idName).prop("value"))]
+		console.log($("#" + idName));
+		console.log()
+
+		submissionForm += `<br/><div><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[parseInt($("#"+idName).prop("value"))]}"><br>`
+		{/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */}
+	}
+
+	var textbox = function(placeHolder, idName) {
+		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}"></textarea></div>`
+	}
+
+
+	questionTitle("What year are you?", true)
+	radioButtons(["Firstyear", "bah", "humbug", "YA RNERD"], 'yearQ')
+
+	questionTitle("What school are you?", true)
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+
+	questionTitle("What major are you?", true)
+	textbox("Enter major here", "majorEntry")
+
+	questionTitle("What is your second major or concentration, if any?", false)
+	textbox("Enter second major/concentration here", "secondMajor")
+
+	questionTitle("What professor did you have?", true)
+	textbox($scope.modalSection.instructors[0].name, "professorName")
+
+	questionTitle("What semester did you take this course?", true)
+	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+
+	questionTitle("On average, how many hours per week do you devote to this course?", true)
+	submissionForm += `<div id="hoursPerWeek"><input type="number"
+		placeholder="0" 
+		step="1" 
+		min="0" 
+		max="50"/>
+	<label >hours per week</label></div>`	
+
+	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
+	slider(prof_rate, "prof_rating")
+
+	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
+	slider(disToAgree, "interest_class")
+
+	questionTitle("What made this class interesting or uninteresting to you?", false)
+	textbox("", "whyInteresting")
+
+	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
+	slider(disToAgree, "good_teacher")
+
+	questionTitle("I did not need to self-teach material in order to do assignments/exams because the lectures were adequate.", true)
+	slider(disToAgree, "self_teaching")
+
+	questionTitle("It is possible to get an A-range grade without attending most lectures.", true)
+	slider(disToAgree, "easy_a")
+
+	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
+	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very Organized"], "organizational_skills")
+
+	questionTitle("I would recommend my particular professor for this course.", true)
+	slider(disToAgree, "recommend_prof")
+
+	questionTitle("Please explain further", false)
+	textbox("", "recommendProfText")
+
+	questionTitle("Please check off all the factors that apply to this class", false)
 
 	const tags = ["Mandatory Recitations",
 		"Pop Quizzes",
