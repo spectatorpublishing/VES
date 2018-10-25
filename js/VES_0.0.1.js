@@ -4370,25 +4370,40 @@ function setReviewModal(data){
 		})
 		console.log(factors_results);
 
-		dataDisplay = `<div class="viewingSliderText">
-						<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}<h4>
-						<input type="range" min="0" max="20" value=${results["hoursPerWeek"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Harshness of Grading: ${results["grading"]}<h4>
-						<input type="range" min="0" max="5" value=${results["grading"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Interesting: ${results["interesting"]}<h4>
-						<input type="range" min="0" max="5" value=${results["interesting"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Effectiveness: ${results["effective"]}<h4>
-						<input type="range" min="0" max="5" value=${results["effective"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}<h4>
-						<input type="range" min="0" max="5" value=${results["selfTeach"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Organized: ${results["organized"]}<h4>
-						<input type="range" min="0" max="5" value=${results["organized"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Helpfulness of TAs: ${results["TAs"]}<h4>
-						<input type="range" min="0" max="5" value=${results["TAs"]} class="submitSlider slider" id="p_rate" disabled><br>
-						<h4 class="question"> Would Recommend: ${results["recommendation"]}<h4>
-						<input type="range" min="0" max="5" value=${results["recommendation"]} class="submitSlider slider" id="p_rate" disabled><br>
-						Requirement: ${results["requirement"]} said yes<br><br>
-		FACTORS<br>`
+		dataDisplay = `<div class="viewingSliderText hours">
+							<div>
+								<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
+								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
+								<input type="range" min="0" max="5" value=${results["grading"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Interesting: ${results["interesting"]}</h4>
+								<input type="range" min="0" max="5" value=${results["interesting"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
+								<input type="range" min="0" max="5" value=${results["effective"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
+								<input type="range" min="0" max="5" value=${results["selfTeach"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Organized: ${results["organized"]}</h4>
+								<input type="range" min="0" max="5" value=${results["organized"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Helpfulness of TAs: ${results["TAs"]}</h4>
+								<input type="range" min="0" max="5" value=${results["TAs"]} id="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
+								<input type="range" min="0" max="5" value=${results["recommendation"]} id="p_rate" disabled><br/>
+							</div>
+							<br>FACTORS<br>`
 		
 		Object.keys(factors_results).forEach(function(factor) {
 			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
@@ -4416,33 +4431,48 @@ function setReviewModal(data){
 						Professor: {{activeReviews[review-1]["professor"]}}<br>
 						{{activeReviews[review-1]["personal"]["semester"]}}
 					</h4>
-					<h4 >
-						Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}<br>
-						<input type="range" min="0" max="20" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="submitSlider slider" id="p_rate" disabled><br>
+
+					<div class="viewingSliderText hours">
+						<div>
+							<h4 class="question">Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
+							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" id="p_rate" disabled>
+						</div>
 						
-						Harshness of Grading: {{activeReviews[review - 1]["grading"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="submitSlider slider" id="p_rate" disabled><br>
+						<div>
+							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" id="p_rate" disabled>
+						</div>
+
+						<div>
+							<h4 class="question">Effectiveness: {{activeReviews[review - 1]["effective"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" id="p_rate" disabled>
+						</div>
+
+						<div>
+							<h4 class="question">Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" id="p_rate" disabled>
+						</div>
+
+						<div>
+							<h4 class="question">A-range: {{activeReviews[review - 1]["A-possible"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['A-possible']" id="p_rate" disabled>
+						</div>
+
+						<div>
+							<h4 class="question">Harshness of Grading: {{activeReviews[review - 1]["grading"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" id="p_rate" disabled>
+						</div>
 						
-						Interesting: {{activeReviews[review - 1]["interesting"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="submitSlider slider" id="p_rate" disabled><br>
+						<div>
+							<h4 class="question">Organized: {{activeReviews[review - 1]["organized"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" id="p_rate" disabled>
+						</div>
 						
-						Effectiveness: {{activeReviews[review - 1]["effective"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="submitSlider slider" id="p_rate" disabled><br>
-						
-						Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="submitSlider slider" id="p_rate" disabled><br>
-						
-						Organized: {{activeReviews[review - 1]["organized"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="submitSlider slider" id="p_rate" disabled><br>
-						
-						Helpfulness of TAs: {{activeReviews[review - 1]["TAs"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['TAs']" class="submitSlider slider" id="p_rate" disabled><br>
-						
-						Would Recommend: {{activeReviews[review - 1]["recommendation"]}}<br>
-						<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="submitSlider slider" id="p_rate" disabled><br>
-						
-						Requirement: {{activeReviews[review - 1]["requirement"]}} said yes<br>
-					</h4>
+						<div>
+							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]}}</h4>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" id="p_rate" disabled>
+						</div>
+					</div>
 				</div>`		
 
 		modalBody +=
@@ -4508,7 +4538,15 @@ $scope.submitReviewsButton = function(section, course) {
 		window.sliderOptions[idName] = options;
 
 		submissionForm += `<br/><div><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
-		submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]"><br>`
+		submissionForm += `<div class="hours">
+								<input type="range" 
+										min="0" max="4" 
+										value="2" 
+										class="hours" 
+										id="${idName}" 
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
+								<br>
+							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
 
