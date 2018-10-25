@@ -4347,7 +4347,7 @@ function setReviewModal(data){
 
 		results = {};
 		factors_results = {};
-		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "TAs","recommendation"];
+		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation"];
 		disp_bools = ["requirement"];
 		disp_factors = [
         	"mandatory recitations",
@@ -4373,35 +4373,31 @@ function setReviewModal(data){
 		dataDisplay = `<div class="viewingSliderText hours">
 							<div>
 								<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
-								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
-								<input type="range" min="0" max="5" value=${results["grading"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Interesting: ${results["interesting"]}</h4>
-								<input type="range" min="0" max="5" value=${results["interesting"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
-								<input type="range" min="0" max="5" value=${results["effective"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
-								<input type="range" min="0" max="5" value=${results["selfTeach"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Organized: ${results["organized"]}</h4>
-								<input type="range" min="0" max="5" value=${results["organized"]} id="p_rate" disabled><br/>
-							</div>
-							<div>
-								<h4 class="question"> Helpfulness of TAs: ${results["TAs"]}</h4>
-								<input type="range" min="0" max="5" value=${results["TAs"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
 								<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
-								<input type="range" min="0" max="5" value=${results["recommendation"]} id="p_rate" disabled><br/>
+								<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
 							</div>
 							<br>FACTORS<br>`
 		
@@ -4435,42 +4431,46 @@ function setReviewModal(data){
 					<div class="viewingSliderText hours">
 						<div>
 							<h4 class="question">Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" id="p_rate" disabled>
+							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
 						</div>
 						
 						<div>
 							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
+						</div>
+						<div>
+							<h4 class="question">Why Interesting:</h4>
+							<input type="text" value="${(data["whyInteresting"].length > 0) ? (data["whyInteresting"]) : ("N/A")}" class="p_rate" readonly>
 						</div>
 
 						<div>
 							<h4 class="question">Effectiveness: {{activeReviews[review - 1]["effective"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="p_rate" disabled>
 						</div>
 
 						<div>
 							<h4 class="question">Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate" disabled>
 						</div>
 
 						<div>
 							<h4 class="question">A-range: {{activeReviews[review - 1]["A-possible"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['A-possible']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate" disabled>
 						</div>
 
 						<div>
 							<h4 class="question">Harshness of Grading: {{activeReviews[review - 1]["grading"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="p_rate" disabled>
 						</div>
 						
 						<div>
 							<h4 class="question">Organized: {{activeReviews[review - 1]["organized"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="p_rate" disabled>
 						</div>
 						
 						<div>
 							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" id="p_rate" disabled>
+							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
 						</div>
 					</div>
 				</div>`		
