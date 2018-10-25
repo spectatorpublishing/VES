@@ -1573,18 +1573,24 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		modalCounter=(-1);
 		$scope.nextModal();
 		$("#myModal").modal();
-		consol.log("hello");
+		
 	}
+	$scope.modalCount=function(count){
+		modalCounter=count;
+	}
+
 	$scope.nextModal= function(){
 		modalCounter++;
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		
 		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
 		$(".modal-body").css({"padding":"0 10% 0 10%"});
 
 	}
 	$scope.prevModal= function(){
-		modalCounter-=1;
+		modalCounter--;
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		
 		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
 		$(".modal-body").css({"padding":"0 10% 0 10%"});
 	}
@@ -1598,11 +1604,15 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	var gcal_tutorial=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img">`;
 	$scope.tutorial_features=[
 		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("Table of Contents",`<div><div ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
+											  <div ng-click='modalCount(2);nextModal()'>Smart Search</div> 
+										      <div ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
+											  <div ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
 		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
 		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
-		new modalContent("Live Class Enrollment","",`${tutorial_buttons}`),
+		new modalContent("Live Class Enrollment","<div>I'm Just Here So I Won't Get Fined</div>",`${tutorial_buttons}`),
 		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
-		new modalContent("Tutorial Complete","","<button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>")
+		new modalContent("Tutorial Complete","","<div><button ng-click='prevModal()'>Previous</button> <button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
 
 	]
 	$scope.gcal = {
