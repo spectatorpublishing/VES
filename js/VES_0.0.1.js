@@ -1678,8 +1678,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		}).success(function(data, status) {
 			console.log(data, "and status is", status)
 			if(data["Success"]){
-				$scope.modalChange()
-				$("#myModal").hide()
+				$('#myModal').modal('hide');
 			} else {
 				alert("There was an issue sorry please try again")
 			}
@@ -1773,8 +1772,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   </div>
                 </div>`,`<div><button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
               <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();" data-dismiss="modal">Submit</button>
-              </div>`);
-			$("#myModal").modal();
+			  </div>`);
+			$("#myModal").modal('show');
 		},
 		upload: (uni) => {
 			var returnJson = {};
@@ -4478,7 +4477,7 @@ function setReviewModal(data){
 	}
 
 	$scope.modalChange(header, modalBody);
-	$('#myModal').modal();
+	$('#myModal').modal('show');
 }
 
 $scope.submitReviewsButton = function(section, course) {
@@ -4490,7 +4489,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course.title}</p>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${section.instructors[0].name}\', \'${course.title}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
@@ -4602,8 +4601,7 @@ $scope.submitReviewsButton = function(section, course) {
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
 	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
-	$('#myModal').show();
-	$('#myModal').modal();
+	$('#myModal').modal('show');
 }
 
 });
