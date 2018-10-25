@@ -1621,7 +1621,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			}
 		})
 		var major = $("#majorEntry textarea").val()
-		var secondmajor = $("#secondMajor textarea").val()
+		var secondMajor = $("#secondMajor textarea").val()
 		var profName = $("#professorName textarea").val()
 		$("#semesterQ input").each(function(i){
 			if($(this).prop("checked")){
@@ -1642,7 +1642,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var chosenTags = []
 		$("#tagChoices input").each(function(i){
 			if($(this).prop("checked")){
-				chosenTags.push($(this).prop("value"))
+				chosenTags.push($(this).prop("value").toLowerCase());
 			}
 		})
 		// Make up personal stuff for demo purpose Change for correctness.
@@ -1651,19 +1651,22 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				"year": gradYear,
 				"school": school,
 				"major": major,
+				"concentration": secondMajor,
 				"semester": semester
 			},
 			"hoursPerWeek": hoursPerWeek,
 			"grading": grading,
 			"interesting": interest,
+			"whyInteresting": whyInterest,
 			"effective": goodTeacher,
 			"selfTeach": selfTeaching,
 			"organized": organization,
 			"recommendation": recommend,
+			"explain_recommendation": whyRecommend,
 			"factors": chosenTags,
 			"professor": professor,
 			"courseNumber": course,
-			"A-possible": 0,
+			"A-possible": easyA,
 			"requirement": false
 		}
 		console.log(jsonLoad)
@@ -4481,7 +4484,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course.title}</p>
 				</div>`;
 
-	var submissionForm = "<form>";
+	var submissionForm = `<form ng-submit="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
@@ -4574,9 +4577,9 @@ $scope.submitReviewsButton = function(section, course) {
 
 	const tags = ["Mandatory Recitations",
 		"Pop Quizzes",
-		"Graded In-Class Assignments",
+		"Graded In-class Assignments",
 		"Attendance Factors Into The Grade",
-		"Participating In-Class Factors Into The Grade",
+		"Participating In Class Factors Into The Grade",
 		"High Monetary Costs To Taking Class",
 		"Class Is Not Curved"];
 
@@ -4587,7 +4590,8 @@ $scope.submitReviewsButton = function(section, course) {
 	submissionForm += `</div>`
 
 	//submissionForm += `</div>`
-	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
