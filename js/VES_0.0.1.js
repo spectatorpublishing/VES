@@ -1677,6 +1677,12 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			data: jsonLoad,
 		}).success(function(data, status) {
 			console.log(data, "and status is", status)
+			if(data["Success"]){
+				$scope.modalChange()
+				$("#myModal").hide()
+			} else {
+				alert("There was an issue sorry please try again")
+			}
 		});
 		
 	}
@@ -4596,7 +4602,7 @@ $scope.submitReviewsButton = function(section, course) {
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
 	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
-
+	$('#myModal').show();
 	$('#myModal').modal();
 }
 
