@@ -1621,7 +1621,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			}
 		})
 		var major = $("#majorEntry textarea").val()
-		var secondmajor = $("#secondMajor textarea").val()
+		var secondMajor = $("#secondMajor textarea").val()
 		var profName = $("#professorName textarea").val()
 		$("#semesterQ input").each(function(i){
 			if($(this).prop("checked")){
@@ -1642,7 +1642,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var chosenTags = []
 		$("#tagChoices input").each(function(i){
 			if($(this).prop("checked")){
-				chosenTags.push($(this).prop("value"))
+				chosenTags.push($(this).prop("value").toLowerCase());
 			}
 		})
 		// Make up personal stuff for demo purpose Change for correctness.
@@ -1651,19 +1651,22 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				"year": gradYear,
 				"school": school,
 				"major": major,
+				"concentration": secondMajor,
 				"semester": semester
 			},
 			"hoursPerWeek": hoursPerWeek,
 			"grading": grading,
 			"interesting": interest,
+			"whyInteresting": whyInterest,
 			"effective": goodTeacher,
 			"selfTeach": selfTeaching,
 			"organized": organization,
 			"recommendation": recommend,
+			"explain_recommendation": whyRecommend,
 			"factors": chosenTags,
 			"professor": professor,
 			"courseNumber": course,
-			"A-possible": 0,
+			"A-possible": easyA,
 			"requirement": false
 		}
 		console.log(jsonLoad)
@@ -1674,6 +1677,11 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			data: jsonLoad,
 		}).success(function(data, status) {
 			console.log(data, "and status is", status)
+			if(data["Success"]){
+				$('#myModal').modal('hide');
+			} else {
+				alert("There was an issue sorry please try again")
+			}
 		});
 		
 	}
@@ -1764,8 +1772,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
                   </div>
                 </div>`,`<div><button type="button" class="btn btn-default" ng-click="listing.clearsubmit();" data-dismiss="modal">Close</button>
               <button id="submit" type="button" class="btn btn-default" ng-click="clicked=true; listing.upload(userinfo.data.uni); listing.confirmsubmit(); listing.clearListing(); listing.close();" data-dismiss="modal">Submit</button>
-              </div>`);
-			$("#myModal").modal();
+			  </div>`);
+			$("#myModal").modal('show');
 		},
 		upload: (uni) => {
 			var returnJson = {};
@@ -4499,7 +4507,7 @@ function setReviewModal(data){
 	}
 
 	$scope.modalChange(header, modalBody);
-	$('#myModal').modal();
+	$('#myModal').modal('show');
 }
 
 $scope.submitReviewsButton = function(section, course) {
@@ -4511,7 +4519,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course.title}</p>
 				</div>`;
 
-	var submissionForm = "<form>";
+	var submissionForm = `<form ng-submit="submitForm(\'${section.instructors[0].name}\', \'${course.title}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
@@ -4550,8 +4558,8 @@ $scope.submitReviewsButton = function(section, course) {
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
 
-	var textbox = function(placeHolder, idName) {
-		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}"></textarea></div>`
+	var textbox = function(placeHolder, idName, text = "") {
+		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}">${text}</textarea></div>`
 	}
 
 
@@ -4568,7 +4576,7 @@ $scope.submitReviewsButton = function(section, course) {
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
-	textbox($scope.modalSection.instructors[0].name, "professorName")
+	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
 	questionTitle("What semester did you take this course?", true)
 	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
@@ -4612,26 +4620,26 @@ $scope.submitReviewsButton = function(section, course) {
 
 	const tags = ["Mandatory Recitations",
 		"Pop Quizzes",
-		"Graded In-Class Assignments",
+		"Graded In-class Assignments",
 		"Attendance Factors Into The Grade",
-		"Participating In-Class Factors Into The Grade",
+		"Participating In Class Factors Into The Grade",
 		"High Monetary Costs To Taking Class",
 		"Class Is Not Curved"];
 
-	submissionForm += `<div class="tags">`
+	submissionForm += `<div class="tags" id="tagChoices">`
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
 	submissionForm += `</div>`
 
 	//submissionForm += `</div>`
-	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
 
 	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
 
 	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
-
-	$('#myModal').modal();
+	$('#myModal').modal('show');
 }
 
 });
