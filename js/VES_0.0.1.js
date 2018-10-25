@@ -4446,9 +4446,10 @@ function setReviewModal(data){
 							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
 						</div>
-						<div>
+
+						<div ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
 							<h4 class="question">Why Interesting:</h4>
-							<input type="text" value="${(data["whyInteresting"].length > 0) ? (data["whyInteresting"]) : ("N/A")}" class="p_rate" readonly>
+							<input type="text" value="{{activeReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
 						</div>
 
 						<div>
@@ -4479,6 +4480,11 @@ function setReviewModal(data){
 						<div>
 							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
+						</div>
+						
+						<div ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
+							<h4 class="question">Explain Recommendation:</h4>
+							<input type="text" value="{{activeReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
 						</div>
 					</div>
 				</div>`		
