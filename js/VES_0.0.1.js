@@ -4512,8 +4512,8 @@ $scope.submitReviewsButton = function(section, course) {
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
 
-	var textbox = function(placeHolder, idName) {
-		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}"></textarea></div>`
+	var textbox = function(placeHolder, idName, text = "") {
+		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}">${text}</textarea></div>`
 	}
 
 
@@ -4530,7 +4530,7 @@ $scope.submitReviewsButton = function(section, course) {
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
-	textbox($scope.modalSection.instructors[0].name, "professorName")
+	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
 	questionTitle("What semester did you take this course?", true)
 	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
@@ -4580,7 +4580,7 @@ $scope.submitReviewsButton = function(section, course) {
 		"High Monetary Costs To Taking Class",
 		"Class Is Not Curved"];
 
-	submissionForm += `<div class="tags">`
+	submissionForm += `<div class="tags" id="tagChoices">`
 	for (var i = 0; i < tags.length; i++) {
 		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
 	}
