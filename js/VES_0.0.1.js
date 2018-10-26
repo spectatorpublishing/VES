@@ -1118,7 +1118,7 @@ app.factory('Filters', function($http) {
 	// Filters = $http.get('feeds/filters.js');
 
 	program_courses = [];
-	var my_url = 'http://localhost:3000/api/getDeptData';
+	var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
 	// var fn = "local.json";
 
 	// var my_url = 'https://ves.columbiaspectator.com/api/getDeptData';
@@ -1672,7 +1672,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		console.log(jsonLoad)
 		$http({
 			method: 'POST',
-			url: "http://localhost:3000/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+			url: "https://ves.columbiaspectator.com/api/putReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
 			headers: {'Content-Type':'application/json'},
 			data: jsonLoad,
 		}).success(function(data, status) {
@@ -1792,7 +1792,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				$('#submit').show();
 			} else {
 				// $http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
-				$http.post('http://localhost:3000/api/coreSwap', returnJson);
+				$http.post('https://ves.columbiaspectator.com/api/coreSwap', returnJson);
 				$('#success').show();
 				$('#submit').hide();
 			}
@@ -1808,7 +1808,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	//Instantiate nicknames
 	// nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
-	nicknames = $http.post('http://localhost:3000/api/getNicknames');
+	nicknames = $http.post('https://ves.columbiaspectator.com/api/getNicknames');
 	$scope.global = {
 		variables: {},
 		basicFiltersShown: 1,
@@ -4297,7 +4297,7 @@ $scope.reviewsButton = function(section, course) {
 
 	$http({
 	    method: 'POST',
-	   	url: "http://localhost:3000/api/getReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+	   	url: "https://ves.columbiaspectator.com/api/getReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
 	   	headers: {'Content-Type':'application/json'},
 		data: `{"profName": "${profName}", "courseNumber": "${courseNumber}"}`
 	}).success(function(data, status) {
@@ -4556,7 +4556,7 @@ $scope.courseReviewButton = function(course){
 	console.log(course);
 	$http({
 	    method: 'POST',
-	   	url: "http://localhost:3000/api/getCourseReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+	   	url: "https://ves.columbiaspectator.com/api/getCourseReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
 	   	headers: {'Content-Type':'application/json'},
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
@@ -5989,7 +5989,7 @@ $scope.$watch('program', function() {
 
 		// $("#program-information .ng-scope").show()
 		// var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
-		var my_url = 'http://localhost:3000/api/getMajorData';
+		var my_url = 'https://ves.columbiaspectator.com/api/getMajorData';
 		majorDataGet = $http({
 			"method": "POST",
 			"url": my_url,
@@ -6023,7 +6023,7 @@ $scope.$watch('program', function() {
 		    };
 
 			// my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
-			my_url = 'http://localhost:3000/api/reportBadData';
+			my_url = 'https://ves.columbiaspectator.com/api/reportBadData';
 		    var bad_data_btn = document.createElement("button");
 		    bad_data_btn.innerHTML = "Inaccurate data?";
 		    bad_data_btn.setAttribute("style","color: black");
