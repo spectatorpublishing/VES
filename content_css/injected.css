@@ -347,7 +347,7 @@ label.pageTag {
    border-radius: 25px; 
 }
 .textarea{
-  border-radius: !15px;
+  border-radius: 15px;
 }
 #tagChoices{
   margin: 3em;

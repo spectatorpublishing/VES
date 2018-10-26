@@ -4381,31 +4381,31 @@ function setReviewModal(data){
 		dataDisplay = `<div class="viewingSliderText hours">
 							<div>
 								<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
-								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+								<input type="range" min="1" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
-								<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Harshness of Grading: ${results["grading"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["grading"]+1} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Interesting: ${results["interesting"]}</h4>
-								<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Interesting: ${results["interesting"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["interesting"]+1} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
-								<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Effectiveness: ${results["effective"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["effective"]+1} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
-								<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["selfTeach"]+1} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Organized: ${results["organized"]}</h4>
-								<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Organized: ${results["organized"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["organized"]+1} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
-								<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
+								<h4 class="question"> Would Recommend: ${results["recommendation"]+1}</h4>
+								<input type="range" min="1" max="5" value=${results["recommendation"]+1} class="p_rate" disabled><br/>
 							</div>
 							<br>FACTORS<br>`
 		
@@ -4450,13 +4450,13 @@ function setReviewModal(data){
 
 					<div class="viewingSliderText hours">
 						<div>
-							<h4 class="question">Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
+							<h4 class="question">Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]+1}}</h4>
+							<input type="range" min="1" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
+							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['interesting']+1" class="p_rate" disabled>
 						</div>
 
 						<div ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
@@ -4465,33 +4465,33 @@ function setReviewModal(data){
 						</div>
 
 						<div>
-							<h4 class="question">Effectiveness: {{activeReviews[review - 1]["effective"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="p_rate" disabled>
+							<h4 class="question">Effectiveness: {{activeReviews[review - 1]["effective"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['effective']+1" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate" disabled>
+							<h4 class="question">Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['selfTeach']+1" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">A-range: {{activeReviews[review - 1]["A-possible"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate" disabled>
+							<h4 class="question">A-range: {{activeReviews[review - 1]["A-possible"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['A-possible']+1" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">Harshness of Grading: {{activeReviews[review - 1]["grading"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="p_rate" disabled>
+							<h4 class="question">Harshness of Grading: {{activeReviews[review - 1]["grading"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['grading']+1" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Organized: {{activeReviews[review - 1]["organized"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="p_rate" disabled>
+							<h4 class="question">Organized: {{activeReviews[review - 1]["organized"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['organized']+1" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]}}</h4>
-							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
+							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]+1}}</h4>
+							<input type="range" min="1" max="5" ng-value="activeReviews[review - 1]['recommendation']+1" class="p_rate" disabled>
 						</div>
 						
 						<div ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
