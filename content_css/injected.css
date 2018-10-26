@@ -1,3 +1,14 @@
+.stars {
+  color: #003087;
+  font-size: 3rem;
+  padding-right: 0.5rem;
+}
+
+.stars:focus {
+  outline: none;
+  border: 0;
+}
+
 div#program-information {
   padding: 0;
 }
@@ -25,4 +36,349 @@ aside div.content {
 
 #program_chosen {
   padding: .5rem 0;
+}
+
+.hours input {
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 2em;
+}
+
+.hours input[type="range"] {
+  /*new slider branch fuckery*/
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    background: #002f87;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.hours input[type="range"]::-webkit-slider-thumb { 
+  border-radius: 15px 15px 15px 15px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+.hours input[type="range"]::-moz-range-thumb {
+    border-radius: 15px 15px 15px 15px;
+    width: 30px;
+    height: 15px;
+    background: #Eaa55e;
+    cursor: pointer;
+}
+
+.hours input[type="text"], .hours input[type="number"] {
+  border: none;
+}
+
+h4.submitModalText {
+  color: #002f87;
+  display: inline;
+}
+output.submitModalTextOutput {
+  color: #Eaa55e;
+  display: inline;
+  font-size:18px;
+}
+
+div.hours {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.hours label {
+  color: #777;
+}
+
+.hours h4 {
+	color: #002f87;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 0em; 
+}
+
+.hours h4.response {
+  color: #Eaa55e;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.hours .star{
+  color: #eaa55e;
+}
+
+.course-actions .course-reviews{
+  background: #789CC1;
+  position:relative;
+}
+
+.heading-toggle .container .relevant-classes-indicator{
+  width: 100%;
+}
+
+.general-course-reviews {
+  width: 100%;
+  position: relative;
+}
+
+.general-course-reviews a.course-reviews{
+  background-color: #789CC1;
+  display: inline;
+  float: right;
+  max-width: 130px;
+  font: "Helvetica Neue";
+  color: white;
+  border-radius: 6px;
+  margin: .2em;
+  position: relative;
+}
+
+.course-plus{
+  position: absolute;
+  top: 0;
+  right: .5rem;
+  color: #e8a55e;
+}
+
+#hoursOutputId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+}
+#profRateId {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+}
+
+.sliderOutput {
+  display:inline;
+  color:#E8A552;
+  font-size:18px;
+  margin-left: 2.5em;
+}
+
+/*submit review modal css*/
+/*slider css*/
+.submitModalText {
+  color: #002f87;
+  display: inline;
+  font-weight: bold;
+}
+
+.submissionForm .tags, div.tags {
+  text-align: justify;
+}
+
+.submissionForm input[type="checkbox"] {
+    display: none;
+}
+
+.submissionForm input[type="checkbox"]:checked + label {
+  background-color: #f7a34d;
+}
+
+.submissionForm input[type="checkbox"] + label {
+  background-color: #133c80;
+  color: white;
+  padding: .3rem .5rem;
+  border-radius: 10rem;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+label.pageTag {
+  font-size: 1.5rem;
+  background-color: #f7a34d;
+  color: white;
+  padding: .3rem .5rem;
+  border-radius: 10rem;
+  user-select: none;
+  -moz-user-select: none;
+  pointer-events: none;
+  margin: 0.2rem;
+}
+
+.showReview .tags {
+  padding: 0.5em;
+}
+
+.showReview .navigator {
+  text-align: center;
+}
+
+.showReview .navigator p.page-number {
+  display: inline-block;
+  width: 10rem;
+}
+
+.showReview .navigator button {
+  background-color: #003c6f;
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  color: white;
+  font-size: 2rem;
+  line-height: 0;
+  border-radius: 50%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.showReview .navigator button:disabled {
+  background-color: #aaa;
+}
+
+.showReview a.button:hover {
+  opacity: 0.9;
+}
+
+.btn-submit {
+  color: white; 
+  background: rgb(120, 156, 193);
+
+}
+
+.studentInfo {
+  margin-left: 1.5em;
+  color: #003c6f;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.viewingSliderText {
+  color: #003c6f;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.studentInfoTitle {
+  margin-left: 1.5em;
+  color: #95c0e5;
+  margin-bottom: 0px;
+}
+
+
+/*radio button/checkmark css*/
+.radioDiv {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    display: inline;
+    font-size:18px;
+}
+
+/* Hide the browser's default radio button */
+.radioDiv input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radioSpan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #002f87;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioDiv:hover input ~ .radioSpan {
+    background-color: #002f87;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioDiv input:checked ~ .radioSpan {
+    background-color: #Eaa55e;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioSpan:after{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioDiv input:checked ~ .radioSpan:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioDiv .radioSpan:after {
+  top: 6px;
+  left: 8px;
+  background: #Eaa55e;
+    
+  /*Add another block-level blank space*/
+  content: '';
+ 
+  /*Make it a small rectangle so the border will create an L-shape*/
+  width: 4px;
+  height: 8px;
+ 
+  /*Add a white border on the bottom and left, creating that 'L' */
+  border: solid #eee;
+  border-width: 0 2px 2px 0;
+ 
+  /*Rotate the L 45 degrees to turn it into a checkmark*/
+  transform: rotate(45deg);
+}
+
+.questionEntry{
+  margin-left: 3em;
+  margin-right: 3em;
+  margin-top: 1em; 
+  margin-bottom: 2em;
+}
+.sliderEnter{
+  margin-left: 3em;
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+
+#majorEntry{
+  border-radius: 25px; 
+}
+.boxes{
+   border-radius: 25px; 
+}
+
+.submissionForm textarea{
+  border-radius: 5px;
+}
+
+#tagChoices{
+  margin: 3em;
+  margin-top: 1em;
+  margin-bottom:0em;
+}
+
+.submitClass{
+  margin-top:0em;
+  text-align: center;
+  margin-bottom:2em;
 }
