@@ -4536,7 +4536,7 @@ $scope.courseReviewButton = function(course){
 	   	headers: {'Content-Type':'application/json'},
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
-
+		modal_header = `<div><h1>All Professors</h1><h2>${course.title}</h2></div>`
 		if (data.length > 0) {
 			results = {};
 			factors_results = {};
@@ -4603,8 +4603,7 @@ $scope.courseReviewButton = function(course){
 			$scope.$parent.activeCourseReviews = data;
 	  		var modal_data, modal_header;
 	  		var courseNum = course.title;
-			modal_header = `<div><h1>All Professors</h1><h2>${courseNum}</h2></div>`
-	  		modal_body = `
+			modal_body = `
 				<div ng-init="review=0" class="showReview">
 					<div class="navigator">
 						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
