@@ -3873,7 +3873,7 @@ margin-top: 1rem;
             </a>
         </div>
         <div class="general-course-reviews">
-            <a class="btn ng-scope course-reviews actual-submit-reviews">
+            <a class="btn ng-scope course-reviews actual-submit-reviews" ng-click="actualCourseSubmitReview(course)">
                 Submit Review <div class="course-plus"><b>+</b></div>
             </a>
         </div>
