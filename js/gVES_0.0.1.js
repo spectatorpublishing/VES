@@ -3722,7 +3722,7 @@ return m.noConflict = function(b) {
 document.onreadystatechange = () => {
 
 if (document.readyState === "interactive") {
-
+$("#top-nav ul").prepend(`<li><a ng-click="callModal();">Vergil+ Tutorial</a></li>`);
     var coreswap_css = `
 
 div#coreswap {
@@ -3856,25 +3856,42 @@ margin-top: 1rem;
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope course-reviews">
+        <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
             View Reviews<div class="course-plus"><b>+</b></div>
         </a>
-        <a class="btn btn-lg ng-scope course-reviews submit-reviews">
+        <a class="btn btn-lg ng-scope course-reviews submit-reviews" ng-click="submitReviewsButton(section, course);">
             Submit Review <div class="course-plus"><b>+</b></div>
         </a>
         `
     )
 
-    $(".course-reviews").each(function(index) {
-        $(this).attr("ng-click", "reviewsButton(section, course);")
-        $(this).attr("ng-mouseover", "hoverEnterReviewsButton(section, course);")
-        $(this).attr("ng-mouseleave", "hoverLeaveReviewsButton(section, course);")
+
+    $(".course-item .relevant-classes-indicator").each(function(index) {
+        $(this).html(`<div class="general-course-reviews">
+            <a class="btn ng-scope course-reviews" ng-click="courseReviewButton(course)">
+              View Reviews<div class="course-plus"><b>+</b></div>
+            </a>
+        </div>
+        <div class="general-course-reviews">
+            <a class="btn ng-scope course-reviews actual-submit-reviews" ng-click="actualCourseSubmitReview(course)">
+                Submit Review <div class="course-plus"><b>+</b></div>
+            </a>
+        </div>
+        `)
+
+        console.log("general kenobi")
         console.log( $(this) );
     })
-    $(".submit-reviews").each(function(index) {
-        $(this).attr("ng-click", "submitReviewsButton(section, course);")
-        console.log( $(this) );
-    })
+
+    // $(".course-reviews").each(function(index) {
+    //     $(this).attr("ng-click", "reviewsButton(section, course);")
+    //     console.log( $(this) );
+    // })
+
+    // $(".submit-reviews").each(function(index) {
+    //     $(this).attr("ng-click", "submitReviewsButton(section, course);")
+    //     console.log( $(this) );
+    // })
 
     // $(".class-more-info").append(
     //     "<dl ng-if=\"::course.ribbit\">" +
