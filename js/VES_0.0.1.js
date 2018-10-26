@@ -4474,7 +4474,7 @@ function setReviewModal(data){
   	$scope.$parent.prof_rate = prof_rate
   	var dataDisplay, header;
   	if (data.length != 0) {
-		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
+		header = `<div class="header"><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
 		
 		// Template for booleans in future
 		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
@@ -4669,9 +4669,9 @@ function setReviewModal(data){
 	} else { // inform user that no review data currently exists
 		var courseNum = $scope.modalSection.subtitle;
 		var instructor = $scope.modalSection.instructors[0].name;
-		header = `<div><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
+		header = `<div class="header"><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
 		datas = "No data for " + instructor + " teaching " + courseNum;
-		modalBody = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+		modalBody = "<h4 class='modal-no-data'> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
 	}
 
 	$scope.modalChange(header, modalBody);
@@ -4686,7 +4686,7 @@ $scope.courseReviewButton = function(course){
 	   	headers: {'Content-Type':'application/json'},
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
-		modal_header = `<div><h1>All Professors</h1><h2>${course.title}</h2></div>`
+		modal_header = `<div class="header"><h1>All Professors</h1><h2>${course.title}</h2></div>`
 		console.log("data");
 		console.log(data);
 		if (data.length > 0) {
@@ -4866,7 +4866,7 @@ $scope.courseReviewButton = function(course){
 					</div>
 					`
 		} else { // inform user that no review data currently exists
-			modal_body = "<h4> No data has been submitted for " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+			modal_body = "<h4 class='modal-no-data'> No data has been submitted for " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
 		}
 
 		$scope.modalChange(modal_header, modal_body);
@@ -4878,8 +4878,8 @@ $scope.courseReviewButton = function(course){
 $scope.actualCourseSubmitReview = function(course) {
 	$scope.$parent.modalCourse = course;
 
-	var header = `<div class="review-modal-header">
-					<p>${course.title}</p>
+	var header = `<div class="review-modal-header header">
+					<h1>${course.title}</h1>
 				</div>`;
 
 	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
@@ -5015,9 +5015,9 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var header = `<div class="review-modal-header">
-					<p>${$scope.modalSection.instructors[0].name}</p>
-					<p>${course.title}</p>
+	var header = `<div class="review-modal-header header">
+					<h1>${$scope.modalSection.instructors[0].name}</h1>
+					<h2>${course.title}</h2>
 				</div>`;
 
 	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;

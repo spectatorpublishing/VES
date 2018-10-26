@@ -1,3 +1,12 @@
+.header h1{
+  margin-bottom: 0;
+}
+
+.header h2{
+  font-size: 2rem;
+  margin-top: 0;
+}
+
 .stars {
   color: #003087;
   font-size: 3rem;
@@ -138,6 +147,10 @@ output.submitModalTextOutput {
   font-size:18px;
 }
 
+.modal-no-data {
+  margin: 4rem;
+}
+
 div.hours {
   margin: 0 2em;
 }
@@ -266,6 +279,7 @@ label.pageTag {
   -moz-user-select: none;
   pointer-events: none;
   margin: 0.2rem;
+  text-align: left;
 }
 
 .showReview .tags {
@@ -328,6 +342,7 @@ label.pageTag {
   color: #003c6f;
   margin-top: 0px;
   margin-bottom: 0px;
+  overflow-wrap: break-word;
 }
 
 .viewingSliderText {
