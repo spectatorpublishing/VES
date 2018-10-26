@@ -255,3 +255,101 @@ label.pageTag {
   color: #95c0e5;
   margin-bottom: 0px;
 }
+
+
+/*radio button/checkmark css*/
+.radioDiv {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    display: inline;
+    font-size:18px;
+}
+
+/* Hide the browser's default radio button */
+.radioDiv input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.radioSpan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #002f87;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radioDiv:hover input ~ .radioSpan {
+    background-color: #002f87;
+}
+
+/* When the radio button is checked, add a blue background */
+.radioDiv input:checked ~ .radioSpan {
+    background-color: #Eaa55e;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioSpan:after{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioDiv input:checked ~ .radioSpan:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioDiv .radioSpan:after {
+  top: 6px;
+  left: 8px;
+  background: #Eaa55e;
+    
+  /*Add another block-level blank space*/
+  content: '';
+ 
+  /*Make it a small rectangle so the border will create an L-shape*/
+  width: 4px;
+  height: 8px;
+ 
+  /*Add a white border on the bottom and left, creating that 'L' */
+  border: solid #eee;
+  border-width: 0 2px 2px 0;
+ 
+  /*Rotate the L 45 degrees to turn it into a checkmark*/
+  transform: rotate(45deg);
+}
+
+.questionEntry{
+  margin: 3em;
+  margin-top: 0em;
+}
+
+#majorEntry{
+  border-radius: 25px; 
+}
+.boxes{
+   border-radius: 25px; 
+}
+.textarea{
+  border-radius: !15px;
+}
+#tagChoices{
+  margin: 3em;
+  margin-top: 0em;
+}

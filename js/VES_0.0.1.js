@@ -4554,10 +4554,11 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
+		submissionForm += '<div class="questionEntry">'
 		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv">${value}<input type="radio" value="${value}" name="${name}" checked="checked"/><span class="radioSpan"></span></label><br>`
+			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
 		})
-		submissionForm += `</div>`
+		submissionForm += `</div></div>`
 	}
 
 	var questionTitle = function(question, required){
@@ -4576,7 +4577,7 @@ $scope.submitReviewsButton = function(section, course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
@@ -4590,7 +4591,9 @@ $scope.submitReviewsButton = function(section, course) {
 	}
 
 	var textbox = function(placeHolder, idName, text = "") {
-		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}">${text}</textarea></div>`
+		submissionForm += '<div class="questionEntry">'
+		submissionForm += `<div id="${idName}"><div class="boxes"><textarea placeholder="${placeHolder}">${text}</textarea></div></div>`
+		submissionForm += '</div>'
 	}
 
 
@@ -4613,12 +4616,12 @@ $scope.submitReviewsButton = function(section, course) {
 	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
-	submissionForm += `<div id="hoursPerWeek"><input type="number"
+	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
 		placeholder="0" 
 		step="1" 
 		min="0" 
 		max="50"/>
-	<label >hours per week</label></div>`	
+	<label >hours per week</label></div></div>`	
 
 	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
 	slider(prof_rate, "prof_rating")
