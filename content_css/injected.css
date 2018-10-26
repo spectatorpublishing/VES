@@ -175,6 +175,10 @@ label.pageTag {
   margin: 0.2rem;
 }
 
+.showReview .tags {
+  padding: 0.5em;
+}
+
 .showReview .navigator {
   text-align: center;
 }
