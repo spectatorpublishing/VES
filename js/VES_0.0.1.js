@@ -7,6 +7,7 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
+var visited=[0];
 /*var display_tutorial= function(){
 		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="nextModal(); $("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
 		//console.log("AAAAAbbbbAAAAA");
@@ -1526,6 +1527,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	The extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar.
 
 	More features are coming soon, and please send us your feedback to <a href="mailto:vergilplus@columbiaspectator.com">vergilplus@columbiaspectator.com</a>.</p>`;
+	
 
 	angular.element(document).ready(function () {
 	if (localStorage.getItem("fightme") == null) {
@@ -1578,19 +1580,40 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	$scope.modalCount=function(count){
 		modalCounter=count;
 	}
-
+	$scope.modalVisit=function(){
+		
+		var v_list=document.querySelectorAll(".toc");
+		console.log(visited);
+		visited.forEach(function(element){
+			if ((element-2)>=0){
+			v_list[element-2].style.color="purple";
+		}
+		})
+	}
 	$scope.nextModal= function(){
 		modalCounter++;
-		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		if (!(visited.includes(modalCounter))){
+		visited.push(modalCounter);
+		}
 		
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		if(modalCounter==1){
+			$scope.modalVisit();
+		}
 		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
 		$(".modal-body").css({"padding":"0 10% 0 10%"});
 
 	}
 	$scope.prevModal= function(){
 		modalCounter--;
+		if (!(visited.includes(modalCounter))){
+		visited.push(modalCounter);
+		}
 		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
 		
+		if(modalCounter==1){
+			$scope.modalVisit();
+		}
 		$(".tut_img").css({"width":"100%", "max-width":"200px", "margin-left":"auto", "margin-right":"auto"});
 		$(".modal-body").css({"padding":"0 10% 0 10%"});
 	}
@@ -1600,17 +1623,18 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
 	var c_images="../content_images";
 	var sidebar=`<img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"> `;
+	var liveEnrollment=`<img class='tut_img' src='https://spectator.arcpublishing.com/photo/resize/Ml6h5vIyQckoG2LfApJVo2OTjRY=/arc-anglerfish-arc2-prod-spectator/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg'>`
 	var s_search=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img">`;
 	var gcal_tutorial=`<img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img">`;
 	$scope.tutorial_features=[
 		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
-		new modalContent("Table of Contents",`<div><div ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
-											  <div ng-click='modalCount(2);nextModal()'>Smart Search</div> 
-										      <div ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
-											  <div ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
+		new modalContent("Table of Contents",`<div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
+											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div> 
+										      <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
+											  <div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
 		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
 		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
-		new modalContent("Live Class Enrollment","<div>I'm Just Here So I Won't Get Fined</div>",`${tutorial_buttons}`),
+		new modalContent("Live Class Enrollment",`${liveEnrollment}`,`${tutorial_buttons}`),
 		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
 		new modalContent("Tutorial Complete","","<div><button ng-click='prevModal()'>Previous</button> <button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
 
