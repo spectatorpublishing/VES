@@ -4874,7 +4874,7 @@ $scope.submitReviewsButton = function(section, course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
@@ -4895,7 +4895,7 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+	radioButtons(["Freshman", "Sophomore", "Junior", "Senior"], 'yearQ')
 
 	questionTitle("What school are you?", true)
 	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
@@ -4965,12 +4965,13 @@ $scope.submitReviewsButton = function(section, course) {
 
 	//submissionForm += `</div>`
 	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
-	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
+	submissionForm += `<br/><div class="submitClass"><input class="btn btn-lg btn-submit" type="submit" value="Submit"></div></form></div>`
 
-	var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
+	//var footer = `<div><p><a ng-click="moreInfoClicked(\'${section.instructors[0].name}\', \'${course.title}\')">More information</a></p></div>`
+	//var footer = '<div></div>'
 
-	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
-	$('#myModal').modal('show');
+	 $scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, );
+	 $('#myModal').modal('show');
 }
 
 });
