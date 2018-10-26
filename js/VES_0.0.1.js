@@ -4375,6 +4375,7 @@ function setReviewModal(data){
 
 		dataDisplay += `</h4>`;
 
+//this makes the pretty tags
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
 				<div ng-show="review == 0">${dataDisplay}</div>
