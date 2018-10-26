@@ -4446,8 +4446,15 @@ function avgPresence(data, key) {
 			count += 1;
 		}
 	}
-	var ans = Math.floor(((count * 100)/data.length)).toString() + "%"
-	return ans;
+	var ans = Math.floor(((count * 100)/data.length)).toString()
+
+	if (ans >= 75){
+		return "yes"
+	}
+	else if (ans <= 25){
+		return "no"
+	}
+	return "maybe"
 }
 
 function groupFactors(data) {
@@ -4498,50 +4505,50 @@ function setReviewModal(data){
 		console.log(factors_results);
 
 		dataDisplay = `<div class="viewingSliderText hours">
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How many hours per week do you devote to this course? </h4>
 								<h4 class="response">${results["hoursPerWeek"]}</h4>
-								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
 								<h4 class="response"> ${disToAgree[results["interesting"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
 								<h4 class="response"> ${disToAgree[results["effective"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
 								<h4 class="response"> ${disToAgree[results["selfTeach"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4>
 								<h4 class="response"> ${disToAgree[results["A-possible"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["A-possible"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["A-possible"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4>
 								<h4 class="response"> ${prof_rate[results["grading"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4>
 								<h4 class="response"> ${organized[results["organized"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> I would recommend my particular professor for this course.</h4>
 								<h4 class="response"> ${disToAgree[results["recommendation"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["recommendation"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<br>FACTORS<br>`
+							<h4 class="question">COURSE DETAILS</h4>`
 		
 		Object.keys(factors_results).forEach(function(factor) {
-			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+			dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
 		})
 
 		dataDisplay += `</div>`;
@@ -4550,9 +4557,11 @@ function setReviewModal(data){
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
 				<div class="navigator">
-					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					<div>
+						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					</div>
 				</div>
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
@@ -4573,78 +4582,80 @@ function setReviewModal(data){
 						</div>
 
 						<div class="col-md-6 col-sm-6">
-							<div class="tags"><br/>
+							<div class="tags">
 								<label class="pageTag" ng-repeat="tag in activeReviews[review - 1]['factors']">{{tag}}</label>
 							</div>
 						</div>
 					</div>
 
 					<div class="viewingSliderText hours">
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How many hours per week do you devote to this course? </h4>
 							<h4 class="response">{{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
+							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["interesting"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['interesting']" class="p_rate disabled" disabled>
 						</div>
 
-						<div ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
+						<div class="question-wrapper" ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
 							<h4 class="question">Why Interesting:</h4>
-							<input type="text" value="{{activeReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
+							<div class="text-response">{{activeReviews[review - 1]['whyInteresting']}}</div>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">The professor was effective at teaching, being clear, answering questions, and explaining concepts. </h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["effective"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['effective']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['effective']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["selfTeach"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">It is possible to get an A-range grade without attending most lectures.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["A-possible"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How harsh, fair or lenient was the grading for this class?</h4>
 							<h4 class="response">{{prof_rate[activeReviews[review - 1]["grading"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['grading']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['grading']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How organized and structured is the professor, the curriculum, and the class overall?</h4>
 							<h4 class="response">{{organized[activeReviews[review - 1]["organized"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['organized']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['organized']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">I would recommend my particular professor for this course.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["recommendation"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
+						<div class="question-wrapper" ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
 							<h4 class="question">Explain Recommendation:</h4>
-							<input type="text" value="{{activeReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
+							<div class="text-response">{{activeReviews[review - 1]['explain_recommendation']}}</div>
 						</div>
 					</div>
 				</div>`		
 
 		modalBody +=
 				`	<div class="navigator">
-						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						<div>
+							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						</div>
 					</div>
 				</div>
 				`
@@ -4706,50 +4717,50 @@ $scope.courseReviewButton = function(course){
 			console.log("hoursPerWeek");
 			console.log(results["hoursPerWeek"]);
 			dataDisplay = `<div class="viewingSliderText hours">
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> 
 									How many hours per week do you devote to this course?</h4><h4 class="response">${results["hoursPerWeek"]}</h4>
-									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> 
 									This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4><h4 class="response">${results["interesting"]}</h4>
-									<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> 
 									The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
 									<h4 class="response">
 									${results["effective"]}
 									</h4>
-									<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> 
 									It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
 									<h4 class="response"> ${results["selfTeach"]}</h4>
-									<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4><h4 class="response"> ${results["A-possible"]}</h4>
-									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4><h4 class="response"> ${results["grading"]}</h4>
-									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4><h4 class="response">${results["organized"]}</h4>
-									<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
+								<div class="question-wrapper">
 									<h4 class="question"> I would recommend my particular professor for this course.</h4> <h4 class="response"> ${results["recommendation"]}</h4>
-									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
+									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<br>FACTORS<br>`
+								<h4 class="question">COURSE DETAILS</h4>`
 			
 			Object.keys(factors_results).forEach(function(factor) {
-				dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+				dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
 			})
 
 			dataDisplay += `</div>`;
@@ -4760,9 +4771,11 @@ $scope.courseReviewButton = function(course){
 			modal_body = `
 				<div ng-init="review=0" class="showReview">
 					<div class="navigator">
-						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						<div>
+							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						</div>
 					</div>
 					<div ng-show="review == 0">${dataDisplay}</div>
 					<div ng-show="review != 0">
@@ -4783,70 +4796,72 @@ $scope.courseReviewButton = function(course){
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<div class="tags"><br/>
+								<div class="tags">
 									<label class="pageTag" ng-repeat="tag in activeCourseReviews[review - 1]['factors']">{{tag}}</label>
 								</div>
 							</div>
 						</div>
 
 						<div class="viewingSliderText hours">
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Hours Per Week: {{activeCourseReviews[review - 1]["hoursPerWeek"]}}</h4>
-								<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
+								<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 							</div>
 							
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Interesting: {{activeCourseReviews[review - 1]["interesting"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['interesting']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['interesting']" class="p_rate disabled" disabled>
 							</div>
 
-							<div ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
+							<div class="question-wrapper" ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
 								<h4 class="question">Why Interesting:</h4>
-								<input type="text" value="{{activeCourseReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
+								<div class="text-response">{{activeCourseReviews[review - 1]['whyInteresting']}}</div>
 							</div>
 
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Effectiveness: {{activeCourseReviews[review - 1]["effective"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['effective']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['effective']" class="p_rate disabled" disabled>
 							</div>
 
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Necessary to Self-Teach: {{activeCourseReviews[review - 1]["selfTeach"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['selfTeach']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['selfTeach']" class="p_rate disabled" disabled>
 							</div>
 
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">A-range: {{activeCourseReviews[review - 1]["A-possible"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['A-possible']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['A-possible']" class="p_rate disabled" disabled>
 							</div>
 
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Harshness of Grading: {{activeCourseReviews[review - 1]["grading"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['grading']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['grading']" class="p_rate disabled" disabled>
 							</div>
 							
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Organized: {{activeCourseReviews[review - 1]["organized"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['organized']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['organized']" class="p_rate disabled" disabled>
 							</div>
 							
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question">Would Recommend: {{activeCourseReviews[review - 1]["recommendation"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['recommendation']" class="p_rate" disabled>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['recommendation']" class="p_rate disabled" disabled>
 							</div>
 							
-							<div ng-if="activeCourseReviews[review - 1]['explain_recommendation'].length > 0">
+							<div class="question-wrapper" ng-if="activeCourseReviews[review - 1]['explain_recommendation'].length > 0">
 								<h4 class="question">Explain Recommendation:</h4>
-								<input type="text" value="{{activeCourseReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
+								<div class="text-response">{{activeCourseReviews[review - 1]['explain_recommendation']}}</div>
 							</div>
 						</div>
 					</div>`		
 
 			modal_body +=
 					`	<div class="navigator">
-							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+							<div>
+								<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+								<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+								<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+							</div>
 						</div>
 					</div>
 					`
