@@ -34,7 +34,8 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
-    "https://vergil.registrar.columbia.edu/*"
+    "https://vergil.registrar.columbia.edu/*",
+    "fileSystem"
   ],
   "web_accessible_resources": [
    "js/VES_0.0.1.js",

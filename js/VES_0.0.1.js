@@ -7,8 +7,25 @@ var sidebarFxn;
 var program_courses;
 //Only download nicknames once and store it globally
 var nicknames;
+
+var visited=[0];
+/*var display_tutorial= function(){
+		$(".carousel-inner").append(`<div class="item ng-scope testing" ng-class="::{active: $index == 0}" ng-repeat="image in ::images track by $index" ng-switch="" on="breakpoint.class == 'mobile' || 'null'"><button ng-click="nextModal(); $("#myModal").modal();" alt="" ng-switch-when="null" class="ng-scope" >TESTING</p></button>`);
+		//console.log("AAAAAbbbbAAAAA");
+}*/
+var reset= function(){
+	localStorage.removeItem("fightme");
+	//display_tutorial();
+	//console.log("test")	;
+}
+
+
+
+
+
 var prof_rate=["Harsh","Somewhat Harsh","Fair","Somewhat Lenient", "Lenient"];
 var disToAgree = ["Strongly Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Strongly Agree"]
+
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
 	if (selected_fxn === 'Requirements') {
@@ -28,7 +45,6 @@ var changeSidebarFxn = function() {
 		$('#loginprompt').show();
 	}
 }
-
 var showProgBar = function() {
 	$('#program_chosen').show(); // show prog bar
 }
@@ -1488,6 +1504,14 @@ app.controller("courses", function($scope, $routeParams) {
 app.controller("global", function($scope,$compile, $location, $http, $timeout, Variables, Filters, UserInfo, UserFavorites, CWFeeds) {
 	// Custom modal
 
+	var modalCounter=(-1);
+	function modalContent(a,b,c,d){
+		this.heading= a;
+		this.instructions= b;
+		this.footer=c;
+		this.image_url=d;
+	}
+
 	$scope.custom_modal = {
 		title: "Core Swap Submit",
 		body:	` <div class="modal-item">
@@ -1503,6 +1527,44 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 
 	}
+	var tutorial_intro = `<p class="tut_text"  >Thank you for downloading Vergil+!
+
+	The extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar.
+
+	More features are coming soon, and please send us your feedback to <a href="mailto:vergilplus@columbiaspectator.com">vergilplus@columbiaspectator.com</a>.</p>`;
+	
+
+	angular.element(document).ready(function () {
+	if (localStorage.getItem("fightme") == null) {
+
+			modalCounter=0;
+			$scope.nextModal();
+			localStorage.setItem("fightme", true);
+			$("#myModal").modal();
+	}
+
+	if (window.navigator.standalone == true) {
+		$("body").addClass("full-screen-app");
+	}
+
+	 var header = document.querySelector("#program-course-lookup .heading");
+	// header.setAttribute("style", "height:100px;");
+
+	if (iOSver = iOSversion()) {
+		if (iOSver[0] < 8) {
+			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
+			if (Modernizr.touch) {
+				var $body = $("body");
+
+				$(document).on('focus', 'input', function(e) {
+					$body.addClass('fixfixed');
+				}).on('blur', 'input', function(e) {
+					$body.removeClass('fixfixed');
+				});
+			}
+		}
+	}
+});
 	console.log(Filters)
 
 //find me. Check submitForm for new submitFn
@@ -1594,7 +1656,87 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			}
 		}	
 	}
+	$scope.callModal=function(){
+		modalCounter=(-1);
+		$scope.nextModal();
+		$("#myModal").modal();
+		
+	}
+	$scope.modalCount=function(count){
+		modalCounter=count;
+	}
+	$scope.modalVisit=function(){
+		
+		var v_list=document.querySelectorAll(".toc");
+		console.log(visited);
+		visited.forEach(function(element){
+			if ((element-2)>=0){
+			v_list[element-2].style.color="purple";
+		}
+		})
+	}
+	$scope.nextModal= function(){
+		modalCounter++;
+		if (!(visited.includes(modalCounter))){
+		visited.push(modalCounter);
+		}
+		
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		if(modalCounter==1){
+			$scope.modalVisit();
+		}
+		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
+		$(".modal-body").css({"padding":"0 10% 0 10%"});
+		$(".tut_text").css({"text-indent":"5%"});
 
+
+	}
+	$scope.prevModal= function(){
+		modalCounter--;
+		if (!(visited.includes(modalCounter))){
+		visited.push(modalCounter);
+		}
+		$scope.modalChange($scope.tutorial_features[modalCounter].heading,$scope.tutorial_features[modalCounter].instructions,$scope.tutorial_features[modalCounter].footer);
+		
+		if(modalCounter==1){
+			$scope.modalVisit();
+		}
+		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
+		$(".modal-body").css({"padding":"0 10% 0 10%"});
+		$(".tut_text").css({"text-indent":"10%"})
+	}
+	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
+	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
+	//var gcurl=chrome.runtime.getURL("/content_images/gcal.gif");
+	var s_search_text=`   We call it Lit Hum, but they call it “Masterpieces of Western
+	 Literature and Philosophy.” With Smart Search, enter common names for classes and 
+	 get the results that you are looking for.`;
+	var live_enroll_text=`   Optimize your schedule with the Live Enrollments feature . 
+	See how many students have enrolled in a class before adding it to your schedule.`;
+	var gcal_text=`   Ever feel like your life is falling apart? We totally understand. 
+	The debugged Export Calendar feature can add your class schedule to Google Calendar or iCal, 
+	so you know when you have to be responsible and when you don’t.`;
+
+	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
+	var c_images="../content_images";
+	var sidebar=`<div><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p></div> `;
+	var liveEnrollment=`<div><img class='tut_img' src='https://spectator.arcpublishing.com/photo/resize/Ml6h5vIyQckoG2LfApJVo2OTjRY=/arc-anglerfish-arc2-prod-spectator/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg'><p class='tut_text'>${live_enroll_text}</p></div>`
+	var s_search=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"><p class='tut_text'>${s_search_text}</p></div>`;
+	var gcal_tutorial=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"><p class='tut_text'>${gcal_text}</p></div>`;
+	var close_img=`<img class='tut_img' src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png'>`
+	$scope.tutorial_features=[
+		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("Table of Contents",`<div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
+											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div> 
+										      <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
+											  <div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
+		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
+		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
+		new modalContent("Live Class Enrollment",`${liveEnrollment}`,`${tutorial_buttons}`),
+		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
+		new modalContent("Tutorial Complete",`${close_img}`,"<div><button ng-click='prevModal()'>Previous</button> <button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
+
+	]
 	$scope.gcal = {
 		callback: () => {
 			$().vergilgcal_modal_callback()
@@ -2534,34 +2676,7 @@ $timeout(function() {
     */
 }, 2000);
 
-angular.element(document).ready(function () {
-	if (localStorage.getItem("fightme") == null) {
-			alert("Thank you for downloading Vergil+! \n \nThe extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar. \n \nMore features are coming soon, and please send us your feedback to vergilplus@columbiaspectator.com.");
-			localStorage.setItem("fightme", true);
-	}
 
-	if (window.navigator.standalone == true) {
-		$("body").addClass("full-screen-app");
-	}
-
-	 var header = document.querySelector("#program-course-lookup .heading");
-	// header.setAttribute("style", "height:100px;");
-
-	if (iOSver = iOSversion()) {
-		if (iOSver[0] < 8) {
-			/* iOS7 position fixed: http://dansajin.com/2012/12/07/fix-position-fixed/ */
-			if (Modernizr.touch) {
-				var $body = $("body");
-
-				$(document).on('focus', 'input', function(e) {
-					$body.addClass('fixfixed');
-				}).on('blur', 'input', function(e) {
-					$body.removeClass('fixfixed');
-				});
-			}
-		}
-	}
-});
 
 });
 
