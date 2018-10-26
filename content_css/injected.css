@@ -109,14 +109,31 @@ div.hours {
 
 .course-actions .course-reviews{
   background: #789CC1;
-  position:relative
+  position:relative;
 }
+
+.heading-toggle .container .relevant-classes-indicator{
+  width: 100%;
+}
+
+.general-course-reviews a.course-reviews{
+  background-color: #789CC1;
+  display: inline;
+  float: right;
+  max-width: 130px;
+  font: "Helvetica Neue";
+  color: white;
+  border-radius: 10px;
+  margin: .2em;
+}
+
 .course-plus{
   position: absolute;
   top: 0;
   right: .5rem;
   color: #e8a55e;
 }
+
 #hoursOutputId {
   display:inline;
   color:#E8A552;

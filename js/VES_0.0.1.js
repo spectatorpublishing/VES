@@ -4516,6 +4516,19 @@ function setReviewModal(data){
 	$('#myModal').modal('show');
 }
 
+$scope.courseReviewButton = function(course){
+	console.log(course.title);
+	$http({
+	    method: 'POST',
+	   	url: "http://localhost:3000/api/getCourseReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
+	   	headers: {'Content-Type':'application/json'},
+		data: `{ "courseNumber": "${course.title}"}`
+	}).success(function(data, status) {
+	    	console.log(data, "and status is", status)
+	    	// setReviewModal(data)
+	});
+}
+
 $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
