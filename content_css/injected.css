@@ -311,3 +311,9 @@ label.pageTag {
   /*Rotate the L 45 degrees to turn it into a checkmark*/
   transform: rotate(45deg);
 }
+
+.questionEntry{
+  margin: 3em;
+  margin-top: 0em;
+}
+

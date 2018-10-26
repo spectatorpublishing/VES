@@ -4541,10 +4541,11 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
+		submissionForm += '<div class="questionEntry">'
 		options.forEach(function(value){
 			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
 		})
-		submissionForm += `</div>`
+		submissionForm += `</div></div>`
 	}
 
 	var questionTitle = function(question, required){
@@ -4577,7 +4578,9 @@ $scope.submitReviewsButton = function(section, course) {
 	}
 
 	var textbox = function(placeHolder, idName, text = "") {
+		submissionForm += '<div class="questionEntry">'
 		submissionForm += `<div id="${idName}"><textarea placeholder="${placeHolder}">${text}</textarea></div>`
+		submissionForm += '</div>'
 	}
 
 
