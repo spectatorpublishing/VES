@@ -1754,7 +1754,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var semester;
 		$("#yearQ input").each(function(i){
 			if($(this).prop("checked")){
-				gradYear = $(this).prop("value")
+				gradYear = $(this).prop("value").toLowerCase();
 			}
 		})
 		$("#schoolQ input").each(function(i){
