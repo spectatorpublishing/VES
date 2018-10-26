@@ -4934,7 +4934,7 @@ $scope.actualCourseSubmitReview = function(course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+	radioButtons(["first year", "sophomore", "junior", "senior"], 'yearQ')
 
 	questionTitle("What school are you?", true)
 	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
@@ -5072,7 +5072,7 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["Freshman", "Sophomore", "Junior", "Senior"], 'yearQ')
+	radioButtons(["First Year", "Sophomore", "Junior", "Senior"], 'yearQ')
 
 	questionTitle("What school are you?", true)
 	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
