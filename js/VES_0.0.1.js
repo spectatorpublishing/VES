@@ -4542,7 +4542,7 @@ $scope.submitReviewsButton = function(section, course) {
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
 		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv">${value}<input type="radio" value="${value}" name="${name}" checked="checked"/><span class="radioSpan"></span></label><br>`
+			submissionForm += `<label class="radioDiv"><input type="radio" value="${value}" name="${name}" ${value}checked="checked"/><span class="radioSpan"></span></label><br>`
 		})
 		submissionForm += `</div>`
 	}
