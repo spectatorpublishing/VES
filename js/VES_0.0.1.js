@@ -4879,15 +4879,19 @@ $scope.actualCourseSubmitReview = function(course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
-								<br>
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
+								</br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
@@ -5020,7 +5024,11 @@ $scope.submitReviewsButton = function(section, course) {
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
 								<br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
