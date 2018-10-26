@@ -1605,8 +1605,8 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		// yayyy
 		console.log("user requested more information on ", course, professor)
 	}
-	$scope.submitForm = function(professor, course){
-		console.log("submit the stuff", course, professor)
+	$scope.submitForm = function(course){
+		console.log("submit the stuff", course)
 		var gradYear;
 		var school;
 		var semester;
@@ -1664,7 +1664,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			"recommendation": recommend,
 			"explain_recommendation": whyRecommend,
 			"factors": chosenTags,
-			"professor": professor,
+			"professor": profName,
 			"courseNumber": course,
 			"A-possible": easyA,
 			"requirement": false
@@ -4529,16 +4529,313 @@ function setReviewModal(data){
 }
 
 $scope.courseReviewButton = function(course){
-	console.log(course.title);
+	console.log(course);
 	$http({
 	    method: 'POST',
 	   	url: "http://localhost:3000/api/getCourseReviews", //localhost needs to be changed eventually everywhere in file. Also http -> https after testing everywhere in file
 	   	headers: {'Content-Type':'application/json'},
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
-	    	console.log(data, "and status is", status)
-	    	// setReviewModal(data)
+		modal_header = `<div><h1>All Professors</h1><h2>${course.title}</h2></div>`
+		if (data.length > 0) {
+			results = {};
+			factors_results = {};
+			disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation"];
+			disp_bools = ["requirement"];
+			disp_factors = [
+	        	"mandatory recitations",
+	        	"pop quizzes",
+	        	"graded in class assignments",
+	        	"attendance factors into the grade",
+	        	"participating in class factors into the grade",
+	        	"high monetary costs to taking class",
+	        	"class is not curved"
+	    	]
+	    	grp_factors = groupFactors(data);
+			disp_numbers.forEach(function(key) {
+				results[key] = avgNums(data, key);
+			})
+			disp_bools.forEach(function(key) {
+				results[key] = avgBool(data, key);
+			})
+			disp_factors.forEach(function(key) {
+				factors_results[key] = avgPresence(grp_factors, key);
+			})
+			console.log(factors_results);
+
+			dataDisplay = `<div class="viewingSliderText hours">
+								<div>
+									<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
+									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
+									<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Interesting: ${results["interesting"]}</h4>
+									<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
+									<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
+									<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Organized: ${results["organized"]}</h4>
+									<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
+									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
+								</div>
+								<br>FACTORS<br>`
+			
+			Object.keys(factors_results).forEach(function(factor) {
+				dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+			})
+
+			dataDisplay += `</div>`;
+
+			$scope.$parent.activeCourseReviews = data;
+	  		var modal_data, modal_header;
+	  		var courseNum = course.title;
+			modal_body = `
+				<div ng-init="review=0" class="showReview">
+					<div class="navigator">
+						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					</div>
+					<div ng-show="review == 0">${dataDisplay}</div>
+					<div ng-show="review != 0">
+
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<h4 class="studentInfoTitle">STUDENT INFO</h4>
+								<h4 class="studentInfo">
+									School: {{activeCourseReviews[review-1]["personal"]["school"]}}<br/>
+									Year: {{activeCourseReviews[review-1]["personal"]["year"]}}<br/>
+									Major: {{activeCourseReviews[review-1]["personal"]["major"]}}
+								</h4>
+								<h4 class="studentInfoTitle">COURSE INFO</h4>
+								<h4 class="studentInfo">
+									Professor: {{activeCourseReviews[review-1]["professor"]}}<br/>
+									{{activeCourseReviews[review-1]["personal"]["semester"]}}
+								</h4>
+							</div>
+
+							<div class="col-md-6 col-sm-6">
+								<div class="tags"><br/>
+									<label class="pageTag" ng-repeat="tag in activeCourseReviews[review - 1]['factors']">{{tag}}</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="viewingSliderText hours">
+							<div>
+								<h4 class="question">Hours Per Week: {{activeCourseReviews[review - 1]["hoursPerWeek"]}}</h4>
+								<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
+							</div>
+							
+							<div>
+								<h4 class="question">Interesting: {{activeCourseReviews[review - 1]["interesting"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['interesting']" class="p_rate" disabled>
+							</div>
+
+							<div ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
+								<h4 class="question">Why Interesting:</h4>
+								<input type="text" value="{{activeCourseReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
+							</div>
+
+							<div>
+								<h4 class="question">Effectiveness: {{activeCourseReviews[review - 1]["effective"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['effective']" class="p_rate" disabled>
+							</div>
+
+							<div>
+								<h4 class="question">Necessary to Self-Teach: {{activeCourseReviews[review - 1]["selfTeach"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['selfTeach']" class="p_rate" disabled>
+							</div>
+
+							<div>
+								<h4 class="question">A-range: {{activeCourseReviews[review - 1]["A-possible"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['A-possible']" class="p_rate" disabled>
+							</div>
+
+							<div>
+								<h4 class="question">Harshness of Grading: {{activeCourseReviews[review - 1]["grading"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['grading']" class="p_rate" disabled>
+							</div>
+							
+							<div>
+								<h4 class="question">Organized: {{activeCourseReviews[review - 1]["organized"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['organized']" class="p_rate" disabled>
+							</div>
+							
+							<div>
+								<h4 class="question">Would Recommend: {{activeCourseReviews[review - 1]["recommendation"]}}</h4>
+								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['recommendation']" class="p_rate" disabled>
+							</div>
+							
+							<div ng-if="activeCourseReviews[review - 1]['explain_recommendation'].length > 0">
+								<h4 class="question">Explain Recommendation:</h4>
+								<input type="text" value="{{activeCourseReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
+							</div>
+						</div>
+					</div>`		
+
+			modal_body +=
+					`	<div class="navigator">
+							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						</div>
+					</div>
+					`
+		} else { // inform user that no review data currently exists
+			modal_body = "<h4> No data has been submitted for " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+		}
+
+		$scope.modalChange(modal_header, modal_body);
+		$('#myModal').modal('show');
+
 	});
+}
+
+$scope.actualCourseSubmitReview = function(course) {
+	$scope.$parent.modalCourse = course;
+
+	var header = `<div class="review-modal-header">
+					<p>${course.title}</p>
+				</div>`;
+
+	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
+
+	var radioButtons = function(options, name){
+		submissionForm += `<div id="${name}">`
+		submissionForm += '<div class="questionEntry">'
+		options.forEach(function(value){
+			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
+		})
+		submissionForm += `</div></div>`
+	}
+
+	var questionTitle = function(question, required){
+		if(required){
+			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+		} else {
+			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+		}
+	}
+
+	var slider = function(options, idName){
+		// options[parseInt($("#"+idName).prop("value"))]
+		console.log($("#" + idName));
+		console.log()
+
+		if (window.sliderOptions === undefined) window.sliderOptions = {}
+		window.sliderOptions[idName] = options;
+
+		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<div class="hours">
+								<input type="range" 
+										min="0" max="4" 
+										value="2" 
+										class="hours" 
+										id="${idName}" 
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
+								<br>
+							</div>`
+		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
+	}
+
+	var textbox = function(placeHolder, idName, text = "") {
+		submissionForm += '<div class="questionEntry">'
+		submissionForm += `<div id="${idName}"><div class="boxes"><textarea placeholder="${placeHolder}">${text}</textarea></div></div>`
+		submissionForm += '</div>'
+	}
+
+
+	questionTitle("What year are you?", true)
+	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+
+	questionTitle("What school are you?", true)
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+
+	questionTitle("What major are you?", true)
+	textbox("Enter major here", "majorEntry")
+
+	questionTitle("What is your second major or concentration, if any?", false)
+	textbox("Enter second major/concentration here", "secondMajor")
+
+	questionTitle("What professor did you have?", true)
+	textbox("", "professorName", "",)
+
+	questionTitle("What semester did you take this course?", true)
+	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+
+	questionTitle("On average, how many hours per week do you devote to this course?", true)
+	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
+		placeholder="0" 
+		step="1" 
+		min="0" 
+		max="50"/>
+	<label >hours per week</label></div></div>`	
+
+	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
+	slider(prof_rate, "prof_rating")
+
+	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
+	slider(disToAgree, "interest_class")
+
+	questionTitle("What made this class interesting or uninteresting to you?", false)
+	textbox("", "whyInteresting")
+
+	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
+	slider(disToAgree, "good_teacher")
+
+	questionTitle("I did not need to self-teach material in order to do assignments/exams because the lectures were adequate.", true)
+	slider(disToAgree, "self_teaching")
+
+	questionTitle("It is possible to get an A-range grade without attending most lectures.", true)
+	slider(disToAgree, "easy_a")
+
+	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
+	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very Organized"], "organizational_skills")
+
+	questionTitle("I would recommend my particular professor for this course.", true)
+	slider(disToAgree, "recommend_prof")
+
+	questionTitle("Please explain further", false)
+	textbox("", "recommendProfText")
+
+	questionTitle("Please check off all the factors that apply to this class", false)
+
+	const tags = ["Mandatory Recitations",
+		"Pop Quizzes",
+		"Graded In-class Assignments",
+		"Attendance Factors Into The Grade",
+		"Participating In Class Factors Into The Grade",
+		"High Monetary Costs To Taking Class",
+		"Class Is Not Curved"];
+
+	submissionForm += `<div class="tags" id="tagChoices">`
+	for (var i = 0; i < tags.length; i++) {
+		submissionForm += "<input type=\"checkbox\" value=\""+tags[i]+"\" id=\""+tags[i]+"\"><label for=\""+tags[i]+"\"> "+tags[i]+"</label>"
+	}
+	submissionForm += `</div>`
+
+	//submissionForm += `</div>`
+	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
+	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
+	footer = "";
+
+	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
+	$('#myModal').modal('show');
 }
 
 $scope.submitReviewsButton = function(section, course) {
@@ -4550,7 +4847,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<p>${course.title}</p>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${section.instructors[0].name}\', \'${course.title}\');">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
