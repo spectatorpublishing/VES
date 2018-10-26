@@ -4577,7 +4577,7 @@ $scope.submitReviewsButton = function(section, course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
@@ -4598,7 +4598,7 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+	radioButtons(["Freshman", "Sophomore", "Junior", "Senior"], 'yearQ')
 
 	questionTitle("What school are you?", true)
 	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
