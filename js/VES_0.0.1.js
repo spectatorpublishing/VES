@@ -4909,7 +4909,7 @@ $scope.actualCourseSubmitReview = function(course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
@@ -4942,7 +4942,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
 
-	questionTitle("What is your second major or concentration, if any?", false)
+	questionTitle("What is your second major or concentration, if any? (optional)", false)
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
@@ -4965,7 +4965,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("What made this class interesting or uninteresting to you?", false)
+	questionTitle("What made this class interesting or uninteresting to you? (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
@@ -4983,7 +4983,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
 
-	questionTitle("Please explain further", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "recommendProfText")
 
 	questionTitle("Please check off all the factors that apply to this class", false)
@@ -5047,7 +5047,7 @@ $scope.submitReviewsButton = function(section, course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
@@ -5080,7 +5080,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
 
-	questionTitle("What is your second major or concentration, if any?", false)
+	questionTitle("What is your second major or concentration, if any? (optional)", false)
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
@@ -5103,7 +5103,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("What made this class interesting or uninteresting to you?", false)
+	questionTitle("What made this class interesting or uninteresting to you? (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
@@ -5121,7 +5121,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
 
-	questionTitle("Please explain further", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "recommendProfText")
 
 	questionTitle("Please check off all the factors that apply to this class", false)
