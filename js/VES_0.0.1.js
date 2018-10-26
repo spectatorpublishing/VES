@@ -4346,6 +4346,10 @@ function groupFactors(data) {
 function setReviewModal(data){
   	console.log("Review data:", data)
   	$scope.$parent.activeReviews = data;
+  	$scope.$parent.disToAgree = disToAgree;
+  	$scope.$parent.organized = ["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"]
+  	var organized = ["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"]
+  	$scope.$parent.prof_rate = prof_rate
   	var dataDisplay, header;
   	if (data.length != 0) {
 		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
@@ -4355,7 +4359,7 @@ function setReviewModal(data){
 
 		results = {};
 		factors_results = {};
-		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation"];
+		disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "A-possible", "grading", "organized", "recommendation"];
 		disp_bools = ["requirement"];
 		disp_factors = [
         	"mandatory recitations",
@@ -4380,31 +4384,43 @@ function setReviewModal(data){
 
 		dataDisplay = `<div class="viewingSliderText hours">
 							<div>
-								<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
+								<h4 class="question"> How many hours per week do you devote to this course? </h4>
+								<h4 class="response">${results["hoursPerWeek"]}</h4>
 								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
-								<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
-							</div>
-							<div>
-								<h4 class="question"> Interesting: ${results["interesting"]}</h4>
+								<h4 class="question"> This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
+								<h4 class="response"> ${disToAgree[results["interesting"]]}</h4>
 								<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
+								<h4 class="question"> The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
+								<h4 class="response"> ${disToAgree[results["effective"]]}</h4>
 								<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
+								<h4 class="question"> It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
+								<h4 class="response"> ${disToAgree[results["selfTeach"]]}</h4>
 								<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Organized: ${results["organized"]}</h4>
+								<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4>
+								<h4 class="response"> ${disToAgree[results["A-possible"]]}</h4>
+								<input type="range" min="0" max="5" value=${results["A-possible"]} class="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4>
+								<h4 class="response"> ${prof_rate[results["grading"]]}</h4>
+								<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
+							</div>
+							<div>
+								<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4>
+								<h4 class="response"> ${organized[results["organized"]]}</h4>
 								<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
 							</div>
 							<div>
-								<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
+								<h4 class="question"> I would recommend my particular professor for this course.</h4>
+								<h4 class="response"> ${disToAgree[results["recommendation"]]}</h4>
 								<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
 							</div>
 							<br>FACTORS<br>`
@@ -4450,12 +4466,14 @@ function setReviewModal(data){
 
 					<div class="viewingSliderText hours">
 						<div>
-							<h4 class="question">Hours Per Week: {{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
+							<h4 class="question">How many hours per week do you devote to this course? </h4>
+							<h4 class="response">{{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
 							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Interesting: {{activeReviews[review - 1]["interesting"]}}</h4>
+							<h4 class="question">This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
+							<h4 class="response">{{disToAgree[activeReviews[review - 1]["interesting"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
 						</div>
 
@@ -4465,32 +4483,38 @@ function setReviewModal(data){
 						</div>
 
 						<div>
-							<h4 class="question">Effectiveness: {{activeReviews[review - 1]["effective"]}}</h4>
+							<h4 class="question">The professor was effective at teaching, being clear, answering questions, and explaining concepts. </h4>
+							<h4 class="response">{{disToAgree[activeReviews[review - 1]["effective"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['effective']" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">Necessary to Self-Teach: {{activeReviews[review - 1]["selfTeach"]}}</h4>
+							<h4 class="question">It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
+							<h4 class="response">{{disToAgree[activeReviews[review - 1]["selfTeach"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">A-range: {{activeReviews[review - 1]["A-possible"]}}</h4>
+							<h4 class="question">It is possible to get an A-range grade without attending most lectures.</h4>
+							<h4 class="response">{{disToAgree[activeReviews[review - 1]["A-possible"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate" disabled>
 						</div>
 
 						<div>
-							<h4 class="question">Harshness of Grading: {{activeReviews[review - 1]["grading"]}}</h4>
+							<h4 class="question">How harsh, fair or lenient was the grading for this class?</h4>
+							<h4 class="response">{{prof_rate[activeReviews[review - 1]["grading"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['grading']" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Organized: {{activeReviews[review - 1]["organized"]}}</h4>
+							<h4 class="question">How organized and structured is the professor, the curriculum, and the class overall?</h4>
+							<h4 class="response">{{organized[activeReviews[review - 1]["organized"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['organized']" class="p_rate" disabled>
 						</div>
 						
 						<div>
-							<h4 class="question">Would Recommend: {{activeReviews[review - 1]["recommendation"]}}</h4>
+							<h4 class="question">I would recommend my particular professor for this course. {{activeReviews[review - 1]["recommendation"]}}</h4>
+							<h4 class="response">{{disToAgree[activeReviews[review - 1]["recommendation"]]}}</h4>
 							<input type="range" min="0" max="5" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
 						</div>
 						
@@ -4642,7 +4666,7 @@ $scope.submitReviewsButton = function(section, course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very Organized"], "organizational_skills")
+	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"], "organizational_skills")
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
