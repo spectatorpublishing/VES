@@ -1532,7 +1532,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	angular.element(document).ready(function () {
 	if (localStorage.getItem("fightme") == null) {
 
-			modalCounter=0;
+			modalCounter=-1;
 			$scope.nextModal();
 			localStorage.setItem("fightme", true);
 			$("#myModal").modal();
