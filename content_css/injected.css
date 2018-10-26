@@ -317,3 +317,16 @@ label.pageTag {
   margin-top: 0em;
 }
 
+#majorEntry{
+  border-radius: 25px; 
+}
+.boxes{
+   border-radius: 25px; 
+}
+.textarea{
+  border-radius: !15px;
+}
+#tagChoices{
+  margin: 3em;
+  margin-top: 0em;
+}
