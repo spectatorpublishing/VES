@@ -39,15 +39,14 @@ aside div.content {
 }
 
 .hours input {
-  margin-left: 1em;
-  margin-right: 1em;
   margin-bottom: 2em;
 }
 
 .hours input[type="range"] {
   /*new slider branch fuckery*/
     -webkit-appearance: none;
-    width: 100%;
+    width: calc(100% - 4em);
+    margin: 0 auto;
     height: 5px;
     border-radius: 5px;
     background: #002f87;
@@ -66,6 +65,10 @@ aside div.content {
     cursor: pointer;
 }
 
+.hours input[type="range"]::-webkit-slider-thumb::before {
+    content: "test";
+} 
+
 .hours input[type="range"]::-moz-range-thumb {
     border-radius: 15px 15px 15px 15px;
     width: 30px;
@@ -73,6 +76,7 @@ aside div.content {
     background: #Eaa55e;
     cursor: pointer;
 }
+
 
 .hours input[type="text"], .hours input[type="number"] {
   border: none;
@@ -89,8 +93,7 @@ output.submitModalTextOutput {
 }
 
 div.hours {
-  margin-left: 2em;
-  margin-right: 2em;
+  margin: 0 2em;
 }
 
 .hours label {
@@ -163,10 +166,11 @@ div.hours {
 }
 
 .sliderOutput {
-  display:inline;
+  display:inline-block;
   color:#E8A552;
   font-size:18px;
-  margin-left: 2.5em;
+  position: relative;
+  transform: translate(-50%, 0);
 }
 
 /*submit review modal css*/
@@ -358,6 +362,11 @@ label.pageTag {
   margin-left: 3em;
   margin-top: 0em;
   margin-bottom: 0em;
+}
+
+.sliderEntry {
+  margin: .5em calc(4em + 15px);
+  margin-top: 0;
 }
 
 #majorEntry{

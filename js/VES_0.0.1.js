@@ -1754,7 +1754,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var semester;
 		$("#yearQ input").each(function(i){
 			if($(this).prop("checked")){
-				gradYear = $(this).prop("value")
+				gradYear = $(this).prop("value").toLowerCase();
 			}
 		})
 		$("#schoolQ input").each(function(i){
@@ -4676,10 +4676,12 @@ $scope.courseReviewButton = function(course){
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
 		modal_header = `<div><h1>All Professors</h1><h2>${course.title}</h2></div>`
+		console.log("data");
+		console.log(data);
 		if (data.length > 0) {
 			results = {};
 			factors_results = {};
-			disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation"];
+			disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation", "A-possible"];
 			disp_bools = ["requirement"];
 			disp_factors = [
 	        	"mandatory recitations",
@@ -4701,34 +4703,47 @@ $scope.courseReviewButton = function(course){
 				factors_results[key] = avgPresence(grp_factors, key);
 			})
 			console.log(factors_results);
-
+			console.log("hoursPerWeek");
+			console.log(results["hoursPerWeek"]);
 			dataDisplay = `<div class="viewingSliderText hours">
 								<div>
-									<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
+									<h4 class="question"> 
+									How many hours per week do you devote to this course?</h4><h4 class="response">${results["hoursPerWeek"]}</h4>
 									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
-									<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
+									<h4 class="question"> 
+									This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4><h4 class="response">${results["interesting"]}</h4>
+									<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Interesting: ${results["interesting"]}</h4>
-									<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
+									<h4 class="question"> 
+									The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
+									<h4 class="response">
+									${results["effective"]}
+									</h4>
+									<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
-									<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
+									<h4 class="question"> 
+									It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
+									<h4 class="response"> ${results["selfTeach"]}</h4>
+									<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
-									<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+									<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4><h4 class="response"> ${results["A-possible"]}</h4>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Organized: ${results["organized"]}</h4>
-									<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
+									<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4><h4 class="response"> ${results["grading"]}</h4>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
 								</div>
 								<div>
-									<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
+									<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4><h4 class="response">${results["organized"]}</h4>
+									<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate" disabled><br/>
+								</div>
+								<div>
+									<h4 class="question"> I would recommend my particular professor for this course.</h4> <h4 class="response"> ${results["recommendation"]}</h4>
 									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
 								</div>
 								<br>FACTORS<br>`
@@ -4879,15 +4894,19 @@ $scope.actualCourseSubmitReview = function(course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
-								<br>
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
+								</br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
@@ -5020,7 +5039,11 @@ $scope.submitReviewsButton = function(section, course) {
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
 								<br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
