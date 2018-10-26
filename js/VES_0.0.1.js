@@ -5004,7 +5004,7 @@ $scope.actualCourseSubmitReview = function(course) {
 
 	//submissionForm += `</div>`
 	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
-	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
+	submissionForm += `<br/><div class="submitClass"><input class="btn btn-lg btn-submit" type="submit" value="Submit"></div></form></div>`
 	footer = "";
 
 	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);

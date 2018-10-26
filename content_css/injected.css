@@ -48,10 +48,20 @@ aside div.content {
 
 .factor-name {
   display: inline;
+  color: rgb(0, 47, 135);
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  font-style: italic;
 }
 
 .factor-result{
   display: inline;
+  color: rgb(234, 165, 94);
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .hours input {
