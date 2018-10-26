@@ -4667,7 +4667,7 @@ function setReviewModal(data){
 	 //  		This professor is: ${data[0].factors}</h4>`;
 	  	
 	} else { // inform user that no review data currently exists
-		var courseNum = $scope.modalSection.subtitle;
+		var courseNum = $scope.modalCourse.title;
 		var instructor = $scope.modalSection.instructors[0].name;
 		header = `<div class="header"><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
 		datas = "No data for " + instructor + " teaching " + courseNum;
