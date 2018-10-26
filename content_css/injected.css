@@ -41,6 +41,7 @@ aside div.content {
 .hours input {
   margin-left: 1em;
   margin-right: 1em;
+  margin-bottom: 2em;
 }
 
 .hours input[type="range"] {
@@ -88,7 +89,8 @@ output.submitModalTextOutput {
 }
 
 div.hours {
-  margin: 2em;
+  margin-left: 2em;
+  margin-right: 2em;
 }
 
 .hours label {
@@ -101,6 +103,7 @@ div.hours {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
+  margin-bottom: 0em; 
 }
 
 .hours h4.response {
@@ -124,6 +127,11 @@ div.hours {
   width: 100%;
 }
 
+.general-course-reviews {
+  width: 100%;
+  position: relative;
+}
+
 .general-course-reviews a.course-reviews{
   background-color: #789CC1;
   display: inline;
@@ -131,8 +139,9 @@ div.hours {
   max-width: 130px;
   font: "Helvetica Neue";
   color: white;
-  border-radius: 10px;
+  border-radius: 6px;
   margin: .2em;
+  position: relative;
 }
 
 .course-plus{
@@ -157,6 +166,7 @@ div.hours {
   display:inline;
   color:#E8A552;
   font-size:18px;
+  margin-left: 2.5em;
 }
 
 /*submit review modal css*/
@@ -235,8 +245,9 @@ label.pageTag {
 }
 
 .btn-submit {
-  color: #000000;
+  color: white; 
   background: rgb(120, 156, 193);
+
 }
 
 .studentInfo {
@@ -338,8 +349,15 @@ label.pageTag {
 }
 
 .questionEntry{
-  margin: 3em;
+  margin-left: 3em;
+  margin-right: 3em;
+  margin-top: 1em; 
+  margin-bottom: 2em;
+}
+.sliderEnter{
+  margin-left: 3em;
   margin-top: 0em;
+  margin-bottom: 0em;
 }
 
 #majorEntry{
@@ -348,10 +366,19 @@ label.pageTag {
 .boxes{
    border-radius: 25px; 
 }
-.textarea{
-  border-radius: !15px;
+
+.submissionForm textarea{
+  border-radius: 5px;
 }
+
 #tagChoices{
   margin: 3em;
-  margin-top: 0em;
+  margin-top: 1em;
+  margin-bottom:0em;
+}
+
+.submitClass{
+  margin-top:0em;
+  text-align: center;
+  margin-bottom:2em;
 }
