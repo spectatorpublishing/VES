@@ -4967,7 +4967,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	textbox("", "professorName", "",)
 
 	var semesterList = []
-	var seasons = ["Fall", "Spring", "Summer"]
+	var seasons = ["Spring", "Summer", "Fall"]
 	var curr_date = new Date().getFullYear()
 	var start_date = curr_date - 4
 
@@ -5117,7 +5117,7 @@ $scope.submitReviewsButton = function(section, course) {
 	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
 	var semesterList = []
-	var seasons = ["Fall", "Spring", "Summer"]
+	var seasons = ["Spring", "Summer", "Fall"]
 	var curr_date = new Date().getFullYear()
 	var start_date = curr_date - 4
 
