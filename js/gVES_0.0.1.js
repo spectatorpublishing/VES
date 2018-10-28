@@ -3854,15 +3854,15 @@ margin-top: 1rem;
         `
     )
 
-    $(".course-actions > :nth-child(1)").after(
-        `
-        <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
-            View Reviews<div class="course-plus"><b>+</b></div>
-        </a>
-        <a class="btn btn-lg ng-scope course-reviews submit-reviews" ng-click="submitReviewsButton(section, course);">
-            Submit Review <div class="course-plus"><b>+</b></div>
-        </a>
-        `
+    $(".class-section-inner .course-actions > :nth-child(1)").after( 
+            `
+            <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
+                View Reviews<div class="course-plus"><b>+</b></div>
+            </a>
+            <a class="btn btn-lg ng-scope course-reviews submit-reviews" ng-click="submitReviewsButton(section, course);">
+                Submit Review <div class="course-plus"><b>+</b></div>
+            </a>
+            `
     )
 
 
