@@ -5008,7 +5008,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"], "organizational_skills")
+	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
@@ -5158,7 +5158,7 @@ $scope.submitReviewsButton = function(section, course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very Organized"], "organizational_skills")
+	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
