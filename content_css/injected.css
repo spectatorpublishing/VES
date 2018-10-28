@@ -51,14 +51,18 @@ aside div.content {
   margin-bottom: 2.5rem;
 }
 
+.factor:first-of-type {
+  margin-top: 1rem;
+}
+
 .factor {
   display: block;
+  font-size: 1.5rem;
 }
 
 .factor-name {
   display: inline;
   color: rgb(0, 47, 135);
-  font-size: 18px;
   letter-spacing: 0.05em;
   font-weight: 600;
   font-style: italic;
@@ -67,7 +71,6 @@ aside div.content {
 .factor-result{
   display: inline;
   color: rgb(234, 165, 94);
-  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -159,6 +162,10 @@ div.hours {
   color: #777;
 }
 
+h4.question-details{
+  margin-bottom: 0.5rem;
+}
+
 h4.question {
   font-style: italic;
 }
@@ -169,16 +176,14 @@ h4.response {
 
 .hours h4 {
 	color: #002f87;
-  font-size: 18px;
+  font-size: 1.5rem;
   /* text-transform: uppercase; */
   letter-spacing: 0.05em;
   font-weight: 600;
-  margin-bottom: 0em; 
 }
 
 .hours h4.response {
   color: #Eaa55e;
-  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -361,7 +366,7 @@ label.pageTag {
   margin-left: 5px;
   margin-top: 5px;
   color: rgb(0, 60, 111);
-
+  overflow-wrap: break-word;
 }
 
 /*radio button/checkmark css*/

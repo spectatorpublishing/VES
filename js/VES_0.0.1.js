@@ -4545,7 +4545,7 @@ function setReviewModal(data){
 								<h4 class="response"> ${disToAgree[results["recommendation"]]}</h4>
 								<input type="range" min="0" max="4" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<h4 class="question">COURSE DETAILS</h4>`
+							<h4 class="question question-details">COURSE DETAILS</h4>`
 		
 		Object.keys(factors_results).forEach(function(factor) {
 			dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
@@ -4573,6 +4573,8 @@ function setReviewModal(data){
 								School: {{activeReviews[review-1]["personal"]["school"]}}<br/>
 								Year: {{activeReviews[review-1]["personal"]["year"]}}<br/>
 								Major: {{activeReviews[review-1]["personal"]["major"]}}
+								{{ activeReviews[review-1]["personal"]["concentration"] && 
+									"Minor/Concentration(s): "+activeReviews[review-1]["personal"]["concentration"]}}
 							</h4>
 							<h4 class="studentInfoTitle">COURSE INFO</h4>
 							<h4 class="studentInfo">
@@ -4602,7 +4604,7 @@ function setReviewModal(data){
 						</div>
 
 						<div class="question-wrapper" ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
-							<h4 class="question">Why Interesting:</h4>
+							<h4 class="question">Explanation:</h4>
 							<div class="text-response">{{activeReviews[review - 1]['whyInteresting']}}</div>
 						</div>
 
@@ -4757,7 +4759,7 @@ $scope.courseReviewButton = function(course){
 									<h4 class="question"> I would recommend my particular professor for this course.</h4> <h4 class="response"> ${results["recommendation"]}</h4>
 									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<h4 class="question">COURSE DETAILS</h4>`
+								<h4 class="question question-details">COURSE DETAILS</h4>`
 			
 			Object.keys(factors_results).forEach(function(factor) {
 				dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
@@ -4787,6 +4789,8 @@ $scope.courseReviewButton = function(course){
 									School: {{activeCourseReviews[review-1]["personal"]["school"]}}<br/>
 									Year: {{activeCourseReviews[review-1]["personal"]["year"]}}<br/>
 									Major: {{activeCourseReviews[review-1]["personal"]["major"]}}
+									{{ activeReviews[review-1]["personal"]["concentration"] && 
+										"Minor/Concentration(s): "+activeReviews[review-1]["personal"]["concentration"]}}
 								</h4>
 								<h4 class="studentInfoTitle">COURSE INFO</h4>
 								<h4 class="studentInfo">
@@ -4814,7 +4818,7 @@ $scope.courseReviewButton = function(course){
 							</div>
 
 							<div class="question-wrapper" ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
-								<h4 class="question">Why Interesting:</h4>
+								<h4 class="question">Explanation:</h4>
 								<div class="text-response">{{activeCourseReviews[review - 1]['whyInteresting']}}</div>
 							</div>
 
@@ -4934,10 +4938,10 @@ $scope.actualCourseSubmitReview = function(course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+	radioButtons(["Freshman", "Sophomore", "Junior", "Senior", "Other"], 'yearQ')
 
 	questionTitle("What school are you?", true)
-	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Other"], 'schoolQ')
 
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
@@ -5072,10 +5076,10 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["Freshman", "Sophomore", "Junior", "Senior"], 'yearQ')
+	radioButtons(["Freshman", "Sophomore", "Junior", "Senior", "Other"], 'yearQ')
 
 	questionTitle("What school are you?", true)
-	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Other"], 'schoolQ')
 
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
