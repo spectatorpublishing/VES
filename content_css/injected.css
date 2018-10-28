@@ -217,6 +217,7 @@ h4.response {
   border-radius: 6px;
   margin: .2em;
   position: relative;
+  font-weight: 500 !important;
 }
 
 .course-plus{
@@ -360,6 +361,7 @@ label.pageTag {
   margin-left: 1.5em;
   color: #95c0e5;
   margin-bottom: 0px;
+  font-weight: bold;
 }
 
 .text-response {
@@ -473,6 +475,8 @@ label.pageTag {
 
 .submissionForm textarea{
   border-radius: 5px;
+  width: 100%;
+  border-color: gray;
 }
 
 #tagChoices{

@@ -4899,9 +4899,9 @@ $scope.actualCourseSubmitReview = function(course) {
 
 	var questionTitle = function(question, required){
 		if(required){
-			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}<span class="star">*</span></h4></div>`
 		} else {
-			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
 	}
 
@@ -5037,9 +5037,9 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var questionTitle = function(question, required){
 		if(required){
-			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}<span class="star">*</span></h4></div>`
 		} else {
-			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
 	}
 
