@@ -1,3 +1,12 @@
+.header h1{
+  margin-bottom: 0;
+}
+
+.header h2{
+  font-size: 2rem;
+  margin-top: 0;
+}
+
 .stars {
   color: #003087;
   font-size: 3rem;
@@ -42,14 +51,18 @@ aside div.content {
   margin-bottom: 2.5rem;
 }
 
+.factor:first-of-type {
+  margin-top: 1rem;
+}
+
 .factor {
   display: block;
+  font-size: 1.5rem;
 }
 
 .factor-name {
   display: inline;
   color: rgb(0, 47, 135);
-  font-size: 18px;
   letter-spacing: 0.05em;
   font-weight: 600;
   font-style: italic;
@@ -58,7 +71,6 @@ aside div.content {
 .factor-result{
   display: inline;
   color: rgb(234, 165, 94);
-  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -138,12 +150,20 @@ output.submitModalTextOutput {
   font-size:18px;
 }
 
+.modal-no-data {
+  margin: 4rem;
+}
+
 div.hours {
-  margin: 0 2em;
+  margin: 0 4em;
 }
 
 .hours label {
   color: #777;
+}
+
+h4.question-details{
+  margin-bottom: 0.5rem;
 }
 
 h4.question {
@@ -156,16 +176,14 @@ h4.response {
 
 .hours h4 {
 	color: #002f87;
-  font-size: 18px;
+  font-size: 1.5rem;
   /* text-transform: uppercase; */
   letter-spacing: 0.05em;
   font-weight: 600;
-  margin-bottom: 0em; 
 }
 
 .hours h4.response {
   color: #Eaa55e;
-  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -193,12 +211,12 @@ h4.response {
   background-color: #789CC1;
   display: inline;
   float: right;
-  max-width: 130px;
   font: "Helvetica Neue";
   color: white;
   border-radius: 6px;
   margin: .2em;
   position: relative;
+  font-weight: 500 !important;
 }
 
 .course-plus{
@@ -254,6 +272,7 @@ h4.response {
   border-radius: 10rem;
   user-select: none;
   -moz-user-select: none;
+  margin: 0 0.25em 0.25em 0;
 }
 
 label.pageTag {
@@ -266,6 +285,7 @@ label.pageTag {
   -moz-user-select: none;
   pointer-events: none;
   margin: 0.2rem;
+  text-align: left;
 }
 
 .showReview .tags {
@@ -323,11 +343,19 @@ label.pageTag {
 
 }
 
+.showReview .row {
+  margin: 0 4em
+}
+
+.showReview .row>[class^=col-] {
+  padding: 0;
+}
+
 .studentInfo {
-  margin-left: 1.5em;
   color: #003c6f;
   margin-top: 0px;
   margin-bottom: 0px;
+  overflow-wrap: break-word;
 }
 
 .viewingSliderText {
@@ -337,16 +365,15 @@ label.pageTag {
 }
 
 .studentInfoTitle {
-  margin-left: 1.5em;
   color: #95c0e5;
   margin-bottom: 0px;
+  font-weight: bold;
 }
 
 .text-response {
-  margin-left: 5px;
-  margin-top: 5px;
+  margin: 5px 1em 0;
   color: rgb(0, 60, 111);
-
+  overflow-wrap: break-word;
 }
 
 /*radio button/checkmark css*/
@@ -428,8 +455,8 @@ label.pageTag {
 }
 
 .questionEntry{
-  margin-left: 3em;
-  margin-right: 3em;
+  margin-left: 5em;
+  margin-right: 5em;
   margin-top: 1em; 
   margin-bottom: 2em;
 }
@@ -451,12 +478,18 @@ label.pageTag {
    border-radius: 25px; 
 }
 
+.boxes>textarea{
+  max-width: 100%;
+}
+
 .submissionForm textarea{
   border-radius: 5px;
+  width: 100%;
+  border-color: gray;
 }
 
 #tagChoices{
-  margin: 3em;
+  margin: 4em;
   margin-top: 1em;
   margin-bottom:0em;
 }

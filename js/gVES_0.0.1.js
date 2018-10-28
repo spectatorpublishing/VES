@@ -3722,7 +3722,7 @@ return m.noConflict = function(b) {
 document.onreadystatechange = () => {
 
 if (document.readyState === "interactive") {
-$("#top-nav ul").prepend(`<li><a ng-click="callModal();">Vergil+ Tutorial</a></li>`);
+$("#top-nav ul").prepend(`<li><a style="padding: 28px 15px 27px; cursor: pointer;" ng-click="callModal();">Vergil+ Tutorial</a></li>`);
     var coreswap_css = `
 
 div#coreswap {
@@ -3854,13 +3854,14 @@ margin-top: 1rem;
         `
     )
 
+
     $(".class-section-inner .course-actions > :nth-child(1)").after( 
             `
-            <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
-                View Reviews<div class="course-plus"><b>+</b></div>
-            </a>
             <a class="btn btn-lg ng-scope course-reviews submit-reviews" ng-click="submitReviewsButton(section, course);">
                 Submit Review <div class="course-plus"><b>+</b></div>
+            </a>
+            <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
+                Section Reviews<div class="course-plus"><b>+</b></div>
             </a>
             `
     )
@@ -3869,7 +3870,7 @@ margin-top: 1rem;
     $(".course-item .relevant-classes-indicator").each(function(index) {
         $(this).html(`<div class="general-course-reviews">
             <a class="btn ng-scope course-reviews" ng-click="courseReviewButton(course)">
-              View Reviews<div class="course-plus"><b>+</b></div>
+              Course Reviews<div class="course-plus"><b>+</b></div>
             </a>
         </div>
         <div class="general-course-reviews">
