@@ -3856,11 +3856,11 @@ margin-top: 1rem;
 
     $(".course-actions > :nth-child(1)").after(
         `
-        <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
-            View Reviews<div class="course-plus"><b>+</b></div>
-        </a>
         <a class="btn btn-lg ng-scope course-reviews submit-reviews" ng-click="submitReviewsButton(section, course);">
             Submit Review <div class="course-plus"><b>+</b></div>
+        </a>
+        <a class="btn btn-lg ng-scope course-reviews" ng-click="reviewsButton(section, course);">
+            Section Reviews<div class="course-plus"><b>+</b></div>
         </a>
         `
     )
@@ -3869,7 +3869,7 @@ margin-top: 1rem;
     $(".course-item .relevant-classes-indicator").each(function(index) {
         $(this).html(`<div class="general-course-reviews">
             <a class="btn ng-scope course-reviews" ng-click="courseReviewButton(course)">
-              View Reviews<div class="course-plus"><b>+</b></div>
+              Course Reviews<div class="course-plus"><b>+</b></div>
             </a>
         </div>
         <div class="general-course-reviews">

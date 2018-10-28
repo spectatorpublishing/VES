@@ -211,7 +211,6 @@ h4.response {
   background-color: #789CC1;
   display: inline;
   float: right;
-  max-width: 130px;
   font: "Helvetica Neue";
   color: white;
   border-radius: 6px;
@@ -273,6 +272,7 @@ h4.response {
   border-radius: 10rem;
   user-select: none;
   -moz-user-select: none;
+  margin: 0 0.25em 0.25em 0;
 }
 
 label.pageTag {
@@ -371,8 +371,7 @@ label.pageTag {
 }
 
 .text-response {
-  margin-left: 5px;
-  margin-top: 5px;
+  margin: 5px 1em 0;
   color: rgb(0, 60, 111);
   overflow-wrap: break-word;
 }
