@@ -5145,7 +5145,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("Please explain further. (optional)", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
