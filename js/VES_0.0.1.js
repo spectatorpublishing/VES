@@ -4966,8 +4966,20 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", "",)
 
+	var semesterList = []
+	var seasons = ["Fall", "Spring", "Summer"]
+	var curr_date = new Date().getFullYear()
+	var start_date = curr_date - 4
+
+	while(start_date <= curr_date) {
+		for(var season = 0; season < 3; season++) {
+			semesterList.push(seasons[season] + " " + start_date)
+		}
+		start_date++
+	}
+
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+	radioButtons(semesterList, 'semesterQ')
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -5104,8 +5116,20 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
+	var semesterList = []
+	var seasons = ["Fall", "Spring", "Summer"]
+	var curr_date = new Date().getFullYear()
+	var start_date = curr_date - 4
+
+	while(start_date <= curr_date) {
+		for(var season = 0; season < 3; season++) {
+			semesterList.push(seasons[season] + " " + start_date)
+		}
+		start_date++
+	}
+
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+	radioButtons(semesterList, 'semesterQ')
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
