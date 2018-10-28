@@ -24,7 +24,8 @@ var reset= function(){
 
 
 var prof_rate=["Harsh","Somewhat Harsh","Fair","Somewhat Lenient", "Lenient"];
-var disToAgree = ["Strongly Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Strongly Agree"]
+var organized =["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"];
+var disToAgree = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
 
 var changeSidebarFxn = function() {
 	var selected_fxn = $('#sidebar_select').val();
@@ -1754,7 +1755,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var semester;
 		$("#yearQ input").each(function(i){
 			if($(this).prop("checked")){
-				gradYear = $(this).prop("value")
+				gradYear = $(this).prop("value").toLowerCase();
 			}
 		})
 		$("#schoolQ input").each(function(i){
@@ -4446,8 +4447,15 @@ function avgPresence(data, key) {
 			count += 1;
 		}
 	}
-	var ans = Math.floor(((count * 100)/data.length)).toString() + "%"
-	return ans;
+	var ans = Math.floor(((count * 100)/data.length)).toString()
+
+	if (ans >= 75){
+		return "yes"
+	}
+	else if (ans <= 25){
+		return "no"
+	}
+	return "maybe"
 }
 
 function groupFactors(data) {
@@ -4462,12 +4470,11 @@ function setReviewModal(data){
   	console.log("Review data:", data)
   	$scope.$parent.activeReviews = data;
   	$scope.$parent.disToAgree = disToAgree;
-  	$scope.$parent.organized = ["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"]
-  	var organized = ["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"]
+  	$scope.$parent.organized = organized
   	$scope.$parent.prof_rate = prof_rate
   	var dataDisplay, header;
   	if (data.length != 0) {
-		header = `<div><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
+		header = `<div class="header"><h1>${$scope.modalSection.instructors[0].name}</h1><h2>${data[0].courseNumber}</h2></div>`
 		
 		// Template for booleans in future
 		// Would ${data[0].professor["take-professor-again"] ? "DEFINITLY" : "DEFINITLY NOT"} take a class with this professor again.<br/>
@@ -4498,50 +4505,50 @@ function setReviewModal(data){
 		console.log(factors_results);
 
 		dataDisplay = `<div class="viewingSliderText hours">
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How many hours per week do you devote to this course? </h4>
 								<h4 class="response">${results["hoursPerWeek"]}</h4>
-								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
 								<h4 class="response"> ${disToAgree[results["interesting"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
 								<h4 class="response"> ${disToAgree[results["effective"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
 								<h4 class="response"> ${disToAgree[results["selfTeach"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4>
 								<h4 class="response"> ${disToAgree[results["A-possible"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["A-possible"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["A-possible"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4>
 								<h4 class="response"> ${prof_rate[results["grading"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4>
 								<h4 class="response"> ${organized[results["organized"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<div>
+							<div class="question-wrapper">
 								<h4 class="question"> I would recommend my particular professor for this course.</h4>
 								<h4 class="response"> ${disToAgree[results["recommendation"]]}</h4>
-								<input type="range" min="0" max="4" value=${results["recommendation"]} class="p_rate" disabled><br/>
+								<input type="range" min="0" max="4" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
 							</div>
-							<br>FACTORS<br>`
+							<h4 class="question question-details">COURSE DETAILS</h4>`
 		
 		Object.keys(factors_results).forEach(function(factor) {
-			dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+			dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
 		})
 
 		dataDisplay += `</div>`;
@@ -4550,9 +4557,11 @@ function setReviewModal(data){
 		modalBody = `
 			<div ng-init="review=0" class="showReview">
 				<div class="navigator">
-					<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-					<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-					<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					<div>
+						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+					</div>
 				</div>
 				<div ng-show="review == 0">${dataDisplay}</div>
 				<div ng-show="review != 0">
@@ -4564,6 +4573,8 @@ function setReviewModal(data){
 								School: {{activeReviews[review-1]["personal"]["school"]}}<br/>
 								Year: {{activeReviews[review-1]["personal"]["year"]}}<br/>
 								Major: {{activeReviews[review-1]["personal"]["major"]}}
+								{{ activeReviews[review-1]["personal"]["concentration"] && 
+									"Minor/Concentration(s): "+activeReviews[review-1]["personal"]["concentration"]}}
 							</h4>
 							<h4 class="studentInfoTitle">COURSE INFO</h4>
 							<h4 class="studentInfo">
@@ -4573,78 +4584,80 @@ function setReviewModal(data){
 						</div>
 
 						<div class="col-md-6 col-sm-6">
-							<div class="tags"><br/>
+							<div class="tags">
 								<label class="pageTag" ng-repeat="tag in activeReviews[review - 1]['factors']">{{tag}}</label>
 							</div>
 						</div>
 					</div>
 
 					<div class="viewingSliderText hours">
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How many hours per week do you devote to this course? </h4>
 							<h4 class="response">{{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
+							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["interesting"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['interesting']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['interesting']" class="p_rate disabled" disabled>
 						</div>
 
-						<div ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
-							<h4 class="question">Why Interesting:</h4>
-							<input type="text" value="{{activeReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
+						<div class="question-wrapper" ng-if="activeReviews[review - 1]['whyInteresting'].length > 0">
+							<h4 class="question">Explanation:</h4>
+							<div class="text-response">{{activeReviews[review - 1]['whyInteresting']}}</div>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">The professor was effective at teaching, being clear, answering questions, and explaining concepts. </h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["effective"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['effective']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['effective']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["selfTeach"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['selfTeach']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">It is possible to get an A-range grade without attending most lectures.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["A-possible"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['A-possible']" class="p_rate disabled" disabled>
 						</div>
 
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How harsh, fair or lenient was the grading for this class?</h4>
 							<h4 class="response">{{prof_rate[activeReviews[review - 1]["grading"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['grading']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['grading']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">How organized and structured is the professor, the curriculum, and the class overall?</h4>
 							<h4 class="response">{{organized[activeReviews[review - 1]["organized"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['organized']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['organized']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div>
+						<div class="question-wrapper">
 							<h4 class="question">I would recommend my particular professor for this course.</h4>
 							<h4 class="response">{{disToAgree[activeReviews[review - 1]["recommendation"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate" disabled>
+							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['recommendation']" class="p_rate disabled" disabled>
 						</div>
 						
-						<div ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
+						<div class="question-wrapper" ng-if="activeReviews[review - 1]['explain_recommendation'].length > 0">
 							<h4 class="question">Explain Recommendation:</h4>
-							<input type="text" value="{{activeReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
+							<div class="text-response">{{activeReviews[review - 1]['explain_recommendation']}}</div>
 						</div>
 					</div>
 				</div>`		
 
 		modalBody +=
 				`	<div class="navigator">
-						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						<div>
+							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						</div>
 					</div>
 				</div>
 				`
@@ -4656,11 +4669,11 @@ function setReviewModal(data){
 	 //  		This professor is: ${data[0].factors}</h4>`;
 	  	
 	} else { // inform user that no review data currently exists
-		var courseNum = $scope.modalSection.subtitle;
+		var courseNum = $scope.modalCourse.title;
 		var instructor = $scope.modalSection.instructors[0].name;
-		header = `<div><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
+		header = `<div class="header"><h1>${instructor}</h1><h2>${courseNum}</h2></div>`
 		datas = "No data for " + instructor + " teaching " + courseNum;
-		modalBody = "<h4> No data has been submitted for " + instructor + " teaching " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+		modalBody = "<h4 class='modal-no-data'> No data has been submitted for " + instructor + " teaching " + courseNum + ", but please check the course reviews for reviews of other sections of this course.<br><br>Please contribute by reviewing this class!<br>"
 	}
 
 	$scope.modalChange(header, modalBody);
@@ -4675,11 +4688,14 @@ $scope.courseReviewButton = function(course){
 	   	headers: {'Content-Type':'application/json'},
 		data: `{ "courseNumber": "${course.title}"}`
 	}).success(function(data, status) {
-		modal_header = `<div><h1>All Professors</h1><h2>${course.title}</h2></div>`
+		modal_header = `<div class="header"><h1>All Professors</h1><h2>${course.title}</h2></div>`
+		console.log("data");
+		console.log(data);
+		var courseNum = course.title;
 		if (data.length > 0) {
 			results = {};
 			factors_results = {};
-			disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation"];
+			disp_numbers = ["hoursPerWeek", "grading", "interesting", "effective", "selfTeach", "organized", "recommendation", "A-possible"];
 			disp_bools = ["requirement"];
 			disp_factors = [
 	        	"mandatory recitations",
@@ -4701,53 +4717,73 @@ $scope.courseReviewButton = function(course){
 				factors_results[key] = avgPresence(grp_factors, key);
 			})
 			console.log(factors_results);
-
+			console.log("hoursPerWeek");
+			console.log(results["hoursPerWeek"]);
 			dataDisplay = `<div class="viewingSliderText hours">
-								<div>
-									<h4 class="question"> Hours Per Week: ${results["hoursPerWeek"]}</h4>
-									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> 
+									How many hours per week do you devote to this course?</h4>
+									<h4 class="response">${results["hoursPerWeek"]}</h4>
+									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Harshness of Grading: ${results["grading"]}</h4>
-									<input type="range" min="0" max="5" value=${results["grading"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> 
+									This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
+									<h4 class="response">${disToAgree[results["interesting"]]}</h4>
+									<input type="range" min="0" max="4" value=${results["interesting"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Interesting: ${results["interesting"]}</h4>
-									<input type="range" min="0" max="5" value=${results["interesting"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> 
+									The professor was effective at teaching, being clear, answering questions, and explaining concepts.</h4>
+									<h4 class="response">
+									${disToAgree[results["effective"]]}
+									</h4>
+									<input type="range" min="0" max="4" value=${results["effective"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Effectiveness: ${results["effective"]}</h4>
-									<input type="range" min="0" max="5" value=${results["effective"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> 
+									It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
+									<h4 class="response"> ${disToAgree[results["selfTeach"]]}</h4>
+									<input type="range" min="0" max="4" value=${results["selfTeach"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Necessary to Self-Teach: ${results["selfTeach"]}</h4>
-									<input type="range" min="0" max="5" value=${results["selfTeach"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> It is possible to get an A-range grade without attending most lectures.</h4>
+									<h4 class="response"> ${disToAgree[results["A-possible"]]}</h4>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Organized: ${results["organized"]}</h4>
-									<input type="range" min="0" max="5" value=${results["organized"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> How harsh, fair or lenient was the grading for this class?</h4>
+									<h4 class="response"> ${prof_rate[results["grading"]]}</h4>
+									<input type="range" min="0" max="4" value=${results["grading"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<div>
-									<h4 class="question"> Would Recommend: ${results["recommendation"]}</h4>
-									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate" disabled><br/>
+								<div class="question-wrapper">
+									<h4 class="question"> How organized and structured is the professor, the curriculum, and the class overall?</h4>
+									<h4 class="response">${organized[results["organized"]]}</h4>
+									<input type="range" min="0" max="4" value=${results["organized"]} class="p_rate disabled" disabled><br/>
 								</div>
-								<br>FACTORS<br>`
+								<div class="question-wrapper">
+									<h4 class="question"> I would recommend my particular professor for this course.</h4>
+									<h4 class="response"> ${disToAgree[results["recommendation"]]}</h4>
+									<input type="range" min="0" max="5" value=${results["recommendation"]} class="p_rate disabled" disabled><br/>
+								</div>
+								<h4 class="question question-details">COURSE DETAILS</h4>`
 			
 			Object.keys(factors_results).forEach(function(factor) {
-				dataDisplay += `${factor}: ${factors_results[factor]} said yes<br>`
+				dataDisplay += `<div class="factor"><div class="factor-name">${factor}:</div> <div class="factor-result">${factors_results[factor]}</div></div>`
 			})
 
 			dataDisplay += `</div>`;
 
 			$scope.$parent.activeCourseReviews = data;
 	  		var modal_data, modal_header;
-	  		var courseNum = course.title;
 			modal_body = `
 				<div ng-init="review=0" class="showReview">
 					<div class="navigator">
-						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						<div>
+							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+						</div>
 					</div>
 					<div ng-show="review == 0">${dataDisplay}</div>
 					<div ng-show="review != 0">
@@ -4759,6 +4795,8 @@ $scope.courseReviewButton = function(course){
 									School: {{activeCourseReviews[review-1]["personal"]["school"]}}<br/>
 									Year: {{activeCourseReviews[review-1]["personal"]["year"]}}<br/>
 									Major: {{activeCourseReviews[review-1]["personal"]["major"]}}
+									{{ activeReviews[review-1]["personal"]["concentration"] && 
+										"Minor/Concentration(s): "+activeReviews[review-1]["personal"]["concentration"]}}
 								</h4>
 								<h4 class="studentInfoTitle">COURSE INFO</h4>
 								<h4 class="studentInfo">
@@ -4768,75 +4806,85 @@ $scope.courseReviewButton = function(course){
 							</div>
 
 							<div class="col-md-6 col-sm-6">
-								<div class="tags"><br/>
+								<div class="tags">
 									<label class="pageTag" ng-repeat="tag in activeCourseReviews[review - 1]['factors']">{{tag}}</label>
 								</div>
 							</div>
 						</div>
 
 						<div class="viewingSliderText hours">
-							<div>
-								<h4 class="question">Hours Per Week: {{activeCourseReviews[review - 1]["hoursPerWeek"]}}</h4>
-								<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate" disabled>
-							</div>
-							
-							<div>
-								<h4 class="question">Interesting: {{activeCourseReviews[review - 1]["interesting"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['interesting']" class="p_rate" disabled>
-							</div>
-
-							<div ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
-								<h4 class="question">Why Interesting:</h4>
-								<input type="text" value="{{activeCourseReviews[review - 1]['whyInteresting']}}" class="p_rate" readonly>
-							</div>
-
-							<div>
-								<h4 class="question">Effectiveness: {{activeCourseReviews[review - 1]["effective"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['effective']" class="p_rate" disabled>
-							</div>
-
-							<div>
-								<h4 class="question">Necessary to Self-Teach: {{activeCourseReviews[review - 1]["selfTeach"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['selfTeach']" class="p_rate" disabled>
-							</div>
-
-							<div>
-								<h4 class="question">A-range: {{activeCourseReviews[review - 1]["A-possible"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['A-possible']" class="p_rate" disabled>
-							</div>
-
-							<div>
-								<h4 class="question">Harshness of Grading: {{activeCourseReviews[review - 1]["grading"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['grading']" class="p_rate" disabled>
-							</div>
-							
-							<div>
-								<h4 class="question">Organized: {{activeCourseReviews[review - 1]["organized"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['organized']" class="p_rate" disabled>
-							</div>
-							
-							<div>
-								<h4 class="question">Would Recommend: {{activeCourseReviews[review - 1]["recommendation"]}}</h4>
-								<input type="range" min="0" max="5" ng-model="activeCourseReviews[review - 1]['recommendation']" class="p_rate" disabled>
-							</div>
-							
-							<div ng-if="activeCourseReviews[review - 1]['explain_recommendation'].length > 0">
-								<h4 class="question">Explain Recommendation:</h4>
-								<input type="text" value="{{activeCourseReviews[review - 1]['explain_recommendation']}}" class="p_rate" readonly>
-							</div>
+						<div class="question-wrapper">
+							<h4 class="question">How many hours per week do you devote to this course? </h4>
+							<h4 class="response">{{activeCourseReviews[review - 1]['hoursPerWeek']}}</h4>
+							<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 						</div>
+						
+						<div class="question-wrapper">
+							<h4 class="question">This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
+							<h4 class="response">{{disToAgree[activeCourseReviews[review - 1]["interesting"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['interesting']" class="p_rate disabled" disabled>
+						</div>
+
+						<div class="question-wrapper" ng-if="activeCourseReviews[review - 1]['whyInteresting'].length > 0">
+							<h4 class="question">Explanation:</h4>
+							<div class="text-response">{{activeCourseReviews[review - 1]['whyInteresting']}}</div>
+						</div>
+
+						<div class="question-wrapper">
+							<h4 class="question">The professor was effective at teaching, being clear, answering questions, and explaining concepts. </h4>
+							<h4 class="response">{{disToAgree[activeCourseReviews[review - 1]["effective"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['effective']" class="p_rate disabled" disabled>
+						</div>
+
+						<div class="question-wrapper">
+							<h4 class="question">It's not necessary to self-teach material in order to do assignments/exams because the lectures were adequate.</h4>
+							<h4 class="response">{{disToAgree[activeCourseReviews[review - 1]["selfTeach"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['selfTeach']" class="p_rate disabled" disabled>
+						</div>
+
+						<div class="question-wrapper">
+							<h4 class="question">It is possible to get an A-range grade without attending most lectures.</h4>
+							<h4 class="response">{{disToAgree[activeCourseReviews[review - 1]["A-possible"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['A-possible']" class="p_rate disabled" disabled>
+						</div>
+
+						<div class="question-wrapper">
+							<h4 class="question">How harsh, fair or lenient was the grading for this class?</h4>
+							<h4 class="response">{{prof_rate[activeCourseReviews[review - 1]["grading"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['grading']" class="p_rate disabled" disabled>
+						</div>
+						
+						<div class="question-wrapper">
+							<h4 class="question">How organized and structured is the professor, the curriculum, and the class overall?</h4>
+							<h4 class="response">{{organized[activeCourseReviews[review - 1]["organized"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['organized']" class="p_rate disabled" disabled>
+						</div>
+						
+						<div class="question-wrapper">
+							<h4 class="question">I would recommend my particular professor for this course.</h4>
+							<h4 class="response">{{disToAgree[activeCourseReviews[review - 1]["recommendation"]]}}</h4>
+							<input type="range" min="0" max="4" ng-model="activeCourseReviews[review - 1]['recommendation']" class="p_rate disabled" disabled>
+						</div>
+						
+						<div class="question-wrapper" ng-if="activeCourseReviews[review - 1]['explain_recommendation'].length > 0">
+							<h4 class="question">Explain Recommendation:</h4>
+							<div class="text-response">{{activeCourseReviews[review - 1]['explain_recommendation']}}</div>
+						</div>
+					</div>
 					</div>`		
 
 			modal_body +=
 					`	<div class="navigator">
-							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
-							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+							<div>
+								<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
+								<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+								<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
+							</div>
 						</div>
 					</div>
 					`
 		} else { // inform user that no review data currently exists
-			modal_body = "<h4> No data has been submitted for " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
+			modal_body = "<h4 class='modal-no-data'> No data has been submitted for " + courseNum + ".<br>Please contribute by reviewing this class!<br>"
 		}
 
 		$scope.modalChange(modal_header, modal_body);
@@ -4848,8 +4896,8 @@ $scope.courseReviewButton = function(course){
 $scope.actualCourseSubmitReview = function(course) {
 	$scope.$parent.modalCourse = course;
 
-	var header = `<div class="review-modal-header">
-					<p>${course.title}</p>
+	var header = `<div class="review-modal-header header">
+					<h1>${course.title}</h1>
 				</div>`;
 
 	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
@@ -4865,9 +4913,9 @@ $scope.actualCourseSubmitReview = function(course) {
 
 	var questionTitle = function(question, required){
 		if(required){
-			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}<span class="star">*</span></h4></div>`
 		} else {
-			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
 	}
 
@@ -4879,15 +4927,19 @@ $scope.actualCourseSubmitReview = function(course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = questionEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
-								<br>
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
+								</br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
 	}
@@ -4900,22 +4952,34 @@ $scope.actualCourseSubmitReview = function(course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["freshman", "sophomore", "junior", "senior"], 'yearQ')
+	radioButtons(["First Year", "Sophomore", "Junior", "Senior", "Other"], 'yearQ')
 
 	questionTitle("What school are you?", true)
-	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Other"], 'schoolQ')
 
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
 
-	questionTitle("What is your second major or concentration, if any?", false)
+	questionTitle("What is your second major or concentration, if any? (optional)", false)
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", "",)
 
+	var semesterList = []
+	var seasons = ["Fall", "Spring", "Summer"]
+	var curr_date = new Date().getFullYear()
+	var start_date = curr_date - 4
+
+	while(start_date <= curr_date) {
+		for(var season = 0; season < 3; season++) {
+			semesterList.push(seasons[season] + " " + start_date)
+		}
+		start_date++
+	}
+
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+	radioButtons(semesterList, 'semesterQ')
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -4931,7 +4995,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("What made this class interesting or uninteresting to you?", false)
+	questionTitle("Please explain further. (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
@@ -4944,12 +5008,12 @@ $scope.actualCourseSubmitReview = function(course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"], "organizational_skills")
+	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
 
-	questionTitle("Please explain further", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "recommendProfText")
 
 	questionTitle("Please check off all the factors that apply to this class", false)
@@ -4970,7 +5034,7 @@ $scope.actualCourseSubmitReview = function(course) {
 
 	//submissionForm += `</div>`
 	// submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit" ng-click="submitForm(\'${section.instructors[0].name}\', \'${course.title}\')"></form></div>`
-	submissionForm += `<br/><input class="btn btn-lg btn-submit" type="submit" value="Submit"></form></div>`
+	submissionForm += `<br/><div class="submitClass"><input class="btn btn-lg btn-submit" type="submit" value="Submit"></div></form></div>`
 	footer = "";
 
 	$scope.modalChange(header, `<div class="submissionForm">${submissionForm}</div>`, footer);
@@ -4981,9 +5045,9 @@ $scope.submitReviewsButton = function(section, course) {
 	$scope.$parent.modalSection = section;
 	$scope.$parent.modalCourse = course;
 
-	var header = `<div class="review-modal-header">
-					<p>${$scope.modalSection.instructors[0].name}</p>
-					<p>${course.title}</p>
+	var header = `<div class="review-modal-header header">
+					<h1>${$scope.modalSection.instructors[0].name}</h1>
+					<h2>${course.title}</h2>
 				</div>`;
 
 	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
@@ -4999,9 +5063,9 @@ $scope.submitReviewsButton = function(section, course) {
 
 	var questionTitle = function(question, required){
 		if(required){
-			submissionForm += `<div class="hours"><h4>${question}<span class="star">*</span></h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}<span class="star">*</span></h4></div>`
 		} else {
-			submissionForm += `<div class="hours"><h4>${question}</h4></div>`
+			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
 	}
 
@@ -5013,14 +5077,18 @@ $scope.submitReviewsButton = function(section, course) {
 		if (window.sliderOptions === undefined) window.sliderOptions = {}
 		window.sliderOptions[idName] = options;
 
-		submissionForm += `<br/><div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
+		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
 										min="0" max="4" 
 										value="2" 
 										class="hours" 
 										id="${idName}" 
-										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]">
+										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
+								>
+								<script>
+									${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'
+								</script>
 								<br>
 							</div>`
 		/* submissionForm += `<input type="range" min="0" max="4" value="2" class="slider" id="${idName}" oninput="${idName}Out.value = ${options[${idName}.value")]}"><br>` */
@@ -5034,22 +5102,34 @@ $scope.submitReviewsButton = function(section, course) {
 
 
 	questionTitle("What year are you?", true)
-	radioButtons(["Freshman", "Sophomore", "Junior", "Senior"], 'yearQ')
+	radioButtons(["First Year", "Sophomore", "Junior", "Senior", "Other"], 'yearQ')
 
 	questionTitle("What school are you?", true)
-	radioButtons(["CC", "SEAS", "Barnard", "GS", "Graduate"], 'schoolQ')
+	radioButtons(["CC", "SEAS", "Barnard", "GS", "Other"], 'schoolQ')
 
 	questionTitle("What major are you?", true)
 	textbox("Enter major here", "majorEntry")
 
-	questionTitle("What is your second major or concentration, if any?", false)
+	questionTitle("What is your second major or concentration, if any? (optional)", false)
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
+	var semesterList = []
+	var seasons = ["Fall", "Spring", "Summer"]
+	var curr_date = new Date().getFullYear()
+	var start_date = curr_date - 4
+
+	while(start_date <= curr_date) {
+		for(var season = 0; season < 3; season++) {
+			semesterList.push(seasons[season] + " " + start_date)
+		}
+		start_date++
+	}
+
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(["Fall 2015", "Spring 2016", "Fall 2016", "Spring 2017", "Fall 2017", "Spring 2018", "Fall 2018"], 'semesterQ')
+	radioButtons(semesterList, 'semesterQ')
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -5065,7 +5145,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("What made this class interesting or uninteresting to you?", false)
+	questionTitle("Please explain further. (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
@@ -5078,12 +5158,12 @@ $scope.submitReviewsButton = function(section, course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very Organized"], "organizational_skills")
+	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
 
-	questionTitle("Please explain further", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "recommendProfText")
 
 	questionTitle("Please check off all the factors that apply to this class", false)
