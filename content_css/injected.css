@@ -155,7 +155,7 @@ output.submitModalTextOutput {
 }
 
 div.hours {
-  margin: 0 2em;
+  margin: 0 4em;
 }
 
 .hours label {
@@ -343,8 +343,15 @@ label.pageTag {
 
 }
 
+.showReview .row {
+  margin: 0 4em
+}
+
+.showReview .row>[class^=col-] {
+  padding: 0;
+}
+
 .studentInfo {
-  margin-left: 1.5em;
   color: #003c6f;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -358,7 +365,6 @@ label.pageTag {
 }
 
 .studentInfoTitle {
-  margin-left: 1.5em;
   color: #95c0e5;
   margin-bottom: 0px;
   font-weight: bold;
@@ -450,8 +456,8 @@ label.pageTag {
 }
 
 .questionEntry{
-  margin-left: 3em;
-  margin-right: 3em;
+  margin-left: 5em;
+  margin-right: 5em;
   margin-top: 1em; 
   margin-bottom: 2em;
 }
@@ -473,6 +479,10 @@ label.pageTag {
    border-radius: 25px; 
 }
 
+.boxes>textarea{
+  max-width: 100%;
+}
+
 .submissionForm textarea{
   border-radius: 5px;
   width: 100%;
@@ -480,7 +490,7 @@ label.pageTag {
 }
 
 #tagChoices{
-  margin: 3em;
+  margin: 4em;
   margin-top: 1em;
   margin-bottom:0em;
 }

@@ -3722,7 +3722,7 @@ return m.noConflict = function(b) {
 document.onreadystatechange = () => {
 
 if (document.readyState === "interactive") {
-$("#top-nav ul").prepend(`<li><a ng-click="callModal();">Vergil+ Tutorial</a></li>`);
+$("#top-nav ul").prepend(`<li><a style="padding: 28px 15px 27px; cursor: pointer;" ng-click="callModal();">Vergil+ Tutorial</a></li>`);
     var coreswap_css = `
 
 div#coreswap {
