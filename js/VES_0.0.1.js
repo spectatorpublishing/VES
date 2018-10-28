@@ -4905,8 +4905,12 @@ $scope.actualCourseSubmitReview = function(course) {
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
 		submissionForm += '<div class="questionEntry">'
-		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
+		options.forEach(function(value, i){
+			if (i === 0){
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}" checked/><span class="radioSpan"></span></label><br>`
+			}else{
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"/><span class="radioSpan"></span></label><br>`
+			}
 		})
 		submissionForm += `</div></div>`
 	}
@@ -5055,8 +5059,12 @@ $scope.submitReviewsButton = function(section, course) {
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
 		submissionForm += '<div class="questionEntry">'
-		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
+		options.forEach(function(value, i){
+			if (i === 0){
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}" checked/><span class="radioSpan"></span></label><br>`
+			}else{
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"/><span class="radioSpan"></span></label><br>`
+			}
 		})
 		submissionForm += `</div></div>`
 	}
