@@ -201,11 +201,13 @@ h4.response {
 
 .heading-toggle .container .relevant-classes-indicator{
   width: 100%;
+  pointer-events: none;
 }
 
 .general-course-reviews {
   width: 100%;
   position: relative;
+  pointer-events:all;
 }
 
 .general-course-reviews a.course-reviews{
