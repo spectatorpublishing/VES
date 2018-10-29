@@ -1677,7 +1677,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	$scope.modalVisit=function(){
 		
 		var v_list=document.querySelectorAll(".toc");
-		console.log(visited);
 		visited.forEach(function(element){
 			if ((element-2)>=0){
 			v_list[element-2].classList.add("visited")
@@ -1718,7 +1717,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	The debugged Export Calendar feature can add your class schedule to Google Calendar or iCal, 
 	so you know when you have to be responsible and when you don’t.`;
 
-	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
+	var tutorial_buttons="<div><button class='btn btn-default' ng-click='prevModal()'>Previous</button> <button class='btn btn-default' ng-click='nextModal()'>Next</button></div>";
 	var c_images="../content_images";
 	var sidebar=`<div><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"></div> `;
 	var liveEnrollment=`<div><p class='tut_text'>${live_enroll_text}</p><img src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg' class='tut_img'></div>`
@@ -1727,17 +1726,17 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	var close_img=`<img class='tut_img' src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png'>`
 
 	$scope.tutorial_features=[
-		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
-		new modalContent("Table of Contents",`<div class="tut_text">
+		new modalContent("<h3>Welcome</h3>",`${tutorial_intro}`,"<div><button class='btn btn-default' ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("<h3>Table of Contents</h3>",`<div class="tut_text">
 												<div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div><br/>
 											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div><br/> 
 										    <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div><br/> 
 											  <div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
-		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
-		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
-		new modalContent("Live Class Enrollment",`${liveEnrollment}`,`${tutorial_buttons}`),
-		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
-		new modalContent("Tutorial Complete",`${close_img}`,"<div><button ng-click='prevModal()'>Previous</button> <button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
+		new modalContent("<h3>Open Sidebar</h3>",`${sidebar}`,`${tutorial_buttons}`), 
+		new modalContent("<h3>Smart Search</h3>",`${s_search}`,`${tutorial_buttons}`), 
+		new modalContent("<h3>Live Class Enrollment</h3>",`${liveEnrollment}`,`${tutorial_buttons}`),
+		new modalContent("<h3>GCal Export</h3>",`${gcal_tutorial}`,`${tutorial_buttons}`),
+		new modalContent("<h3>Tutorial Complete</h3>",`${close_img}`,"<div><button class='btn btn-default' ng-click='prevModal()'>Previous</button> <button class='btn btn-default' ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
 
 	]
 	$scope.gcal = {
