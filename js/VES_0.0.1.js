@@ -4992,6 +4992,9 @@ $scope.actualCourseSubmitReview = function(course) {
 		step="1" 
 		min="0" 
 		max="50"/>
+		<script>
+			document.querySelector('#hoursPerWeek input').addEventListener("mousewheel", event => document.querySelector('#hoursPerWeek input').blur())
+		</script>
 	<label >hours per week</label></div></div>`	
 
 	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
@@ -5146,6 +5149,9 @@ $scope.submitReviewsButton = function(section, course) {
 		step="1" 
 		min="0" 
 		max="50"/>
+		<script>
+			document.querySelector('#hoursPerWeek input').addEventListener("mousewheel", event => document.querySelector('#hoursPerWeek input').blur())
+		</script>
 	<label >hours per week</label></div></div>`	
 
 	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
