@@ -19,9 +19,17 @@ var reset= function(){
 	//console.log("test")	;
 }
 
+// Preloads images
+let images = ["https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png"]
 
-
-
+images.forEach(url => {
+	let image = new Image()
+	image.src = url
+})
 
 var prof_rate=["Harsh","Somewhat Harsh","Fair","Somewhat Lenient", "Lenient"];
 var organized =["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"];
@@ -1672,7 +1680,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		console.log(visited);
 		visited.forEach(function(element){
 			if ((element-2)>=0){
-			v_list[element-2].style.color="purple";
+			v_list[element-2].classList.add("visited")
 		}
 		})
 	}
@@ -1686,11 +1694,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if(modalCounter==1){
 			$scope.modalVisit();
 		}
-		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
-		$(".modal-body").css({"padding":"0 10% 0 10%"});
-		$(".tut_text").css({"text-indent":"5%"});
-
-
 	}
 	$scope.prevModal= function(){
 		modalCounter--;
@@ -1702,9 +1705,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if(modalCounter==1){
 			$scope.modalVisit();
 		}
-		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
-		$(".modal-body").css({"padding":"0 10% 0 10%"});
-		$(".tut_text").css({"text-indent":"10%"})
 	}
 	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
 	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
@@ -1720,16 +1720,18 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
 	var c_images="../content_images";
-	var sidebar=`<div><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p></div> `;
-	var liveEnrollment=`<div><img class='tut_img' src='https://spectator.arcpublishing.com/photo/resize/Ml6h5vIyQckoG2LfApJVo2OTjRY=/arc-anglerfish-arc2-prod-spectator/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg'><p class='tut_text'>${live_enroll_text}</p></div>`
-	var s_search=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"><p class='tut_text'>${s_search_text}</p></div>`;
-	var gcal_tutorial=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"><p class='tut_text'>${gcal_text}</p></div>`;
+	var sidebar=`<div><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"></div> `;
+	var liveEnrollment=`<div><p class='tut_text'>${live_enroll_text}</p><img src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg' class='tut_img'></div>`
+	var s_search=`<div><p class='tut_text'>${s_search_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"></div>`;
+	var gcal_tutorial=`<div><p class='tut_text'>${gcal_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"></div>`;
 	var close_img=`<img class='tut_img' src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png'>`
+
 	$scope.tutorial_features=[
 		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
-		new modalContent("Table of Contents",`<div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
-											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div> 
-										      <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
+		new modalContent("Table of Contents",`<div class="tut_text">
+												<div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div><br/>
+											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div><br/> 
+										    <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div><br/> 
 											  <div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
 		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
 		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 

@@ -499,3 +499,52 @@ label.pageTag {
   text-align: center;
   margin-bottom:2em;
 }
+
+.tut_img {
+  margin:1rem auto;
+  margin-top: 0;
+  max-height:250px;
+  max-width: 500px;
+  display: block;
+}
+
+.tut_text {
+  padding: 1rem 30px;
+  line-height: 2;
+  font-size: 18px;
+  font-weight: 200;
+  margin: unset;
+}
+
+.toc {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.toc.visited {
+  color: #595;
+}
+
+.toc.visited:before {
+  background-color: #7b7;
+}
+
+.toc:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out 0s;
+  transform-origin: left;
+}
+
+.toc:hover:before {
+  visibility: visible;
+  transform: scaleX(1);
+}
