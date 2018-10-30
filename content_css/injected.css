@@ -373,6 +373,7 @@ label.pageTag {
   margin-top: 0px;
   margin-bottom: 0px;
   overflow-wrap: break-word;
+  text-transform: capitalize;
 }
 
 .viewingSliderText {
