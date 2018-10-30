@@ -298,7 +298,7 @@ label.pageTag {
 
 .showReview .navigator {
   text-align: center;
-  margin: 2rem 0;
+  padding: 2rem 0;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -500,7 +500,14 @@ label.pageTag {
 .submitClass{
   margin-top:0em;
   text-align: center;
-  margin-bottom:2em;
+  padding-bottom:1em;
+}
+
+.tut_arrow {
+  font-weight: 500;
+  color: #f6a24e;
+  display: inline-block;
+  margin-right: 1rem;
 }
 
 .tut_img {
@@ -526,11 +533,11 @@ label.pageTag {
 }
 
 .toc.visited {
-  color: #595;
+  color: #f7a34d;
 }
 
 .toc.visited:before {
-  background-color: #7b7;
+  background-color: #f7a34d;
 }
 
 .toc:before {
@@ -550,6 +557,10 @@ label.pageTag {
 .toc:hover:before {
   visibility: visible;
   transform: scaleX(1);
+}
+
+.modal-dialog div.modal-content {
+  border: unset;
 }
 
 .semester-select {
