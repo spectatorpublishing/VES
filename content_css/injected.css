@@ -57,7 +57,6 @@ aside div.content {
 
 .factor {
   display: block;
-  font-size: 1.5rem;
 }
 
 .factor-name {
@@ -66,6 +65,7 @@ aside div.content {
   letter-spacing: 0.05em;
   font-weight: 600;
   font-style: italic;
+  font-size: 1.5rem;
 }
 
 .factor-result{
@@ -74,6 +74,7 @@ aside div.content {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
+  font-size: 1.3rem;
 }
 
 .hours input {
@@ -168,16 +169,16 @@ h4.question-details{
 
 h4.question {
   font-style: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 h4.response {
+  font-size: 1.3rem;
   margin-bottom: 1rem;
 }
 
 .hours h4 {
 	color: #002f87;
-  font-size: 2rem;
   /* text-transform: uppercase; */
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -560,4 +561,17 @@ label.pageTag {
 
 .modal-dialog div.modal-content {
   border: unset;
+}
+
+.semester-select {
+  margin: 1em 5em 2em;
+}
+
+.semester-select>select {
+  width: 20%;
+  background: white;
+}
+
+.submissionForm #SeasonQ {
+  margin-right: 1rem;
 }

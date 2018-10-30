@@ -1765,11 +1765,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var major = $("#majorEntry textarea").val()
 		var secondMajor = $("#secondMajor textarea").val()
 		var profName = $("#professorName textarea").val()
-		$("#semesterQ input").each(function(i){
-			if($(this).prop("checked")){
-				semester = $(this).prop("value")
-			}
-		})
+		var semester = $("#SeasonQ").val() + " " + $("#YearQ").val()
 		var hoursPerWeek = parseInt($("#hoursPerWeek input").val())
 		var grading = parseInt($("#prof_rating").prop("value"))
 		var interest = parseInt($("#interest_class").prop("value"))	
@@ -4558,7 +4554,7 @@ function setReviewModal(data){
 				<div class="navigator">
 					<div>
 						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 					</div>
 				</div>
@@ -4654,7 +4650,7 @@ function setReviewModal(data){
 				`	<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4780,7 +4776,7 @@ $scope.courseReviewButton = function(course){
 					<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4876,7 +4872,7 @@ $scope.courseReviewButton = function(course){
 					`	<div class="navigator">
 							<div>
 								<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-								<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+								<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 								<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 							</div>
 						</div>
@@ -4920,6 +4916,31 @@ $scope.actualCourseSubmitReview = function(course) {
 		} else {
 			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
+	}
+
+	var semesterSelect = function(){
+		var years = []
+		var seasons = ["Spring", "Summer", "Fall"]
+		var start_date = new Date().getFullYear()
+		var last_date = start_date - 4
+
+		while(start_date >= last_date) {
+			years.push(start_date)
+			start_date--
+		}
+		seasonSelect = `<select id="SeasonQ">`
+		for(const i in seasons){
+			seasonSelect += `<option value="${seasons[i]}">${seasons[i]}</option>`
+		}
+		seasonSelect += `</select>`
+
+		yearSelect = `<select id="YearQ">`
+		for(const i in years){
+			yearSelect += `<option value="${years[i]}">${years[i]}</option>`
+		}
+		yearSelect += `</select>`
+
+		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
 	}
 
 	var slider = function(options, idName){
@@ -4969,20 +4990,8 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", "",)
 
-	var semesterList = []
-	var seasons = ["Spring", "Summer", "Fall"]
-	var curr_date = new Date().getFullYear()
-	var start_date = curr_date - 4
-
-	while(start_date <= curr_date) {
-		for(var season = 0; season < 3; season++) {
-			semesterList.push(seasons[season] + " " + start_date)
-		}
-		start_date++
-	}
-
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(semesterList, 'semesterQ')
+	semesterSelect()
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -5079,6 +5088,31 @@ $scope.submitReviewsButton = function(section, course) {
 		}
 	}
 
+	var semesterSelect = function(){
+		var years = []
+		var seasons = ["Spring", "Summer", "Fall"]
+		var start_date = new Date().getFullYear()
+		var last_date = start_date - 4
+
+		while(start_date >= last_date) {
+			years.push(start_date)
+			start_date--
+		}
+		seasonSelect = `<select id="SeasonQ">`
+		for(const i in seasons){
+			seasonSelect += `<option value="${seasons[i]}">${seasons[i]}</option>`
+		}
+		seasonSelect += `</select>`
+
+		yearSelect = `<select id="YearQ">`
+		for(const i in years){
+			yearSelect += `<option value="${years[i]}">${years[i]}</option>`
+		}
+		yearSelect += `</select>`
+
+		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
+	}
+
 	var slider = function(options, idName){
 		// options[parseInt($("#"+idName).prop("value"))]
 		console.log($("#" + idName));
@@ -5126,20 +5160,8 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
-	var semesterList = []
-	var seasons = ["Spring", "Summer", "Fall"]
-	var curr_date = new Date().getFullYear()
-	var start_date = curr_date - 4
-
-	while(start_date <= curr_date) {
-		for(var season = 0; season < 3; season++) {
-			semesterList.push(seasons[season] + " " + start_date)
-		}
-		start_date++
-	}
-
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(semesterList, 'semesterQ')
+	semesterSelect()
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
