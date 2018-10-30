@@ -1773,7 +1773,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var goodTeacher = parseInt($("#good_teacher").prop("value"))
 		var selfTeaching = parseInt($("#self_teaching").prop("value"))
 		var easyA = parseInt($("#easy_a").prop("value"))
-		var organization = parseInt($("#organizational_skills").prop("value"))*5/3
+		var organization = parseInt($("#organizational_skills").prop("value"))*2
 		var recommend = parseInt($("#recommend_prof").prop("value"))
 		var whyRecommend = $("#recommendProfText textarea").val()
 
