@@ -261,7 +261,15 @@ h4.response {
 }
 
 .submissionForm .tags, div.tags {
-  text-align: justify;
+  text-align: left;
+}
+
+.tags>label{
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  min-height: 25px;
 }
 
 .submissionForm input[type="checkbox"] {
@@ -283,7 +291,6 @@ h4.response {
 }
 
 label.pageTag {
-  font-size: 1.5rem;
   background-color: #f7a34d;
   color: white;
   padding: .3rem .5rem;
