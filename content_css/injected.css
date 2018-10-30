@@ -1,3 +1,7 @@
+:root{
+  --orange: rgb(247, 163, 77);
+}
+
 .header h1{
   margin-bottom: 0;
 }
@@ -70,7 +74,7 @@ aside div.content {
 
 .factor-result{
   display: inline;
-  color: rgb(234, 165, 94);
+  color: var(--orange);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -101,7 +105,7 @@ aside div.content {
     appearance: none;
     width: 30px;
     height: 15px;
-    background: #Eaa55e;
+    background: var(--orange);
     cursor: pointer;
 }
 
@@ -111,7 +115,7 @@ aside div.content {
     appearance: none;
     width: 30px;
     height: 15px;
-    background: #Eaa55e;
+    background: rgb(247, 163, 77);
     cursor: pointer;
 }
 
@@ -132,7 +136,7 @@ aside div.content {
     border-radius: 15px 15px 15px 15px;
     width: 30px;
     height: 15px;
-    background: #Eaa55e;
+    background: var(--orange);
     cursor: pointer;
 }
 
@@ -146,7 +150,7 @@ h4.submitModalText {
   display: inline;
 }
 output.submitModalTextOutput {
-  color: #Eaa55e;
+  color: rgb(247, 163, 77);
   display: inline;
   font-size:18px;
 }
@@ -185,14 +189,14 @@ h4.response {
 }
 
 .hours h4.response {
-  color: #Eaa55e;
+  color: var(--orange);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
 }
 
 .hours .star{
-  color: #eaa55e;
+  color: var(--orange);
 }
 
 .course-actions .course-reviews{
@@ -227,23 +231,23 @@ h4.response {
   position: absolute;
   top: 0;
   right: .5rem;
-  color: #e8a55e;
+  color: var(--orange);
 }
 
 #hoursOutputId {
   display:inline;
-  color:#E8A552;
+  color:var(--orange);
   font-size:18px;
 }
 #profRateId {
   display:inline;
-  color:#E8A552;
+  color:var(--orange);
   font-size:18px;
 }
 
 .sliderOutput {
   display:inline-block;
-  color:#E8A552;
+  color:var(--orange);
   font-size: 1.3rem;
   position: relative;
   transform: translate(-50%, 0);
@@ -277,7 +281,7 @@ h4.response {
 }
 
 .submissionForm input[type="checkbox"]:checked + label {
-  background-color: #f7a34d;
+  background-color: var(--orange);
 }
 
 .submissionForm input[type="checkbox"] + label {
@@ -291,7 +295,7 @@ h4.response {
 }
 
 label.pageTag {
-  background-color: #f7a34d;
+  background-color: var(--orange);
   color: white;
   padding: .3rem .5rem;
   border-radius: 1.5rem;
@@ -316,7 +320,7 @@ label.pageTag {
 
 .showReview .navigator p {
   text-transform: uppercase;
-  color: rgb(234, 165, 94);
+  color: var(--orange);
   font-size: 1.5rem;
   line-height: 1.5rem;
   letter-spacing: 0.05em;
@@ -353,7 +357,7 @@ label.pageTag {
 
 .btn-submit {
   color: white; 
-  background: rgb(235, 166, 93);
+  background: var(--orange);
 }
 
 .showReview .row {
@@ -433,7 +437,7 @@ label.pageTag {
 
 /* When the radio button is checked, add a blue background */
 .radioDiv input:checked ~ .radioSpan {
-    background-color: #Eaa55e;
+    background-color: var(--orange);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -452,7 +456,7 @@ label.pageTag {
 .radioDiv .radioSpan:after {
   top: 6px;
   left: 8px;
-  background: #Eaa55e;
+  background: var(--orange);
     
   /*Add another block-level blank space*/
   content: '';
@@ -524,7 +528,7 @@ label.pageTag {
 
 .tut_arrow {
   font-weight: 500;
-  color: #f6a24e;
+  color: var(--orange);
   display: inline-block;
   margin-right: 1rem;
 }
@@ -552,11 +556,11 @@ label.pageTag {
 }
 
 .toc.visited {
-  color: #f7a34d;
+  color: var(--orange);
 }
 
 .toc.visited:before {
-  background-color: #f7a34d;
+  background-color: var(--orange);
 }
 
 .toc:before {
