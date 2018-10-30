@@ -551,3 +551,12 @@ label.pageTag {
   visibility: visible;
   transform: scaleX(1);
 }
+
+.semester-select {
+  margin: 1em 5em 2em;
+}
+
+.semester-select>select {
+  width: 20%;
+  background: white;
+}
