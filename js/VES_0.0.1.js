@@ -4560,7 +4560,7 @@ function setReviewModal(data){
 				<div class="navigator">
 					<div>
 						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 					</div>
 				</div>
@@ -4656,7 +4656,7 @@ function setReviewModal(data){
 				`	<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4782,7 +4782,7 @@ $scope.courseReviewButton = function(course){
 					<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4878,7 +4878,7 @@ $scope.courseReviewButton = function(course){
 					`	<div class="navigator">
 							<div>
 								<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-								<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+								<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 								<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 							</div>
 						</div>
