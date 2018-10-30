@@ -560,3 +560,7 @@ label.pageTag {
   width: 20%;
   background: white;
 }
+
+.submissionForm #SeasonQ {
+  margin-right: 1rem;
+}
