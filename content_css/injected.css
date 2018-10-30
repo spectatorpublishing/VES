@@ -598,3 +598,7 @@ label.pageTag {
 .submissionForm #SeasonQ {
   margin-right: 1rem;
 }
+
+div.modal-backdrop {
+  position: fixed;
+}
