@@ -57,7 +57,6 @@ aside div.content {
 
 .factor {
   display: block;
-  font-size: 1.5rem;
 }
 
 .factor-name {
@@ -66,6 +65,7 @@ aside div.content {
   letter-spacing: 0.05em;
   font-weight: 600;
   font-style: italic;
+  font-size: 1.5rem;
 }
 
 .factor-result{
@@ -74,6 +74,7 @@ aside div.content {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
+  font-size: 1.3rem;
 }
 
 .hours input {
@@ -168,15 +169,16 @@ h4.question-details{
 
 h4.question {
   font-style: bold;
+  font-size: 1.5rem;
 }
 
 h4.response {
+  font-size: 1.3rem;
   margin-bottom: 1rem;
 }
 
 .hours h4 {
 	color: #002f87;
-  font-size: 1.5rem;
   /* text-transform: uppercase; */
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -200,11 +202,13 @@ h4.response {
 
 .heading-toggle .container .relevant-classes-indicator{
   width: 100%;
+  pointer-events: none;
 }
 
 .general-course-reviews {
   width: 100%;
   position: relative;
+  pointer-events:all;
 }
 
 .general-course-reviews a.course-reviews{
@@ -294,7 +298,7 @@ label.pageTag {
 
 .showReview .navigator {
   text-align: center;
-  margin: 2rem 0;
+  padding: 2rem 0;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -339,8 +343,7 @@ label.pageTag {
 
 .btn-submit {
   color: white; 
-  background: rgb(224, 167, 106);
-
+  background: rgb(235, 166, 93);
 }
 
 .showReview .row {
@@ -467,7 +470,7 @@ label.pageTag {
 }
 
 .sliderEntry {
-  margin: .5em calc(4em + 15px);
+  margin: .5em calc(6em + 15px);
   margin-top: 0;
 }
 
@@ -497,5 +500,78 @@ label.pageTag {
 .submitClass{
   margin-top:0em;
   text-align: center;
-  margin-bottom:2em;
+  padding-bottom:1em;
+}
+
+.tut_arrow {
+  font-weight: 500;
+  color: #f6a24e;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.tut_img {
+  margin:1rem auto;
+  margin-top: 0;
+  max-height:250px;
+  max-width: 500px;
+  display: block;
+}
+
+.tut_text {
+  padding: 1rem 30px;
+  line-height: 2;
+  font-size: 18px;
+  font-weight: 200;
+  margin: unset;
+}
+
+.toc {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.toc.visited {
+  color: #f7a34d;
+}
+
+.toc.visited:before {
+  background-color: #f7a34d;
+}
+
+.toc:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #333;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out 0s;
+  transform-origin: left;
+}
+
+.toc:hover:before {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.modal-dialog div.modal-content {
+  border: unset;
+}
+
+.semester-select {
+  margin: 1em 5em 2em;
+}
+
+.semester-select>select {
+  width: 20%;
+  background: white;
+}
+
+.submissionForm #SeasonQ {
+  margin-right: 1rem;
 }

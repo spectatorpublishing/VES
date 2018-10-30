@@ -19,9 +19,17 @@ var reset= function(){
 	//console.log("test")	;
 }
 
+// Preloads images
+let images = ["https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif",
+"https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png"]
 
-
-
+images.forEach(url => {
+	let image = new Image()
+	image.src = url
+})
 
 var prof_rate=["Harsh","Somewhat Harsh","Fair","Somewhat Lenient", "Lenient"];
 var organized =["Very disorganized", "Somewhat disorganized", "Average", "Somewhat organized", "Very organized"];
@@ -1669,10 +1677,9 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	$scope.modalVisit=function(){
 		
 		var v_list=document.querySelectorAll(".toc");
-		console.log(visited);
 		visited.forEach(function(element){
 			if ((element-2)>=0){
-			v_list[element-2].style.color="purple";
+			v_list[element-2].classList.add("visited")
 		}
 		})
 	}
@@ -1686,11 +1693,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if(modalCounter==1){
 			$scope.modalVisit();
 		}
-		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
-		$(".modal-body").css({"padding":"0 10% 0 10%"});
-		$(".tut_text").css({"text-indent":"5%"});
-
-
 	}
 	$scope.prevModal= function(){
 		modalCounter--;
@@ -1702,9 +1704,6 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		if(modalCounter==1){
 			$scope.modalVisit();
 		}
-		$(".tut_img").css({"width":"100%", "margin":"0 auto","max-height":"500px", "diplay":"block"});
-		$(".modal-body").css({"padding":"0 10% 0 10%"});
-		$(".tut_text").css({"text-indent":"10%"})
 	}
 	//var osburl=chrome.runtime.getURL("/content_images/open_sidebar.gif");
 	//var ssurl=chrome.runtime.getURL("/content_images/smart_search.gif");
@@ -1718,25 +1717,25 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 	The debugged Export Calendar feature can add your class schedule to Google Calendar or iCal, 
 	so you know when you have to be responsible and when you don’t.`;
 
-	var tutorial_buttons="<div><button ng-click='prevModal()'>Previous</button> <button ng-click='nextModal()'>Next</button></div>";
+	var tutorial_buttons="<div><button class='btn btn-default' ng-click='modalCount(0);nextModal()'>Back</button>";
 	var c_images="../content_images";
-	var sidebar=`<div><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p></div> `;
-	var liveEnrollment=`<div><img class='tut_img' src='https://spectator.arcpublishing.com/photo/resize/Ml6h5vIyQckoG2LfApJVo2OTjRY=/arc-anglerfish-arc2-prod-spectator/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg'><p class='tut_text'>${live_enroll_text}</p></div>`
-	var s_search=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"><p class='tut_text'>${s_search_text}</p></div>`;
-	var gcal_tutorial=`<div><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"><p class='tut_text'>${gcal_text}</p></div>`;
+	var sidebar=`<div><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"></div> `;
+	var liveEnrollment=`<div><p class='tut_text'>${live_enroll_text}</p><img src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg' class='tut_img'></div>`
+	var s_search=`<div><p class='tut_text'>${s_search_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"></div>`;
+	var gcal_tutorial=`<div><p class='tut_text'>${gcal_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"></div>`;
 	var close_img=`<img class='tut_img' src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png'>`
-	$scope.tutorial_features=[
-		new modalContent("Welcome",`${tutorial_intro}`,"<div><button ng-click='nextModal()'>Next</button></div>"),
-		new modalContent("Table of Contents",`<div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div> 
-											  <div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div> 
-										      <div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div> 
-											  <div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`${tutorial_buttons}`),
-		new modalContent("Open Sidebar",`${sidebar}`,`${tutorial_buttons}`), 
-		new modalContent("Smart Search",`${s_search}`,`${tutorial_buttons}`), 
-		new modalContent("Live Class Enrollment",`${liveEnrollment}`,`${tutorial_buttons}`),
-		new modalContent("GCal Export",`${gcal_tutorial}`,`${tutorial_buttons}`),
-		new modalContent("Tutorial Complete",`${close_img}`,"<div><button ng-click='prevModal()'>Previous</button> <button ng-click='modalCounter=0;' data-dismiss='modal'>Close</button></div>")
 
+	$scope.tutorial_features=[
+		new modalContent("<h3>Welcome</h3>",`${tutorial_intro}`,"<div><button class='btn btn-default' ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("<h3>Table of Contents</h3>",`<div class="tut_text">
+												<div class="tut_arrow">></div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div><br/>
+											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div><br/> 
+										    <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div><br/> 
+											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`<button class='btn btn-default' ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>`),
+		new modalContent("<h3>Open Sidebar</h3>",`${sidebar}`,`${tutorial_buttons}`), 
+		new modalContent("<h3>Smart Search</h3>",`${s_search}`,`${tutorial_buttons}`), 
+		new modalContent("<h3>Live Class Enrollment</h3>",`${liveEnrollment}`,`${tutorial_buttons}`),
+		new modalContent("<h3>GCal Export</h3>",`${gcal_tutorial}`,`${tutorial_buttons}`)
 	]
 	$scope.gcal = {
 		callback: () => {
@@ -1766,11 +1765,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var major = $("#majorEntry textarea").val()
 		var secondMajor = $("#secondMajor textarea").val()
 		var profName = $("#professorName textarea").val()
-		$("#semesterQ input").each(function(i){
-			if($(this).prop("checked")){
-				semester = $(this).prop("value")
-			}
-		})
+		var semester = $("#SeasonQ").val() + " " + $("#YearQ").val()
 		var hoursPerWeek = parseInt($("#hoursPerWeek input").val())
 		var grading = parseInt($("#prof_rating").prop("value"))
 		var interest = parseInt($("#interest_class").prop("value"))	
@@ -4559,7 +4554,7 @@ function setReviewModal(data){
 				<div class="navigator">
 					<div>
 						<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-						<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+						<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 						<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 					</div>
 				</div>
@@ -4655,7 +4650,7 @@ function setReviewModal(data){
 				`	<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4781,7 +4776,7 @@ $scope.courseReviewButton = function(course){
 					<div class="navigator">
 						<div>
 							<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-							<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+							<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 							<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 						</div>
 					</div>
@@ -4795,8 +4790,8 @@ $scope.courseReviewButton = function(course){
 									School: {{activeCourseReviews[review-1]["personal"]["school"]}}<br/>
 									Year: {{activeCourseReviews[review-1]["personal"]["year"]}}<br/>
 									Major: {{activeCourseReviews[review-1]["personal"]["major"]}}
-									{{ activeReviews[review-1]["personal"]["concentration"] && 
-										"Minor/Concentration(s): "+activeReviews[review-1]["personal"]["concentration"]}}
+									{{ activeCourseReviews[review-1]["personal"]["concentration"] && 
+										"Minor/Concentration(s): "+activeCourseReviews[review-1]["personal"]["concentration"]}}
 								</h4>
 								<h4 class="studentInfoTitle">COURSE INFO</h4>
 								<h4 class="studentInfo">
@@ -4877,7 +4872,7 @@ $scope.courseReviewButton = function(course){
 					`	<div class="navigator">
 							<div>
 								<button ng-disabled="review == 0" ng-click="review = review - 1">&#8249;</button>
-								<p class="page-number" ng-bind="review ? review : 'Summary'"></p>
+								<p class="page-number" ng-bind="review ? review+'/'+${data.length} : 'Summary'"></p>
 								<button ng-disabled="review == ${data.length}" ng-click="review = review + 1">&#8250;</button>
 							</div>
 						</div>
@@ -4905,8 +4900,12 @@ $scope.actualCourseSubmitReview = function(course) {
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
 		submissionForm += '<div class="questionEntry">'
-		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
+		options.forEach(function(value, i){
+			if (i === 0){
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}" checked/><span class="radioSpan"></span></label><br>`
+			}else{
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"/><span class="radioSpan"></span></label><br>`
+			}
 		})
 		submissionForm += `</div></div>`
 	}
@@ -4917,6 +4916,31 @@ $scope.actualCourseSubmitReview = function(course) {
 		} else {
 			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
+	}
+
+	var semesterSelect = function(){
+		var years = []
+		var seasons = ["Spring", "Summer", "Fall"]
+		var start_date = new Date().getFullYear()
+		var last_date = start_date - 4
+
+		while(start_date >= last_date) {
+			years.push(start_date)
+			start_date--
+		}
+		seasonSelect = `<select id="SeasonQ">`
+		for(const i in seasons){
+			seasonSelect += `<option value="${seasons[i]}">${seasons[i]}</option>`
+		}
+		seasonSelect += `</select>`
+
+		yearSelect = `<select id="YearQ">`
+		for(const i in years){
+			yearSelect += `<option value="${years[i]}">${years[i]}</option>`
+		}
+		yearSelect += `</select>`
+
+		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
 	}
 
 	var slider = function(options, idName){
@@ -4966,20 +4990,8 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", "",)
 
-	var semesterList = []
-	var seasons = ["Fall", "Spring", "Summer"]
-	var curr_date = new Date().getFullYear()
-	var start_date = curr_date - 4
-
-	while(start_date <= curr_date) {
-		for(var season = 0; season < 3; season++) {
-			semesterList.push(seasons[season] + " " + start_date)
-		}
-		start_date++
-	}
-
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(semesterList, 'semesterQ')
+	semesterSelect()
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -4987,6 +4999,9 @@ $scope.actualCourseSubmitReview = function(course) {
 		step="1" 
 		min="0" 
 		max="50"/>
+		<script>
+			document.querySelector('#hoursPerWeek input').addEventListener("mousewheel", event => document.querySelector('#hoursPerWeek input').blur())
+		</script>
 	<label >hours per week</label></div></div>`	
 
 	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
@@ -5055,8 +5070,12 @@ $scope.submitReviewsButton = function(section, course) {
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
 		submissionForm += '<div class="questionEntry">'
-		options.forEach(function(value){
-			submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"checked="checked"/><span class="radioSpan"></span></label><br>`
+		options.forEach(function(value, i){
+			if (i === 0){
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}" checked/><span class="radioSpan"></span></label><br>`
+			}else{
+				submissionForm += `<label class="radioDiv"> ${value}<input type="radio" value="${value}" name="${name}"/><span class="radioSpan"></span></label><br>`
+			}
 		})
 		submissionForm += `</div></div>`
 	}
@@ -5067,6 +5086,31 @@ $scope.submitReviewsButton = function(section, course) {
 		} else {
 			submissionForm += `<div class="hours"><h4 class="question">${question}</h4></div>`
 		}
+	}
+
+	var semesterSelect = function(){
+		var years = []
+		var seasons = ["Spring", "Summer", "Fall"]
+		var start_date = new Date().getFullYear()
+		var last_date = start_date - 4
+
+		while(start_date >= last_date) {
+			years.push(start_date)
+			start_date--
+		}
+		seasonSelect = `<select id="SeasonQ">`
+		for(const i in seasons){
+			seasonSelect += `<option value="${seasons[i]}">${seasons[i]}</option>`
+		}
+		seasonSelect += `</select>`
+
+		yearSelect = `<select id="YearQ">`
+		for(const i in years){
+			yearSelect += `<option value="${years[i]}">${years[i]}</option>`
+		}
+		yearSelect += `</select>`
+
+		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
 	}
 
 	var slider = function(options, idName){
@@ -5116,20 +5160,8 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("What professor did you have?", true)
 	textbox("", "professorName", $scope.modalSection.instructors[0].name, )
 
-	var semesterList = []
-	var seasons = ["Fall", "Spring", "Summer"]
-	var curr_date = new Date().getFullYear()
-	var start_date = curr_date - 4
-
-	while(start_date <= curr_date) {
-		for(var season = 0; season < 3; season++) {
-			semesterList.push(seasons[season] + " " + start_date)
-		}
-		start_date++
-	}
-
 	questionTitle("What semester did you take this course?", true)
-	radioButtons(semesterList, 'semesterQ')
+	semesterSelect()
 
 	questionTitle("On average, how many hours per week do you devote to this course?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
@@ -5137,6 +5169,9 @@ $scope.submitReviewsButton = function(section, course) {
 		step="1" 
 		min="0" 
 		max="50"/>
+		<script>
+			document.querySelector('#hoursPerWeek input').addEventListener("mousewheel", event => document.querySelector('#hoursPerWeek input').blur())
+		</script>
 	<label >hours per week</label></div></div>`	
 
 	questionTitle("How harsh, fair, or lenient was the grading for your class?", true)
@@ -5145,7 +5180,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("Overall, I found this class interesting, enjoyable, or useful enough to justify the amount of effort this class required.", true)
 	slider(disToAgree, "interest_class")
 
-	questionTitle("Please explain further. (optional)", false)
+	questionTitle("Please explain further (optional)", false)
 	textbox("", "whyInteresting")
 
 	questionTitle("I am satisfied with how effective this professor was at teaching, being clear, answering questions, and explaining concepts.", true)
