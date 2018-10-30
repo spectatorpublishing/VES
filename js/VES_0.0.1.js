@@ -1773,7 +1773,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		var goodTeacher = parseInt($("#good_teacher").prop("value"))
 		var selfTeaching = parseInt($("#self_teaching").prop("value"))
 		var easyA = parseInt($("#easy_a").prop("value"))
-		var organization = parseInt($("#organizational_skills").prop("value"))
+		var organization = parseInt($("#organizational_skills").prop("value"))*5/3
 		var recommend = parseInt($("#recommend_prof").prop("value"))
 		var whyRecommend = $("#recommendProfText textarea").val()
 
@@ -4503,7 +4503,6 @@ function setReviewModal(data){
 							<div class="question-wrapper">
 								<h4 class="question"> How many hours per week do you devote to this course? </h4>
 								<h4 class="response">${results["hoursPerWeek"]}</h4>
-								<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 							</div>
 							<div class="question-wrapper">
 								<h4 class="question"> This class was interesting, enjoyable, or useful enough to justify the effort it required. </h4>
@@ -4589,7 +4588,6 @@ function setReviewModal(data){
 						<div class="question-wrapper">
 							<h4 class="question">How many hours per week do you devote to this course? </h4>
 							<h4 class="response">{{activeReviews[review - 1]["hoursPerWeek"]}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 						</div>
 						
 						<div class="question-wrapper">
@@ -4630,7 +4628,7 @@ function setReviewModal(data){
 						<div class="question-wrapper">
 							<h4 class="question">How organized and structured is the professor, the curriculum, and the class overall?</h4>
 							<h4 class="response">{{organized[activeReviews[review - 1]["organized"]]}}</h4>
-							<input type="range" min="0" max="4" ng-model="activeReviews[review - 1]['organized']" class="p_rate disabled" disabled>
+							<input type="range" min="0" max="2" ng-model="activeReviews[review - 1]['organized']" class="p_rate disabled" disabled>
 						</div>
 						
 						<div class="question-wrapper">
@@ -4719,7 +4717,6 @@ $scope.courseReviewButton = function(course){
 									<h4 class="question"> 
 									How many hours per week do you devote to this course?</h4>
 									<h4 class="response">${results["hoursPerWeek"]}</h4>
-									<input type="range" min="0" max="50" value=${results["hoursPerWeek"]} class="p_rate disabled" disabled><br/>
 								</div>
 								<div class="question-wrapper">
 									<h4 class="question"> 
@@ -4811,7 +4808,6 @@ $scope.courseReviewButton = function(course){
 						<div class="question-wrapper">
 							<h4 class="question">How many hours per week do you devote to this course? </h4>
 							<h4 class="response">{{activeCourseReviews[review - 1]['hoursPerWeek']}}</h4>
-							<input type="range" min="0" max="50" ng-model="activeCourseReviews[review - 1]['hoursPerWeek']" class="p_rate disabled" disabled>
 						</div>
 						
 						<div class="question-wrapper">
@@ -4943,7 +4939,7 @@ $scope.actualCourseSubmitReview = function(course) {
 		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
 	}
 
-	var slider = function(options, idName){
+	var slider = function(options, idName, threeOptions=false){
 		// options[parseInt($("#"+idName).prop("value"))]
 		console.log($("#" + idName));
 		console.log()
@@ -4954,8 +4950,8 @@ $scope.actualCourseSubmitReview = function(course) {
 		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
-										min="0" max="4" 
-										value="2" 
+										min="0" max="${threeOptions ? '2' : '4'}" 
+										value="${threeOptions ? '1' : '2'}" 
 										class="hours" 
 										id="${idName}" 
 										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
@@ -5023,7 +5019,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
+	slider(["Disorganized", "Average", "Organized"], "organizational_skills", true)
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")
@@ -5113,7 +5109,7 @@ $scope.submitReviewsButton = function(section, course) {
 		submissionForm += `<div class="semester-select">${seasonSelect}${yearSelect}</div>`
 	}
 
-	var slider = function(options, idName){
+	var slider = function(options, idName, threeOptions=false){
 		// options[parseInt($("#"+idName).prop("value"))]
 		console.log($("#" + idName));
 		console.log()
@@ -5124,8 +5120,8 @@ $scope.submitReviewsButton = function(section, course) {
 		submissionForm += `<div class = sliderEntry><output class="sliderOutput" id="${idName}Out">${options[2]}</output></div>`
 		submissionForm += `<div class="hours">
 								<input type="range" 
-										min="0" max="4" 
-										value="2" 
+										min="0" max="${threeOptions ? '2' : '4'}" 
+										value="${threeOptions ? '1' : '2'}" 
 										class="hours" 
 										id="${idName}" 
 										oninput="${idName}Out.value = window.sliderOptions['${idName}'][${idName}.value]; ${idName}Out.style.left = (${idName}.value / ${idName}.max * 100) + '%'"
@@ -5193,7 +5189,7 @@ $scope.submitReviewsButton = function(section, course) {
 	slider(disToAgree, "easy_a")
 
 	questionTitle("How organized and structured is the professor, the curriculum, and the class overall?", true)
-	slider(["Very Disorganized", "Somewhat Disorganized", "Average", "Somewhat Organized", "Very Organized"], "organizational_skills")
+	slider(["Disorganized", "Average", "Organized"], "organizational_skills", true)
 
 	questionTitle("I would recommend my particular professor for this course.", true)
 	slider(disToAgree, "recommend_prof")

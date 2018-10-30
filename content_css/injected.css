@@ -152,7 +152,7 @@ output.submitModalTextOutput {
 }
 
 .modal-no-data {
-  margin: 4rem;
+  padding: 4rem;
 }
 
 div.hours {
