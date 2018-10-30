@@ -1783,6 +1783,13 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 				chosenTags.push($(this).prop("value").toLowerCase());
 			}
 		})
+
+		//validation for hours per week not being zero
+		if(hoursPerWeek === 0 || Number.isNaN(hoursPerWeek)){
+			alert("Hours per week cannot be zero.")
+			return
+		}
+
 		// Make up personal stuff for demo purpose Change for correctness.
 		var jsonLoad = 	{"personal":
 			{
@@ -1807,6 +1814,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 			"A-possible": easyA,
 			"requirement": false
 		}
+
 		console.log(jsonLoad)
 		$http({
 			method: 'POST',
