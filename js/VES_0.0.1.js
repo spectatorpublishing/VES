@@ -4682,6 +4682,7 @@ function setReviewModal(data){
 }
 
 $scope.courseReviewButton = function(course){
+	$scope.$parent.disToAgree = disToAgree;
 	console.log(course);
 	$http({
 	    method: 'POST',
