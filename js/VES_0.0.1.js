@@ -4997,7 +4997,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	questionTitle("What semester did you take this course?", true)
 	semesterSelect()
 
-	questionTitle("On average, how many hours per week do you devote to this course?", true)
+	questionTitle("On average, how many hours per week do you devote to this course, including time in class, recitation, etc?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
 		placeholder="0" 
 		step="1" 
@@ -5167,7 +5167,7 @@ $scope.submitReviewsButton = function(section, course) {
 	questionTitle("What semester did you take this course?", true)
 	semesterSelect()
 
-	questionTitle("On average, how many hours per week do you devote to this course?", true)
+	questionTitle("On average, how many hours per week do you devote to this course, including time in class, recitation, etc?", true)
 	submissionForm += `<div class = "questionEntry"><div id="hoursPerWeek"><input type="number"
 		placeholder="0" 
 		step="1" 
