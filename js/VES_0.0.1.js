@@ -1540,7 +1540,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	The extension is now active, and you can see live class enrollments, organize requirements with the major checklist, enjoy a smarter search bar, and export your class schedule to iCal or Google Calendar.
 
-	More features are coming soon, and please send us your feedback to <a href="mailto:vergilplus@columbiaspectator.com">vergilplus@columbiaspectator.com</a>.</p>`;
+	More features are coming soon, and please send your feedback to <a href="mailto:vergilplus@columbiaspectator.com">vergilplus@columbiaspectator.com</a>.</p>`;
 	
 
 	angular.element(document).ready(function () {
@@ -1719,20 +1719,23 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 
 	var tutorial_buttons="<div><button class='btn btn-default' ng-click='modalCount(0);nextModal()'>Back</button>";
 	var c_images="../content_images";
-	var sidebar=`<div><p class='tut_text'>Access CoreSwap and Major Checklist through the sidebar.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WXYIQ7WYXFAHDLBRZM244A46EE.gif' class="tut_img"></div> `;
+	var quick_reviews=`<div><p class='tut_text'>Want the real scoop on courses? Read straightforward, recent reviews about the aspects of a class that matter. Submit reviews in 60 seconds and let the Columbia community know how you feel about your classes.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/BE3VY55N35FRLI6VDHLANMYUHU.gif' class="tut_img"></div> `;
+	var core_swap=`<div><p class='tut_text'>Don’t let your Art Hum class get in the way of that seminar you’ve been dying to take. Core Swap allows you to trade places in classes like Contemporary Civilization and Lit Hum with other students. Win-win.</p><img src= 'https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/OUIC4HTZZFCCPIKJDFESVWG5XA.gif' class="tut_img"></div> `;
 	var liveEnrollment=`<div><p class='tut_text'>${live_enroll_text}</p><img src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/ZH7EYKF4KRGB7M2I4FAOYVP7TI.jpg' class='tut_img'></div>`
 	var s_search=`<div><p class='tut_text'>${s_search_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/23S7APGKT5HSTA5MVJZBP5NLCE.gif" class= "tut_img"></div>`;
 	var gcal_tutorial=`<div><p class='tut_text'>${gcal_text}</p><img src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/2O4NG72V5BHRZGSSBZPZQUBU6U.gif" class="tut_img"></div>`;
 	var close_img=`<img class='tut_img' src='https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/WVSGGJPEOJDCZHLBUQGH3AVVCY.png'>`
 
 	$scope.tutorial_features=[
-		new modalContent("<h3>Welcome</h3>",`${tutorial_intro}`,"<div><button class='btn btn-default' ng-click='nextModal()'>Next</button></div>"),
+		new modalContent("<h3>Vergil+ Tutorial</h3>",`${tutorial_intro}`,"<div><button class='btn btn-default' ng-click='nextModal()'>Next</button></div>"),
 		new modalContent("<h3>Table of Contents</h3>",`<div class="tut_text">
-												<div class="tut_arrow">></div><div class='toc' ng-click='modalCount(1);nextModal()'>Open Sidebar</div><br/>
-											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(2);nextModal()'>Smart Search</div><br/> 
-										    <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(3);nextModal()'>Live Class Enrollment</div><br/> 
-											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(4);nextModal()'>GCal Export</div></div>`,`<button class='btn btn-default' ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>`),
-		new modalContent("<h3>Open Sidebar</h3>",`${sidebar}`,`${tutorial_buttons}`), 
+												<div class="tut_arrow">></div><div class='toc' ng-click='modalCount(1);nextModal()'>Quick Reviews</div><br/>
+												<div class="tut_arrow">></div><div class='toc' ng-click='modalCount(2);nextModal()'>Core Swap</div><br/>
+											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(3);nextModal()'>Smart Search</div><br/> 
+										    <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(4);nextModal()'>Live Class Enrollment</div><br/> 
+											  <div class="tut_arrow">></div><div class='toc' ng-click='modalCount(5);nextModal()'>GCal Export</div></div>`,`<button class='btn btn-default' ng-click='modalCounter=0;' data-dismiss='modal'>Close</button>`),
+		new modalContent("<h3>Quick Reviews</h3>",`${quick_reviews}`,`${tutorial_buttons}`),
+		new modalContent("<h3>Core Swap</h3>",`${core_swap}`,`${tutorial_buttons}`), 
 		new modalContent("<h3>Smart Search</h3>",`${s_search}`,`${tutorial_buttons}`), 
 		new modalContent("<h3>Live Class Enrollment</h3>",`${liveEnrollment}`,`${tutorial_buttons}`),
 		new modalContent("<h3>GCal Export</h3>",`${gcal_tutorial}`,`${tutorial_buttons}`)
@@ -1748,6 +1751,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		console.log("user requested more information on ", course, professor)
 	}
 	$scope.submitForm = function(course){
+		course = atob(course)
 		console.log("submit the stuff", course)
 		var gradYear;
 		var school;
@@ -4900,7 +4904,7 @@ $scope.actualCourseSubmitReview = function(course) {
 					<h1>${course.title}</h1>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${btoa(course.title)}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
@@ -5070,7 +5074,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<h2>${course.title}</h2>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${btoa(course.title)}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
