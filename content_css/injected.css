@@ -602,4 +602,5 @@ label.pageTag {
 
 div.modal-backdrop {
   position: fixed;
+  top: 114px;
 }
