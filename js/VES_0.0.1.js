@@ -1751,6 +1751,7 @@ app.controller("global", function($scope,$compile, $location, $http, $timeout, V
 		console.log("user requested more information on ", course, professor)
 	}
 	$scope.submitForm = function(course){
+		course = atob(course)
 		console.log("submit the stuff", course)
 		var gradYear;
 		var school;
@@ -4902,7 +4903,7 @@ $scope.actualCourseSubmitReview = function(course) {
 					<h1>${course.title}</h1>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${btoa(course.title)}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
@@ -5072,7 +5073,7 @@ $scope.submitReviewsButton = function(section, course) {
 					<h2>${course.title}</h2>
 				</div>`;
 
-	var submissionForm = `<form ng-submit="submitForm(\'${course.title}\');">`;
+	var submissionForm = `<form ng-submit="submitForm(\'${btoa(course.title)}\');">`;
 
 	var radioButtons = function(options, name){
 		submissionForm += `<div id="${name}">`
