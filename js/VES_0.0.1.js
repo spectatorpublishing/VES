@@ -4477,6 +4477,7 @@ function setReviewModal(data){
   	console.log("Review data:", data)
   	$scope.$parent.activeReviews = data;
   	$scope.$parent.disToAgree = disToAgree;
+  	$scope.$parent.results = results;
   	$scope.$parent.organized = organized
   	$scope.$parent.prof_rate = prof_rate
   	var dataDisplay, header;
@@ -4687,8 +4688,6 @@ function setReviewModal(data){
 
 $scope.courseReviewButton = function(course){
 	$scope.$parent.disToAgree = disToAgree;
-	$scope.$parent.organized = organized
-	$scope.$parent.prof_rate = prof_rate
 	console.log(course);
 	$http({
 	    method: 'POST',
