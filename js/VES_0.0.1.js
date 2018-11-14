@@ -4999,7 +4999,7 @@ $scope.actualCourseSubmitReview = function(course) {
 	textbox("Enter second major/concentration here", "secondMajor")
 
 	questionTitle("What professor did you have?", true)
-	textbox("", "professorName", "",)
+	textbox("", "professorName", "")
 
 	questionTitle("What semester did you take this course?", true)
 	semesterSelect()
