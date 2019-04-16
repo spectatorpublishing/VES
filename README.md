@@ -1,4 +1,5 @@
 # VES
+Copyright (c) 2019, Columbia Daily Spectator All rights reserved.
 *Most of this project is AngularJS code that it is completely unnecessary to understand. Here are the parts we edited for the features of our extension.*
 
 ### Overriding Vergil's Default Dropdown Data
