@@ -17,7 +17,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
     redirectUrl : chrome.extension.getURL("js/VES_0.0.1.js")
   };
 }, {
-urls : ["https://vergil.registrar.columbia.edu/scripts.js?v=1.13.4"]
+urls : ["https://vergil.registrar.columbia.edu/scripts.js"]
 }, ["blocking"]);
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
@@ -25,7 +25,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
     redirectUrl : chrome.extension.getURL("js/gVES_0.0.1.js")
   };
 }, {
-urls : ["https://vergil.registrar.columbia.edu/min/g=js?v=1.13.4"]
+urls : ["https://vergil.registrar.columbia.edu/min/g=js"]
 }, ["blocking"]);
 
 chrome.browserAction.onClicked.addListener((tab) => {
